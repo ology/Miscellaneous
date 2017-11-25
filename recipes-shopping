@@ -1,0 +1,43 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use MealMaster;
+
+my $mm = MealMaster->new();
+
+my @recipes = $mm->parse("31000.mmf");
+
+# Unit conversion dispatch table
+my $units = {
+    tb  => sub { return ( $_[0] * 0.5, 'oz' ) },
+    ts  => sub { return ( $_[0] * 0.167, 'oz' ) },
+    can => sub { return ( $_[0] * 12, 'oz' ) },
+    c   => sub { return ( $_[0] * 8, 'oz' ) },
+};
+
+# Our shopping list
+my $list = {};
+
+# Sum quantities
+for my $recipe ( @recipes[ 0 .. 1 ] ) {
+    for my $ingredient ( @{ $recipe->ingredients } ) {
+        my $quantity = $ingredient->quantity;
+        $quantity =~ s/ /+/;
+        $quantity = 1 unless $quantity;
+
+        print $ingredient->product, ': ', $quantity, ' ', $ingredient->measure, "\n";
+
+        $list->{ $ingredient->product }{quantity} += eval $quantity;
+        $list->{ $ingredient->product }{measure} = $ingredient->measure;
+    }
+}
+
+# Convert units
+for my $item ( keys %$list ) {
+    if ( exists $units->{ $list->{$item}{measure} } ) {
+        my $i = $list->{$item};
+        ( $i->{quantity}, $i->{measure} ) = $units->{ $i->{measure} }->( $i->{quantity} );
+    }
+}
+use Data::Dumper;use Test::More;diag(__PACKAGE__,' L',__LINE__,'. MARK: ',Dumper$list);
