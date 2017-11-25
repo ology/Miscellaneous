@@ -24,7 +24,7 @@ my $units = {
 my $list = {};
 
 # Sum quantities
-for my $recipe ( @recipes[ 0 .. 1 ] ) {
+for my $recipe ( @recipes ) {
     for my $ingredient ( @{ $recipe->ingredients } ) {
         my $quantity = $ingredient->quantity;
         $quantity =~ s/ /+/;
