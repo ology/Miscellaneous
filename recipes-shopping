@@ -6,14 +6,18 @@ use MealMaster;
 
 my $mm = MealMaster->new();
 
-my @recipes = $mm->parse("31000.mmf");
+my @recipes = $mm->parse('/Users/gene/Documents/MealMaster-31000.mmf');
+#my @recipes;
+#for my $recipe ( @mm_recipes ) {
+#    push @recipes, $recipe
+#        if grep { $_->product =~ /cinnamon/i } @{ $recipe->ingredients };
+#}
 
 # Unit conversion dispatch table
 my $units = {
-    tb  => sub { return ( $_[0] * 0.5, 'oz' ) },
-    ts  => sub { return ( $_[0] * 0.167, 'oz' ) },
-    can => sub { return ( $_[0] * 12, 'oz' ) },
-    c   => sub { return ( $_[0] * 8, 'oz' ) },
+    c  => sub { return ( $_[0] * 8, 'oz' ) },
+    tb => sub { return ( $_[0] * 0.5, 'oz' ) },
+    ts => sub { return ( $_[0] * 0.167, 'oz' ) },
 };
 
 # Our shopping list
