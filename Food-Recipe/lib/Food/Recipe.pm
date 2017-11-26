@@ -76,12 +76,13 @@ get '/recipe' => sub {
 
     my @match = grep { $_->title eq $title } @mm_recipes;
 
-    my $recipe = {
+    my $recipe;
+    $recipe = {
         title       => $match[0]->title,
         categories  => $match[0]->categories,
         ingredients => $match[0]->ingredients,
         directions  => $match[0]->directions,
-    };
+    } if @match;
 
     template 'recipe' => {
         recipe => $recipe,
