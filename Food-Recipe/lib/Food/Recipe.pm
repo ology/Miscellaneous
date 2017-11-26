@@ -5,7 +5,6 @@ use Dancer ':syntax';
 use File::Find::Rule;
 use List::Util qw( all );
 use MealMaster;
-use Storable;
 
 our $VERSION = '0.1';
 
