@@ -27,10 +27,11 @@ text-decoration: none;
 #page {
 background-color: #ddd;
 width: 750px;
-margin: auto;
+//margin: auto;
 margin-left: auto;
 padding-left: 0px;
 margin-right: auto;
+margin-top: 5px;
 }
 
 #content {
