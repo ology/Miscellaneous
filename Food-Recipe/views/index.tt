@@ -1,7 +1,5 @@
 <div id="page">
 
-<h1>Recipe Search Tool</h1>
-
 <form action="/" method="post">
 <table>
     <tr>
@@ -12,7 +10,7 @@
     <tr>
         <td><b>Category:</b></td>
         <td><input type="text" name="category" value="<% category.join( ' ') %>"/></td>
-        <td>Ex: chinese soup</td>
+        <td>Ex: holiday meat</td>
     </tr>
         <td><b>Ingredient:</b></td>
         <td><input type="text" name="ingredient" value="<% ingredient.join( ' ') %>"/></td>
