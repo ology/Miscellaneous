@@ -6,16 +6,16 @@
 <table>
     <tr>
         <td><b>Title:</b></td>
-        <td><input type="text" name="title" value="<% title.join( ', ') %>"/></td>
+        <td><input type="text" name="title" value="<% title.join( ' ') %>"/></td>
         <td>Ex: chicken</td>
     </tr>
     <tr>
         <td><b>Category:</b></td>
-        <td><input type="text" name="category" value="<% category.join( ', ') %>"/></td>
+        <td><input type="text" name="category" value="<% category.join( ' ') %>"/></td>
         <td>Ex: soup</td>
     </tr>
         <td><b>Ingredient:</b></td>
-        <td><input type="text" name="ingredient" value="<% ingredient.join( ', ') %>"/></td>
+        <td><input type="text" name="ingredient" value="<% ingredient.join( ' ') %>"/></td>
         <td>Ex: salt</td>
     </tr>
         <td></td>
