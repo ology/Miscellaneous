@@ -5,6 +5,7 @@ use warnings;
 use Getopt::Long;
 use MealMaster;
 
+# Get the command line arguments
 my $file;
 my $title;
 my $category;
@@ -20,6 +21,7 @@ my $mm = MealMaster->new();
 
 my @mm_recipes = $mm->parse($file);
 
+# Set the recipes to search over
 my @recipes;
 for my $recipe ( @mm_recipes ) {
     if ( $title && @$title ) {
@@ -36,17 +38,20 @@ for my $recipe ( @mm_recipes ) {
 my $i = 0;
 
 RECIPE: for my $recipe ( @recipes ) {
+    # Category support
     if ( $category && @$category ) {
         for my $c ( @$category ) {
             next RECIPE unless grep { $_ =~ /$c/i } @{ $recipe->categories };
         }
     }
+    # Ingredient support
     if ( $ingredient && @$ingredient ) {
         for my $i ( @$ingredient ) {
             next RECIPE unless grep { $_->product =~ /$i/i } @{ $recipe->ingredients };
         }
     }
 
+    # Disply the result(s)
     printf "%d. %s\n", ++$i, ucfirst( lc( $recipe->title ) );
     printf "\tCategories: %s\n", join( ', ', sort @{ $recipe->categories } );
     printf "\tYield: %s\n", $recipe->yield;
