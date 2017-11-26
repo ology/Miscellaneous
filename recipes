@@ -11,17 +11,28 @@ my $category;
 my $ingredient;
 GetOptions(
     'file=s'        => \$file,
-    'title=s'       => \$title,
+    'title=s@'      => \$title,
     'category=s@'   => \$category,
     'ingredient=s@' => \$ingredient,
 ) or die "Error in command line arguments\n";;
 
 my $mm = MealMaster->new();
 
-my @recipes = $mm->parse($file);
+my @mm_recipes = $mm->parse($file);
 
-@recipes = grep { $_->title =~ /$title/i } @recipes
-    if $title;
+my @recipes;
+for my $recipe ( @mm_recipes ) {
+    if ( $title && @$title ) {
+        for my $t ( @$title ) {
+            if ( $recipe->title =~ /$t/i ) {
+                push @recipes, $recipe;
+            }
+        }
+    }
+    else {
+        push @recipes, $recipe;
+    }
+}
 
 my $i = 0;
 
