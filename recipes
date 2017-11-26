@@ -51,7 +51,7 @@ RECIPE: for my $recipe ( @recipes ) {
         }
     }
 
-    # Disply the result(s)
+    # Display the result(s)
     printf "%d. %s\n", ++$i, ucfirst( lc( $recipe->title ) );
     printf "\tCategories: %s\n", join( ', ', sort @{ $recipe->categories } );
     printf "\tYield: %s\n", $recipe->yield;
