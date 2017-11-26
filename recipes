@@ -38,9 +38,6 @@ for my $recipe ( @recipes ) {
     printf "\tYield: %s\n", $recipe->yield;
     print "\tIngredients:\n";
     for my $i ( @{ $recipe->ingredients} ) {
-        print "\t\t", $i->quantity,
-               " ", $i->measure,
-               " ", $i->product, 
-               "\n";
+        printf "\t\t%s %s %s\n", $i->quantity, $i->measure, $i->product;
     }
 }
