@@ -52,9 +52,9 @@ any '/' => sub {
 
         push @matched, {
             title       => $recipe->title,
-            categories  => join( ', ', sort @{ $recipe->categories } ),
+            categories  => join( ' ', sort @{ $recipe->categories } ),
             yield       => $recipe->yield,
-            ingredients => join( ', ', map { $_->product } @{ $recipe->ingredients } ),
+            ingredients => join( ' ', map { $_->product } @{ $recipe->ingredients } ),
         };
     }
 
