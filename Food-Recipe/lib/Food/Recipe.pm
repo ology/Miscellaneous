@@ -4,6 +4,7 @@ use Dancer ':syntax';
 
 use File::Find::Rule;
 use MealMaster;
+use Storable;
 
 our $VERSION = '0.1';
 
@@ -89,11 +90,24 @@ get '/recipe' => sub {
 
 sub import_mm {
     my $mm = MealMaster->new();
-    my @files = File::Find::Rule->file()->in('public/MMF');
+
+    my $data = 'public/mmf.dat';
+
     my @recipes;
-    for my $file ( @files ) {
-        push @recipes, $mm->parse($file);
+
+    if ( -e $data ) {
+        @recipes = [ retrieve($data) ];
     }
+    else {
+        my @files = File::Find::Rule->file()->in('public/MMF');
+
+        for my $file ( @files ) {
+            push @recipes, $mm->parse($file);
+        }
+
+        store \@recipes, $data;
+    }
+
     return @recipes; 
 }
 
