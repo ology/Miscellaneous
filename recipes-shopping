@@ -43,15 +43,16 @@ for my $recipe ( @recipes ) {
 
 my $list;
 
-# Convert units
+# Consolidate measurement
 for my $item ( keys %$items ) {
     for my $measure ( keys %{ $items->{$item} } ) {
         if ( exists $units->{$measure} ) {
+            # Convert units
             my ( $q, $m ) = $units->{$measure}->( $items->{$item}{$measure} );
             $list->{$item}{$m} = $q;
         }
         else {
-            $list->{$item}{$measure} = $items->{$item}{$measure};
+            $list->{$item}{$measure} += $items->{$item}{$measure};
         }
     }
 }
