@@ -22,14 +22,17 @@ any '/' => sub {
 
     # Set the recipes to search over
     my @recipes;
-    for my $recipe ( @mm_recipes ) {
-        if ( $title && @$title ) {
-            if ( all { $recipe->title =~ /$_/i } @$title ) {
+
+    if ( $title || $category || $ingredient ) {
+        for my $recipe ( @mm_recipes ) {
+            if ( $title && @$title ) {
+                if ( all { $recipe->title =~ /$_/i } @$title ) {
+                    push @recipes, $recipe;
+                }
+            }
+            else {
                 push @recipes, $recipe;
             }
-        }
-        else {
-            push @recipes, $recipe;
         }
     }
 
