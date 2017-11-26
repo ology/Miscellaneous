@@ -45,14 +45,14 @@ my $list;
 
 # Consolidate measurement
 for my $item ( keys %$items ) {
-    for my $measure ( keys %{ $items->{$item} } ) {
-        if ( exists $units->{$measure} ) {
+    for my $unit ( keys %{ $items->{$item} } ) {
+        if ( exists $units->{$unit} ) {
             # Convert units
-            my ( $q, $m ) = $units->{$measure}->( $items->{$item}{$measure} );
-            $list->{$item}{$m} = $q;
+            my ( $quantity, $measure ) = $units->{$unit}->( $items->{$item}{$unit} );
+            $list->{$item}{$measure} = $quantity;
         }
         else {
-            $list->{$item}{$measure} += $items->{$item}{$measure};
+            $list->{$item}{$unit} += $items->{$item}{$unit};
         }
     }
 }
