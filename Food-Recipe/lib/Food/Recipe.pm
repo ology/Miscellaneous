@@ -80,6 +80,7 @@ get '/recipe' => sub {
     $recipe = {
         title       => $match[0]->title,
         categories  => $match[0]->categories,
+        yield       => $match[0]->yield,
         ingredients => $match[0]->ingredients,
         directions  => $match[0]->directions,
     } if @match;

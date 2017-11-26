@@ -5,6 +5,8 @@
     <p/>
     <b>Categories:</b> <% recipe.categories.join(', ') %>
     <p/>
+    <b>Yield:</b> <% recipe.yield %>
+    <p/>
     <b>Ingredients:</b>
     <ol>
     <% FOREACH i IN recipe.ingredients %>
