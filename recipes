@@ -8,12 +8,12 @@ use MealMaster;
 my $file;
 my $title;
 my $category;
-my $ingredients;
+my $ingredient;
 GetOptions(
-    'file=s'        => \$file,
-    'title=s'       => \$title,
-    'category=s'    => \$category,
-    'ingredients=s' => \$ingredients,
+    'file=s'       => \$file,
+    'title=s'      => \$title,
+    'category=s'   => \$category,
+    'ingredient=s' => \$ingredient,
 ) or die "Error in command line arguments\n";;
 
 my $mm = MealMaster->new();
@@ -29,8 +29,8 @@ for my $recipe ( @recipes ) {
     if ($category) {
         next unless grep { $_ =~ /$category/i } @{ $recipe->categories };
     }
-    if ($ingredients) {
-        next unless grep { $_->product =~ /$ingredients/i } @{ $recipe->ingredients };
+    if ($ingredient) {
+        next unless grep { $_->product =~ /$ingredient/i } @{ $recipe->ingredients };
     }
 
     printf "%d. %s\n", ++$i, ucfirst( lc( $recipe->title ) );
