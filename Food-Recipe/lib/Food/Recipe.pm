@@ -3,6 +3,7 @@ package Food::Recipe;
 use Dancer ':syntax';
 
 use File::Find::Rule;
+use List::Util qw( all );
 use MealMaster;
 use Storable;
 
@@ -23,9 +24,8 @@ any '/' => sub {
     my @recipes;
     for my $recipe ( @mm_recipes ) {
         if ( $title && @$title ) {
-            for my $t ( @$title ) {
-                push @recipes, $recipe
-                    if $recipe->title =~ /$t/i;
+            if ( all { $recipe->title =~ /$_/i } @$title ) {
+                push @recipes, $recipe;
             }
         }
         else {
