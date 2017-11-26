@@ -4,9 +4,11 @@ use warnings;
 
 use MealMaster;
 
+my $file = shift || '/Users/gene/Documents/MealMaster-31000.mmf';
+
 my $mm = MealMaster->new();
 
-my @recipes = $mm->parse('/Users/gene/Documents/MealMaster-31000.mmf');
+my @recipes = $mm->parse($file);
 #my @recipes;
 #for my $recipe ( @mm_recipes ) {
 #    push @recipes, $recipe
@@ -15,13 +17,16 @@ my @recipes = $mm->parse('/Users/gene/Documents/MealMaster-31000.mmf');
 
 # Unit conversion dispatch table
 my $units = {
-    c  => sub { return ( $_[0] * 8, 'oz' ) },
-    tb => sub { return ( $_[0] * 0.5, 'oz' ) },
-    ts => sub { return ( $_[0] * 0.167, 'oz' ) },
+    c  => sub { return ( $_[0] * 8, 'oz' ) },           # cup
+    cn => sub { return ( $_[0] * 12, 'oz' ) },          # can
+    dr => sub { return ( $_[0] * 0.0016907, 'oz' ) },   # drop
+    ds => sub { return ( $_[0] * 0.03125, 'oz' ) },     # dash
+    pn => sub { return ( $_[0] * 0.013, 'oz' ) },       # pinch
+    tb => sub { return ( $_[0] * 0.5, 'oz' ) },         # tablespoon
+    ts => sub { return ( $_[0] * 0.167, 'oz' ) },       # teaspoon
 };
 
-# Our shopping list
-my $list = {};
+my $items = {};
 
 # Sum quantities
 for my $recipe ( @recipes ) {
@@ -32,16 +37,22 @@ for my $recipe ( @recipes ) {
 
         print $ingredient->product, ': ', $quantity, ' ', $ingredient->measure, "\n";
 
-        $list->{ $ingredient->product }{quantity} += eval $quantity;
-        $list->{ $ingredient->product }{measure} = $ingredient->measure;
+        $items->{ $ingredient->product }{ $ingredient->measure || 'ea' } += eval $quantity;
     }
 }
 
+my $list;
+
 # Convert units
-for my $item ( keys %$list ) {
-    if ( exists $units->{ $list->{$item}{measure} } ) {
-        my $i = $list->{$item};
-        ( $i->{quantity}, $i->{measure} ) = $units->{ $i->{measure} }->( $i->{quantity} );
+for my $item ( keys %$items ) {
+    for my $measure ( keys %{ $items->{$item} } ) {
+        if ( exists $units->{$measure} ) {
+            my ( $q, $m ) = $units->{$measure}->( $items->{$item}{$measure} );
+            $list->{$item}{$m} = $q;
+        }
+        else {
+            $list->{$item}{$measure} = $items->{$item}{$measure};
+        }
     }
 }
 use Data::Dumper;use Test::More;diag(__PACKAGE__,' L',__LINE__,'. MARK: ',Dumper$list);
