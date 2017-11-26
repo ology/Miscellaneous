@@ -26,6 +26,10 @@ my @recipes = $mm->parse($file);
 my $i = 0;
 
 for my $recipe ( @recipes ) {
+    if ($category) {
+        next unless grep { $_ =~ /$category/i } @{ $recipe->categories };
+    }
+
     printf "%d. %s\n", ++$i, ucfirst( lc( $recipe->title ) );
     printf "\tCategories: %s\n", join( ', ', sort @{ $recipe->categories } );
     printf "\tYield: %s\n\n", $recipe->yield;
