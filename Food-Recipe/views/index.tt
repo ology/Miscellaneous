@@ -1,0 +1,34 @@
+<div id="page">
+
+<form action="/" method="post">
+Title: <input type="text" name="title" value="<% title.join( ', ') %>"/>
+<br/>
+Category: <input type="text" name="category" value="<% category.join( ', ') %>"/>
+<br/>
+Ingredient: <input type="text" name="ingredient" value="<% ingredient.join( ', ') %>"/>
+<br/>
+<input type="submit" name="submit" value="Submit"/>
+</form>
+
+<p/>
+
+<% IF matched.size %>
+Found recipe(s):
+<br/>
+<ol>
+    <% FOREACH recipe IN matched %>
+    <li>
+        <a href="/recipe?title=<% recipe.title | uri %>"><% recipe.title %></a>
+        <br/>
+        <b>Categories:</b> <% recipe.categories %>
+        <br/>
+        <b>Yield:</b> <% recipe.yield %>
+        <br/>
+        <b>Ingredients:</b> <% recipe.ingredients %>
+    </li>
+    <br/>
+    <% END %>
+</ol>
+<% END %>
+
+</div>
