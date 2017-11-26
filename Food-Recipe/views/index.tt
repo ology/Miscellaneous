@@ -29,7 +29,7 @@
 
 <p/>
 
-<% IF matched.size %>
+<% IF title || category || ingredient %>
 <b>Found recipe(s):</b>
 <br/>
 <ol>
