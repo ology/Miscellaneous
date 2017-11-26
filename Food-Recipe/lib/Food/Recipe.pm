@@ -91,21 +91,12 @@ get '/recipe' => sub {
 sub import_mm {
     my $mm = MealMaster->new();
 
-    my $data = 'public/mmf.dat';
-
     my @recipes;
 
-    if ( -e $data ) {
-        @recipes = [ retrieve($data) ];
-    }
-    else {
-        my @files = File::Find::Rule->file()->in('public/MMF');
+    my @files = File::Find::Rule->file()->in('public/MMF');
 
-        for my $file ( @files ) {
-            push @recipes, $mm->parse($file);
-        }
-
-        store \@recipes, $data;
+    for my $file ( @files ) {
+        push @recipes, $mm->parse($file);
     }
 
     return @recipes; 
