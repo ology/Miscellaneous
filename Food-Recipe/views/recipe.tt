@@ -1,7 +1,7 @@
 <div id="page">
 
 <% IF recipe %>
-    <b><% recipe.title.lower.ucfirst %></b>
+    <h1><% recipe.title.lower.ucfirst %></h1>
     <p/>
     <b>Categories:</b> <% recipe.categories.join(', ') %>
     <p/>
