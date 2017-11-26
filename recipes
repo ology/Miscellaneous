@@ -1,0 +1,22 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use MealMaster;
+
+my $file  = shift || '/Users/gene/Documents/MealMaster-31000.mmf';
+my $title = shift || '';
+
+my $mm = MealMaster->new();
+
+my @recipes = $mm->parse($file);
+@recipes = grep { $_->title =~ /$title/i } @recipes
+    if $title;
+
+my $i = 0;
+
+for my $recipe ( @recipes ) {
+    printf "%d. %s\n", ++$i, ucfirst( lc( $recipe->title ) );
+    printf "\tCategories: %s\n", join( ', ', sort @{ $recipe->categories } );
+    printf "\tYield: %s\n\n", $recipe->yield;
+}
