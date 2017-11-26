@@ -2,6 +2,7 @@ package Food::Recipe;
 
 use Dancer ':syntax';
 
+use File::Find::Rule;
 use MealMaster;
 
 our $VERSION = '0.1';
@@ -15,9 +16,7 @@ any '/' => sub {
     $category   = [ split /\s+/, $category ] if $category;
     $ingredient = [ split /\s+/, $ingredient ] if $ingredient;
 
-    my $mm = MealMaster->new();
-    my $file = '/Users/gene/Documents/MealMaster-31000.mmf';
-    my @mm_recipes = $mm->parse($file);
+    my @mm_recipes = import_mm(); 
 
     # Set the recipes to search over
     my @recipes;
@@ -70,9 +69,7 @@ any '/' => sub {
 get '/recipe' => sub {
     my $title = params->{title} or die 'No title provided';
 
-    my $mm = MealMaster->new();
-    my $file = '/Users/gene/Documents/MealMaster-31000.mmf';
-    my @mm_recipes = $mm->parse($file); 
+    my @mm_recipes = import_mm(); 
 
     my @match = grep { $_->title eq $title } @mm_recipes;
 
@@ -89,5 +86,15 @@ get '/recipe' => sub {
         recipe => $recipe,
     };
 };
+
+sub import_mm {
+    my $mm = MealMaster->new();
+    my @files = File::Find::Rule->file()->in('public/MMF');
+    my @recipes;
+    for my $file ( @files ) {
+        push @recipes, $mm->parse($file);
+    }
+    return @recipes; 
+}
 
 true;
