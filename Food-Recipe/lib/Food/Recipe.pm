@@ -1,12 +1,11 @@
 package Food::Recipe;
 
-use Dancer ':syntax';
-
+use Dancer qw( :syntax );
 use File::Find::Rule;
 use List::Util qw( all );
 use MealMaster;
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 any '/' => sub {
     my $title      = params->{title};
