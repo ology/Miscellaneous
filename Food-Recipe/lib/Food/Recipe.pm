@@ -47,6 +47,7 @@ any '/' => sub {
 
                 for my $r_cat ( @{ $recipe->categories } ) {
                     $found = 1 if $in_cat eq $r_cat;
+                    last;
                 }
 
                 next RECIPE unless $found;
