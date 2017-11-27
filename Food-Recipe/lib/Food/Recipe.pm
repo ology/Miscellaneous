@@ -12,6 +12,12 @@ any '/' => sub {
     my $category   = params->{category};
     my $ingredient = params->{ingredient};
 
+    my $exact = 0;
+    if ( not ref $category ) {
+        $exact = 1 if $category =~ /^"/ && $category =~ /"$/;
+        $category =~ s/"//g;
+    }
+
     $title      = [ split /\s+/, $title ] if $title;
     $category   = [ split /\s+/, $category ] if $category;
     $ingredient = [ split /\s+/, $ingredient ] if $ingredient;
@@ -42,7 +48,19 @@ any '/' => sub {
         # Category support
         if ( $category && @$category ) {
             for my $c ( @$category ) {
-                next RECIPE unless grep { $_ =~ /$c/i } @{ $recipe->categories };
+                if ( $exact ) {
+                    my $found = 0;
+                    for my $cat ( @{ $recipe->categories } ) {
+                        if ( $c eq $cat ) {
+                            $found = 1;
+                            last;
+                        }
+                    }
+                    next RECIPE unless $found;
+                }
+                else {
+                    next RECIPE unless grep { $_ =~ /$c/i } @{ $recipe->categories };
+                }
             }
         }
         # Ingredient support
