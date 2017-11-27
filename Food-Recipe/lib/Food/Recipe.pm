@@ -50,12 +50,14 @@ any '/' => sub {
             for my $c ( @$category ) {
                 if ( $exact ) {
                     my $found = 0;
+
                     for my $cat ( @{ $recipe->categories } ) {
                         if ( $c eq $cat ) {
                             $found = 1;
                             last;
                         }
                     }
+
                     next RECIPE unless $found;
                 }
                 else {
@@ -63,6 +65,7 @@ any '/' => sub {
                 }
             }
         }
+
         # Ingredient support
         if ( $ingredient && @$ingredient ) {
             for my $i ( @$ingredient ) {
