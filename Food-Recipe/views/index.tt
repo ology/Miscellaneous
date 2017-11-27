@@ -10,12 +10,11 @@
         <td>Ex: chicken</td>
     </tr>
     <tr>
-        <td><b>Category:</b></td>
+        <td><b><a href="/categories">Categories</a>:</b></td>
         <td><input type="text" name="category" value="<% category.join(' ') %>"/></td>
         <td>Ex: holiday meat</td>
-        <td>| <a href="/categories">Categories</a></td>
     </tr>
-        <td><b>Ingredient:</b></td>
+        <td><b>Ingredients:</b></td>
         <td><input type="text" name="ingredient" value="<% ingredient.join(' ') %>"/></td>
         <td>Ex: salt sugar</td>
     </tr>
