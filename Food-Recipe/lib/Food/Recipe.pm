@@ -41,20 +41,18 @@ any '/' => sub {
 
         # Category support
         if ( $category && @$category ) {
-            for my $c ( @$category ) {
-                if ( $exact_cat ) {
-                    my $found = 0;
+            if ( $exact_cat ) {
+                my $in_cat = join ' ', @$category;
+                my $found  = 0;
 
-                    for my $cat ( @{ $recipe->categories } ) {
-                        if ( $c eq $cat ) {
-                            $found = 1;
-                            last;
-                        }
-                    }
-
-                    next RECIPE unless $found;
+                for my $r_cat ( @{ $recipe->categories } ) {
+                    $found = 1 if $in_cat eq $r_cat;
                 }
-                else {
+
+                next RECIPE unless $found;
+            }
+            else {
+                for my $c ( @$category ) {
                     next RECIPE unless grep { $_ =~ /$c/i } @{ $recipe->categories };
                 }
             }
