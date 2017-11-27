@@ -12,9 +12,9 @@ any '/' => sub {
     my $category   = params->{category};
     my $ingredient = params->{ingredient};
 
-    my $exact = 0;
+    my $exact_cat = 0;
     if ( not ref $category ) {
-        $exact = 1 if $category =~ /^"/ && $category =~ /"$/;
+        $exact_cat = 1 if $category =~ /^"/ && $category =~ /"$/;
         $category =~ s/"//g;
     }
 
@@ -48,7 +48,7 @@ any '/' => sub {
         # Category support
         if ( $category && @$category ) {
             for my $c ( @$category ) {
-                if ( $exact ) {
+                if ( $exact_cat ) {
                     my $found = 0;
 
                     for my $cat ( @{ $recipe->categories } ) {
@@ -81,7 +81,7 @@ any '/' => sub {
         };
     }
 
-    $category = '"' . $category . '"' if $exact;
+    $category = '"' . $category . '"' if $exact_cat;
 
     template 'index' => {
         title      => $title,
