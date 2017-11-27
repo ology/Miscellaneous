@@ -40,7 +40,7 @@
         <br/>
         <b>Yield:</b> <% recipe.yield %>
         <br/>
-        <b>Ingredients:</b> <% recipe.ingredients %>
+        <b>Ingredients:</b> <% recipe.ingredients.lower %>
     </li>
     <br/>
     <% END %>
