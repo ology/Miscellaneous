@@ -2,7 +2,7 @@
 
 <h3>Categories</h3>
 <% FOREACH c IN categories %>
-<a href="/?category=<% c.key | uri %>"><% c.key %></a>
+<a href="/?category=&quot;<% c.key | uri %>&quot;"><% c.key %></a>
 <% END %>
 
 </div>
