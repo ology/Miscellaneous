@@ -27,7 +27,7 @@
 <p/>
 
 <% IF title || category || ingredient %>
-<b>Found recipe(s):</b>
+<b>Found <% matched.size %> recipe(s):</b>
 <br/>
 <ol>
     <% FOREACH recipe IN matched %>
