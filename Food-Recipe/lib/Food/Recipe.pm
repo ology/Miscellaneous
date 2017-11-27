@@ -74,9 +74,6 @@ any '/' => sub {
         };
     }
 
-    # Add literal double-quotes if we are searching exactly
-    $category = '"' . $category . '"' if $exact_cat;
-
     template 'index' => {
         title      => $title,
         category   => $category,
