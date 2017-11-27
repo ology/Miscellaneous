@@ -30,7 +30,7 @@
 <hr/>
 
 <% IF title || category || ingredient %>
-<b>Found <% matched.size %> recipe(s):</b>
+<b>Found <% matched.size %> recipe(s)<% IF matched.size %>:<% END %></b>
 <br/>
 <ol>
     <% FOREACH recipe IN matched %>
