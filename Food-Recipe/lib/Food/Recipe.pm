@@ -69,8 +69,6 @@ any '/' => sub {
 };
 
 get '/categories' => sub {
-    my $category = params->{category};
-
     my @mm_recipes = import_mm(); 
 
     my %categories;
