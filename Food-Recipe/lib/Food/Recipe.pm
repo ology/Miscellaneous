@@ -14,7 +14,7 @@ any '/' => sub {
 
     # Are we matching an exact category?
     my $exact_cat = 0;
-    if ( not ref $category ) {
+    if ( $category && not( ref $category ) ) {
         $exact_cat = 1 if $category =~ /^"/ && $category =~ /"$/;
         $category =~ s/"//g;
     }
