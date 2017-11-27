@@ -81,6 +81,8 @@ any '/' => sub {
         };
     }
 
+    $category = '"' . $category . '"' if $exact;
+
     template 'index' => {
         title      => $title,
         category   => $category,
