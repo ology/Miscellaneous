@@ -68,6 +68,24 @@ any '/' => sub {
     };
 };
 
+get '/categories' => sub {
+    my $category = params->{category};
+
+    my @mm_recipes = import_mm(); 
+
+    my %categories;
+
+    for my $recipe ( @mm_recipes ) {
+        for my $cat ( @{ $recipe->categories } ) {
+            $categories{$cat}++;
+        }
+    }
+
+    template 'categories' => {
+        categories => \%categories,
+    };
+};
+
 get '/recipe' => sub {
     my $title = params->{title} or die 'No title provided';
 
