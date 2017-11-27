@@ -12,12 +12,14 @@ any '/' => sub {
     my $category   = params->{category};
     my $ingredient = params->{ingredient};
 
+    # Are we matching an exact category?
     my $exact_cat = 0;
     if ( not ref $category ) {
         $exact_cat = 1 if $category =~ /^"/ && $category =~ /"$/;
         $category =~ s/"//g;
     }
 
+    # Turn multi-word strings into lists
     $title      = [ split /\s+/, $title ] if $title;
     $category   = [ split /\s+/, $category ] if $category;
     $ingredient = [ split /\s+/, $ingredient ] if $ingredient;
@@ -28,6 +30,7 @@ any '/' => sub {
 
     my $i = 0;
 
+    # Filter the recipes
     RECIPE: for my $recipe ( @recipes ) {
         # Title support
         if ( $title && @$title ) {
@@ -35,6 +38,7 @@ any '/' => sub {
                 next RECIPE;
             }
         }
+
         # Category support
         if ( $category && @$category ) {
             for my $c ( @$category ) {
@@ -63,6 +67,7 @@ any '/' => sub {
             }
         }
 
+        # If we have made it this far, populate our matches
         push @matched, {
             title       => $recipe->title,
             categories  => join( ', ', sort @{ $recipe->categories } ),
@@ -71,6 +76,7 @@ any '/' => sub {
         };
     }
 
+    # Add literal double-quotes if we are searching exactly
     $category = '"' . $category . '"' if $exact_cat;
 
     template 'index' => {
@@ -82,11 +88,11 @@ any '/' => sub {
 };
 
 get '/categories' => sub {
-    my @mm_recipes = import_mm(); 
+    my @recipes = import_mm(); 
 
     my %categories;
 
-    for my $recipe ( @mm_recipes ) {
+    for my $recipe ( @recipes ) {
         for my $cat ( @{ $recipe->categories } ) {
             $categories{$cat}++;
         }
@@ -100,9 +106,9 @@ get '/categories' => sub {
 get '/recipe' => sub {
     my $title = params->{title} or die 'No title provided';
 
-    my @mm_recipes = import_mm(); 
+    my @recipes = import_mm(); 
 
-    my @match = grep { $_->title eq $title } @mm_recipes;
+    my @match = grep { $_->title eq $title } @recipes;
 
     my $recipe;
     $recipe = {
