@@ -22,29 +22,19 @@ any '/' => sub {
     $category   = [ split /\s+/, $category ] if $category;
     $ingredient = [ split /\s+/, $ingredient ] if $ingredient;
 
-    my @mm_recipes = import_mm(); 
-
-    # Set the recipes to search over
-    my @recipes;
-
-    if ( $title || $category || $ingredient ) {
-        for my $recipe ( @mm_recipes ) {
-            if ( $title && @$title ) {
-                if ( all { $recipe->title =~ /$_/i } @$title ) {
-                    push @recipes, $recipe;
-                }
-            }
-            else {
-                push @recipes, $recipe;
-            }
-        }
-    }
+    my @recipes = import_mm(); 
 
     my @matched;
 
     my $i = 0;
 
     RECIPE: for my $recipe ( @recipes ) {
+        # Title support
+        if ( $title && @$title ) {
+            if ( not all { $recipe->title =~ /$_/i } @$title ) {
+                next RECIPE;
+            }
+        }
         # Category support
         if ( $category && @$category ) {
             for my $c ( @$category ) {
