@@ -3,6 +3,7 @@ package Food::Recipe;
 use Dancer qw( :syntax );
 use File::Find::Rule;
 use List::Util qw( all );
+use Math::Fraction;
 use MealMaster;
 
 our $VERSION = '0.2';
@@ -119,6 +120,10 @@ any '/recipe' => sub {
                 $quantity =~ s/ /+/;
                 $quantity = eval $quantity;
                 $quantity *= $factor;
+
+                if ( $quantity =~ /\./ ) {
+                    $quantity = $quantity . ' (' . frac($quantity) . ')';
+                }
             }
 
             push @$ingredients, {
