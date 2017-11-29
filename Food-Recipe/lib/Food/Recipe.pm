@@ -114,8 +114,15 @@ any '/recipe' => sub {
         my $factor = $yield / $number;
 
         for my $i ( @{ $match[0]->ingredients } ) {
+            my $quantity = $i->quantity;
+            if ( $quantity ) {
+                $quantity =~ s/ /+/;
+                $quantity = eval $quantity;
+                $quantity *= $factor;
+            }
+
             push @$ingredients, {
-                quantity => $i->quantity ? $factor * eval $i->quantity : '',
+                quantity => $quantity,
                 measure  => $i->measure,
                 product  => $i->product,
             };
