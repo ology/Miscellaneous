@@ -5,13 +5,26 @@
     <p/>
     <b>Categories:</b> <% recipe.categories.join(', ') %>
     <p/>
-    <b>Yield:</b> <% recipe.yield %>
+    <% UNLESS yield %>
+    <% yield = recipe.yield.split(' ').0 %>
+    <% END %>
+    <form action="/recipe" method="post">
+    <b>Yield:</b> <input type="text" name="yield" value="<% yield %>" size="3" maxlength="3" /> servings
+    <input type="hidden" name="title" value="<% recipe.title %>" />
+    </form>
     <p/>
     <b>Ingredients:</b>
     <ol>
-    <% FOREACH i IN recipe.ingredients %>
+    <% IF ingredients.size %>
+        <% FOREACH i IN ingredients %>
         <li><% i.quantity %> <% i.measure %> <% i.product %></li>
         <br/>
+        <% END %>
+    <% ELSE %>
+        <% FOREACH i IN recipe.ingredients %>
+        <li><% i.quantity %> <% i.measure %> <% i.product %></li>
+        <br/>
+        <% END %>
     <% END %>
     </ol>
     <b>Directions:</b>

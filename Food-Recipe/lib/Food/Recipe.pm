@@ -99,12 +99,28 @@ get '/categories' => sub {
     };
 };
 
-get '/recipe' => sub {
+any '/recipe' => sub {
     my $title = params->{title} or die 'No title provided';
+    my $yield = params->{yield};
+
+    my $ingredients;
 
     my @recipes = import_mm(); 
 
     my @match = grep { $_->title eq $title } @recipes;
+
+    if ( $yield ) {
+        my ($number) = split( / /, $match[0]->yield );
+        my $factor = $yield / $number;
+
+        for my $i ( @{ $match[0]->ingredients } ) {
+            push @$ingredients, {
+                quantity => $i->quantity ? $factor * eval $i->quantity : '',
+                measure  => $i->measure,
+                product  => $i->product,
+            };
+        }
+    }
 
     my $recipe;
     $recipe = {
@@ -117,6 +133,8 @@ get '/recipe' => sub {
 
     template 'recipe' => {
         recipe => $recipe,
+        yield  => $yield,
+        ingredients => $ingredients,
     };
 };
 
