@@ -122,7 +122,9 @@ any '/recipe' => sub {
                 $quantity *= $factor;
 
                 if ( $quantity =~ /\./ ) {
-                    $quantity = $quantity . ' (' . frac($quantity) . ')';
+                    my @parts = split( /\./, $quantity );
+                    $parts[0] = $parts[0] eq '0' ? '' : "$parts[0] ";
+                    $quantity = $quantity . " ($parts[0]" . frac( "0.$parts[1]" ) . ')';
                 }
             }
 
