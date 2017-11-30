@@ -1,7 +1,7 @@
 <div id="page">
 
 <h2>
-<img src="/favicon.ico" height="25" width="25" align="middle" />
+<img src="/favicon.ico" height="25" width="25" style="vertical-align:middle;" />
 Recipe Search Tool</h2>
 
 <form action="/" method="post">
