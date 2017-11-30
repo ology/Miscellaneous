@@ -1,9 +1,9 @@
 <div id="page">
 
-<h3>
+<h2>
 <img src="/favicon.ico" height="25" width="25" style="vertical-align:middle;" />
 Categories
-</h3>
+</h2>
 <% FOREACH c IN categories %>
 <a href="/?category=&quot;<% c.key | uri %>&quot;"><% c.key %> (<% c.value %>)</a>
 <% END %>
