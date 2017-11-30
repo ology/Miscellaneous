@@ -1,8 +1,11 @@
 <div id="page">
 
+<div>
 <h2>
 <img src="/favicon.ico" height="25" width="25" style="vertical-align:middle;" />
 Recipe Search Tool</h2>
+<div style="float: right;">Searching <% total %> recipes</div>
+</div>
 
 <form action="/" method="post">
 <table>

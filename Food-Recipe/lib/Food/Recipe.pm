@@ -81,6 +81,7 @@ any '/' => sub {
         category   => $category,
         ingredient => $ingredient,
         matched    => \@matched,
+        total      => scalar(@recipes),
     };
 };
 
