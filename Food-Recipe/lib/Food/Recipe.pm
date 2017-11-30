@@ -126,9 +126,9 @@ any '/recipe' => sub {
                     my $integer = $parts[0] eq '0' ? '' : "$parts[0] ";
                     my $decimal = "0.$parts[1]";
 
-                    $quantity = sprintf '%.3f', $quantity if length($decimal) > 5;
+                    $quantity = sprintf '%.2f', $quantity if length($decimal) > 7;
 
-                    $decimal = sprintf '%.4f', $decimal;
+                    $decimal = sprintf '%.2f', $decimal if length($decimal) > 7;
                     $decimal = eval { frac($decimal) };
                     die "Can't frac($decimal): $@" if $@;
 
