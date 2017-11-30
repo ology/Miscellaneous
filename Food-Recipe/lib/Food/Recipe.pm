@@ -122,9 +122,17 @@ any '/recipe' => sub {
                 $quantity *= $factor;
 
                 if ( $quantity =~ /\./ ) {
-                    my @parts = split( /\./, $quantity );
-                    $parts[0] = $parts[0] eq '0' ? '' : "$parts[0] ";
-                    $quantity = $quantity . " ($parts[0]" . frac( "0.$parts[1]" ) . ')';
+                    my @parts   = split( /\./, $quantity );
+                    my $integer = $parts[0] eq '0' ? '' : "$parts[0] ";
+                    my $decimal = "0.$parts[1]";
+
+                    $quantity = sprintf '%.3f', $quantity if length($decimal) > 5;
+
+                    $decimal = sprintf '%.4f', $decimal;
+                    $decimal = eval { frac($decimal) };
+                    die "Can't frac($decimal): $@" if $@;
+
+                    $quantity = $quantity . " ($integer$decimal)";
                 }
             }
 
