@@ -73,6 +73,8 @@ get '/categories' => sub {
 
     for my $recipe ( @recipes ) {
         for my $cat ( @{ $recipe->categories } ) {
+            $cat =~ s/^\s+//;
+            $cat =~ s/\s+$//;
             $cat = ucfirst lc $cat;
             $categories{$cat}++;
         }
