@@ -14,13 +14,6 @@ any '/' => sub {
     my $category   = params->{category};
     my $ingredient = params->{ingredient};
 
-    # Are we matching an exact category?
-    my $exact_cat = 0;
-    if ( $category && not( ref $category ) ) {
-        $exact_cat = 1 if $category =~ /^"/ && $category =~ /"$/;
-        $category =~ s/"//g;
-    }
-
     # Turn multi-word strings into lists
     $title      = [ split /\s+/, $title ] if $title;
     $category   = [ split /\s+/, $category ] if $category;
@@ -43,21 +36,8 @@ any '/' => sub {
 
         # Category support
         if ( $category && @$category ) {
-            if ( $exact_cat ) {
-                my $in_cat = join ' ', @$category;
-                my $found  = 0;
-
-                for my $r_cat ( @{ $recipe->categories } ) {
-                    $found = 1 if $in_cat eq $r_cat;
-                    last;
-                }
-
-                next RECIPE unless $found;
-            }
-            else {
-                for my $c ( @$category ) {
-                    next RECIPE unless grep { $_ =~ /$c/i } @{ $recipe->categories };
-                }
+            for my $c ( @$category ) {
+                next RECIPE unless grep { $_ =~ /$c/i } @{ $recipe->categories };
             }
         }
 
