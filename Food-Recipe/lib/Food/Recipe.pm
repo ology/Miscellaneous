@@ -1,6 +1,7 @@
 package Food::Recipe;
 
 use Dancer qw( :syntax );
+use Dancer::Cookies;
 use File::Find::Rule;
 use List::Util qw( all );
 use Math::Fraction;
@@ -154,11 +155,40 @@ any '/recipe' => sub {
         directions  => $match[0]->directions,
     } if @match;
 
+    my $list = cookie('list');
+    $list = [ split /\s*\|\s*/, $list ]
+        if $list;
+
     template 'recipe' => {
-        recipe => $recipe,
-        yield  => $yield,
+        recipe      => $recipe,
+        yield       => $yield,
         ingredients => $ingredients,
+        list        => $list,
     };
+};
+
+post '/add' => sub {
+    my $title = params->{title} or die 'No title provided';
+
+    my $list = cookie('list');
+    my %list;
+    if ( $list || $title ) {
+        @list{ split /\s*\|\s*/, $list } = undef;
+        $list{$title} = undef;
+        cookie( list => join( '|', keys %list ) );
+    }
+
+    redirect '/recipe?title=' . $title;
+    halt;
+};
+
+post '/clear' => sub {
+    my $title = params->{title} or die 'No title provided';
+
+    cookie( list => '' );
+
+    redirect '/recipe?title=' . $title;
+    halt;
 };
 
 sub import_mm {

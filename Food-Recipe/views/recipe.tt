@@ -1,10 +1,30 @@
 <div id="page">
 
+<div id="sidebar" style="text-align: right;">
+        <form action="/add" method="post">
+            <input type="hidden" name="title" value="<% recipe.title %>" />
+            Add to list
+            <input type="submit" name="submit" value=">" />
+        </form>
+        <form action="/clear" method="post">
+            <input type="hidden" name="title" value="<% recipe.title %>" />
+            Clear list
+            <input type="submit" name="submit" value=">" />
+        </form>
+    <ol>
+<% FOREACH i IN list %>
+        <li><a href="/recipe?title=<% i %>"><% i.lower.ucfirst %></a></li>
+<% END %>
+    </ol>
+</div>
+
 <% IF recipe %>
-    <h2>
-    <img src="/favicon.ico" height="25" width="25" style="vertical-align:middle;" />
-    <% recipe.title.lower.ucfirst %>
-    </h2>
+    <div>
+        <img src="/favicon.ico" height="25" width="25" style="vertical-align:middle;" />
+        <span style="font-weight: bold; font-size: large;"><% recipe.title.lower.ucfirst %></span>
+        <div style="float: right; text-align: right;">
+        </div>
+    </div>
     <p/>
     <b>Categories:</b> <% recipe.categories.join(', ') %>
     <p/>
