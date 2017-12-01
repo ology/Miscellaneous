@@ -111,8 +111,10 @@ any '/recipe' => sub {
                     my $integer = $parts[0] eq '0' ? '' : "$parts[0] ";
                     my $decimal = "0.$parts[1]";
 
+                    # Handle the broken behavior of Math::Fraction
                     $quantity = sprintf '%.2f', $quantity if length($decimal) > 7;
 
+                    # Handle the broken behavior of Math::Fraction
                     $decimal = sprintf '%.2f', $decimal if length($decimal) > 7;
                     $decimal = eval { frac($decimal) };
                     die "Can't frac($decimal): $@" if $@;
