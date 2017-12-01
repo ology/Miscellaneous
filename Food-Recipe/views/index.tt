@@ -1,10 +1,14 @@
 <div id="page">
 
 <div>
-<h2>
-<img src="/favicon.ico" height="25" width="25" style="vertical-align:middle;" />
-Recipe Search Tool</h2>
-<div style="float: right;">Searching <% total %> recipes</div>
+    <img src="/favicon.ico" height="25" width="25" style="vertical-align:middle;" />
+    <span style="font-weight: bold; font-size: large;">Recipe Search Tool</span>
+    <div style="float: right; text-align: right;">
+        <a href="/list"><b>Shopping list</b></a>
+        <p/>
+        Searching <% total %> recipes
+    </div>
+    <p/>
 </div>
 
 <form action="/" method="post">
