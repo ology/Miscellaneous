@@ -29,7 +29,7 @@ any '/' => sub {
     RECIPE: for my $recipe ( @recipes ) {
         # Title support
         if ( $title && @$title ) {
-            if ( not all { $recipe->title =~ /$_/i } @$title ) {
+            if ( not all { $recipe->title =~ /\Q$_\E/i } @$title ) {
                 next RECIPE;
             }
         }
@@ -37,14 +37,14 @@ any '/' => sub {
         # Category support
         if ( $category && @$category ) {
             for my $c ( @$category ) {
-                next RECIPE unless grep { $_ =~ /$c/i } @{ $recipe->categories };
+                next RECIPE unless grep { $_ =~ /\Q$c\E/i } @{ $recipe->categories };
             }
         }
 
         # Ingredient support
         if ( $ingredient && @$ingredient ) {
             for my $i ( @$ingredient ) {
-                next RECIPE unless grep { $_->product =~ /$i/i } @{ $recipe->ingredients };
+                next RECIPE unless grep { $_->product =~ /\Q$i\E/i } @{ $recipe->ingredients };
             }
         }
 
