@@ -7,7 +7,7 @@ use List::Util qw( all );
 use Math::Fraction;
 use MealMaster;
 
-our $VERSION = '0.2';
+our $VERSION = '0.3';
 
 any '/' => sub {
     my $title      = params->{title};
