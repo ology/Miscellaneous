@@ -177,6 +177,17 @@ post '/clear' => sub {
 };
 
 get '/list'  => sub {
+    # Unit conversion dispatch table
+    my $units = {
+        c  => sub { return ( $_[0] * 8, 'oz' ) },           # cup
+        cn => sub { return ( $_[0] * 12, 'oz' ) },          # can
+        dr => sub { return ( $_[0] * 0.0016907, 'oz' ) },   # drop
+        ds => sub { return ( $_[0] * 0.03125, 'oz' ) },     # dash
+        pn => sub { return ( $_[0] * 0.013, 'oz' ) },       # pinch
+        tb => sub { return ( $_[0] * 0.5, 'oz' ) },         # tablespoon
+        ts => sub { return ( $_[0] * 0.167, 'oz' ) },       # teaspoon
+    };
+
     my @recipes = import_mm(); 
 
     my $list = cookie('list');
@@ -194,8 +205,56 @@ get '/list'  => sub {
         }
     }
 
+# Sum quantities
+my $items = {};
+for my $recipe ( @items ) {
+    for my $ingredient ( @{ $recipe->ingredients } ) {
+        my $quantity = $ingredient->quantity;
+        $quantity =~ s/ /+/;
+        $quantity = 1 unless $quantity;
+
+        push @{ $items->{ $ingredient->product } }, {
+            measure  => $ingredient->measure || 'ea',
+            quantity => eval $quantity,
+        };
+    }
+}
+
+# Convert units if needed
+my $listx;
+for my $item ( keys %$items ) {
+    for my $ingredient ( @{ $items->{$item} } ) {
+        my ( $quantity, $measure ) = ( $ingredient->{quantity}, $ingredient->{measure} );
+        if ( exists $units->{ $ingredient->{measure} } ) {
+            # Convert units
+            ( $quantity, $measure ) = $units->{ $ingredient->{measure} }->( $ingredient->{quantity} );
+        }
+
+        push @{ $listx->{$item} }, {
+            measure  => $measure,
+            quantity => $quantity,
+        };
+    }
+}
+
+# Consolidate ingredients of the same unit
+my $listy;
+for my $item ( keys %$listx ) {
+    my $measure;
+    my $quantity = 0;
+    for my $ingredient ( @{ $listx->{$item} } ) {
+        $measure = $ingredient->{measure};
+        $quantity += $ingredient->{quantity};
+    }
+    $listy->{$item} = {
+        measure  => $measure,
+        quantity => $quantity,
+    };
+}
+
     template 'list' => {
         list => \@items,
+        shop => $listy,
     };
 };
 
