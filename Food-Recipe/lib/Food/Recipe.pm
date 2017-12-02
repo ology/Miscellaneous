@@ -6,8 +6,9 @@ use File::Find::Rule;
 use List::Util qw( all first );
 use Math::Fraction;
 use MealMaster;
+use Storable;
 
-our $VERSION = '0.3';
+our $VERSION = '0.4';
 
 any '/' => sub {
     my $title      = params->{title};
@@ -269,13 +270,22 @@ get '/list'  => sub {
 };
 
 sub import_mm {
-    my $mm = MealMaster->new();
+    my $recipes;
 
-    my @files = File::Find::Rule->file()->in('public/MMF');
+    if ( -e 'recipes.dat' ) {
+        $recipes = retrieve 'recipes.dat';
+    }
+    else {
+        my $mm = MealMaster->new();
 
-    my @recipes = map { $mm->parse($_) } @files;
+        my @files = File::Find::Rule->file()->in('public/MMF');
 
-    return @recipes; 
+        $recipes = [ map { $mm->parse($_) } @files ];
+
+        store $recipes, 'recipes.dat';
+    }
+
+    return @$recipes; 
 }
 
 true;
