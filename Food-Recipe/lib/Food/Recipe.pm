@@ -3,7 +3,7 @@ package Food::Recipe;
 use Dancer qw( :syntax );
 use Dancer::Cookies;
 use File::Find::Rule;
-use List::Util qw( all );
+use List::Util qw( all first );
 use Math::Fraction;
 use MealMaster;
 
@@ -174,6 +174,29 @@ post '/clear' => sub {
 
     redirect '/recipe?title=' . $title;
     halt;
+};
+
+get '/list'  => sub {
+    my @recipes = import_mm(); 
+
+    my $list = cookie('list');
+    $list = [ split /\s*\|\s*/, $list ]
+        if $list;
+
+    my @items;
+
+    for my $i ( @$list ) {
+        RECIPE: for my $recipe ( @recipes ) {
+            if ( $recipe->title eq $i ) {
+                push @items, $recipe;
+                last RECIPE;
+            }
+        }
+    }
+
+    template 'list' => {
+        list => \@items,
+    };
 };
 
 sub import_mm {

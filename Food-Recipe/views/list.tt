@@ -1,0 +1,18 @@
+<div id="page">
+
+    <ol>
+<% FOREACH i IN list %>
+        <li>
+            <a href="/recipe?title=<% i.title | uri %>"><% i.title.lower.ucfirst %></a>
+            <br />
+            <ol>
+    <% FOREACH j IN i.ingredients %>
+                <li><% j.quantity %> <% j.measure %> <% j.product %></li>
+    <% END %>
+            </ol>
+        </li>
+        <p />
+<% END %>
+    </ol>
+
+</div>
