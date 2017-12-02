@@ -207,52 +207,52 @@ get '/list'  => sub {
         }
     }
 
-# Sum quantities
-my $items = {};
-for my $recipe ( @items ) {
-    for my $ingredient ( @{ $recipe->ingredients } ) {
-        my $quantity = $ingredient->quantity;
-        $quantity =~ s/ /+/;
-        $quantity = 1 unless $quantity;
+    # Sum quantities
+    my $items = {};
+    for my $recipe ( @items ) {
+        for my $ingredient ( @{ $recipe->ingredients } ) {
+            my $quantity = $ingredient->quantity;
+            $quantity =~ s/ /+/;
+            $quantity = 1 unless $quantity;
 
-        push @{ $items->{ $ingredient->product } }, {
-            measure  => $ingredient->measure || 'ea',
-            quantity => eval $quantity,
-        };
-    }
-}
-
-# Convert units if needed
-my $listx;
-for my $item ( keys %$items ) {
-    for my $ingredient ( @{ $items->{$item} } ) {
-        my ( $quantity, $measure ) = ( $ingredient->{quantity}, $ingredient->{measure} );
-        if ( exists $units->{ $ingredient->{measure} } ) {
-            # Convert units
-            ( $quantity, $measure ) = $units->{ $ingredient->{measure} }->( $ingredient->{quantity} );
+            push @{ $items->{ $ingredient->product } }, {
+                measure  => $ingredient->measure || 'ea',
+                quantity => eval $quantity,
+            };
         }
+    }
 
-        push @{ $listx->{$item} }, {
+    # Convert units if needed
+    my $listx;
+    for my $item ( keys %$items ) {
+        for my $ingredient ( @{ $items->{$item} } ) {
+            my ( $quantity, $measure ) = ( $ingredient->{quantity}, $ingredient->{measure} );
+            if ( exists $units->{ $ingredient->{measure} } ) {
+                # Convert units
+                ( $quantity, $measure ) = $units->{ $ingredient->{measure} }->( $ingredient->{quantity} );
+            }
+
+            push @{ $listx->{$item} }, {
+                measure  => $measure,
+                quantity => $quantity,
+            };
+        }
+    }
+
+    # Consolidate ingredients of the same unit
+    my $listy;
+    for my $item ( keys %$listx ) {
+        my $measure;
+        my $quantity = 0;
+        for my $ingredient ( @{ $listx->{$item} } ) {
+            $measure = $ingredient->{measure};
+            $quantity += $ingredient->{quantity};
+        }
+        $listy->{$item} = {
             measure  => $measure,
             quantity => $quantity,
         };
     }
-}
-
-# Consolidate ingredients of the same unit
-my $listy;
-for my $item ( keys %$listx ) {
-    my $measure;
-    my $quantity = 0;
-    for my $ingredient ( @{ $listx->{$item} } ) {
-        $measure = $ingredient->{measure};
-        $quantity += $ingredient->{quantity};
-    }
-    $listy->{$item} = {
-        measure  => $measure,
-        quantity => $quantity,
-    };
-}
 
     template 'list' => {
         list => \@items,
