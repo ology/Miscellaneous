@@ -263,6 +263,9 @@ get '/list'  => sub {
             $measure = $ingredient->{measure};
             $quantity += $ingredient->{quantity};
         }
+
+        $quantity = sprintf '%.2f', $quantity if length($quantity) > 7;
+
         $listy->{$item} = {
             measure  => $measure,
             quantity => $quantity,
