@@ -8,6 +8,11 @@
 <% FOREACH i IN list %>
         <li>
             <a href="/recipe?title=<% i.title | uri %>"><% i.title.lower.ucfirst %></a>
+            <form action='/remove' method="post">
+                <input type="hidden" name="title" value="<% i.title %>" />
+                Remove from list
+                <input type="submit" name="submit" value=">" />
+            </form>
             <br />
             <ol>
     <% FOREACH j IN i.ingredients %>

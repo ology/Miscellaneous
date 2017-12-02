@@ -176,6 +176,21 @@ post '/clear' => sub {
     halt;
 };
 
+post '/remove' => sub {
+    my $title = params->{title} or die 'No title provided';
+
+    my $list = cookie('list');
+    my %list;
+    if ( $title ) {
+        @list{ split /\s*\|\s*/, $list } = undef;
+        delete $list{$title};
+        cookie( list => join( '|', keys %list ) );
+    }
+
+    redirect '/list';
+    halt;
+};
+
 get '/list'  => sub {
     # Unit conversion dispatch table
     my $units = {
