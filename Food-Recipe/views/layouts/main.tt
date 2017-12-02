@@ -16,7 +16,9 @@
 <body>
 <% content %>
 <div id="footer">
-Created by <a href="http://gene.ology.net/">Gene Boggs</a>
+    Created by <a href="http://gene.ology.net/">Gene Boggs</a>
+    |
+    <a href="/help">Help</a>
 </div>
 </body>
 </html>

@@ -270,6 +270,10 @@ get '/list'  => sub {
     };
 };
 
+get '/help'  => sub {
+    template 'help' => {};
+};
+
 sub import_mm {
     my $recipes;
     my $file = 'recipes.dat';
