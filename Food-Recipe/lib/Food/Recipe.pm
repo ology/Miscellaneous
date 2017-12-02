@@ -200,6 +200,7 @@ get '/list'  => sub {
         dr => sub { return ( $_[0] * 0.0016907, 'oz' ) },   # drop
         ds => sub { return ( $_[0] * 0.03125, 'oz' ) },     # dash
         pn => sub { return ( $_[0] * 0.013, 'oz' ) },       # pinch
+        pt => sub { return ( $_[0] * 16, 'oz' ) },          # pint
         tb => sub { return ( $_[0] * 0.5, 'oz' ) },         # tablespoon
         ts => sub { return ( $_[0] * 0.167, 'oz' ) },       # teaspoon
         T  => sub { return ( $_[0] * 0.5, 'oz' ) },         # tablespoon
@@ -271,9 +272,10 @@ get '/list'  => sub {
 
 sub import_mm {
     my $recipes;
+    my $file = 'recipes.dat';
 
-    if ( -e 'recipes.dat' ) {
-        $recipes = retrieve 'recipes.dat';
+    if ( -e $file ) {
+        $recipes = retrieve $file;
     }
     else {
         my $mm = MealMaster->new();
@@ -282,7 +284,7 @@ sub import_mm {
 
         $recipes = [ map { $mm->parse($_) } @files ];
 
-        store $recipes, 'recipes.dat';
+        store $recipes, $file;
     }
 
     return @$recipes; 
