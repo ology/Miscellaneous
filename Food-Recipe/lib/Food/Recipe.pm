@@ -186,6 +186,8 @@ get '/list'  => sub {
         pn => sub { return ( $_[0] * 0.013, 'oz' ) },       # pinch
         tb => sub { return ( $_[0] * 0.5, 'oz' ) },         # tablespoon
         ts => sub { return ( $_[0] * 0.167, 'oz' ) },       # teaspoon
+        T  => sub { return ( $_[0] * 0.5, 'oz' ) },         # tablespoon
+        t  => sub { return ( $_[0] * 0.167, 'oz' ) },       # teaspoon
     };
 
     my @recipes = import_mm(); 
