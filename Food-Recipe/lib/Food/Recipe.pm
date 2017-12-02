@@ -222,32 +222,22 @@ get '/list'  => sub {
         }
     }
 
-    # Sum quantities
+    # Sum quantities and convert units
     my $items = {};
     for my $recipe ( @items ) {
         for my $ingredient ( @{ $recipe->ingredients } ) {
+            my $measure  = $ingredient->measure || 'ea';
             my $quantity = $ingredient->quantity;
             $quantity =~ s/ /+/;
             $quantity = 1 unless $quantity;
+            $quantity = eval $quantity;
 
-            push @{ $items->{ $ingredient->product } }, {
-                measure  => $ingredient->measure || 'ea',
-                quantity => eval $quantity,
-            };
-        }
-    }
-
-    # Convert units if needed
-    my $listx;
-    for my $item ( keys %$items ) {
-        for my $ingredient ( @{ $items->{$item} } ) {
-            my ( $quantity, $measure ) = ( $ingredient->{quantity}, $ingredient->{measure} );
-            if ( exists $units->{ $ingredient->{measure} } ) {
+            if ( exists $units->{$measure} ) {
                 # Convert units
-                ( $quantity, $measure ) = $units->{ $ingredient->{measure} }->( $ingredient->{quantity} );
+                ( $quantity, $measure ) = $units->{$measure}->($quantity);
             }
 
-            push @{ $listx->{$item} }, {
+            push @{ $items->{ $ingredient->product } }, {
                 measure  => $measure,
                 quantity => $quantity,
             };
@@ -255,18 +245,18 @@ get '/list'  => sub {
     }
 
     # Consolidate ingredients of the same unit
-    my $listy;
-    for my $item ( keys %$listx ) {
+    my $shop;
+    for my $item ( keys %$items ) {
         my $measure;
         my $quantity = 0;
-        for my $ingredient ( @{ $listx->{$item} } ) {
+        for my $ingredient ( @{ $items->{$item} } ) {
             $measure = $ingredient->{measure};
             $quantity += $ingredient->{quantity};
         }
 
         $quantity = sprintf '%.2f', $quantity if length($quantity) > 7;
 
-        $listy->{$item} = {
+        $shop->{$item} = {
             measure  => $measure,
             quantity => $quantity,
         };
@@ -274,7 +264,7 @@ get '/list'  => sub {
 
     template 'list' => {
         list => \@items,
-        shop => $listy,
+        shop => $shop,
     };
 };
 
