@@ -26,8 +26,9 @@
 
     <span style="font-weight: bold; font-size: large;">Shopping list:</span>
     <ol>
-<% FOREACH i IN shop %>
-        <li><% i.value.quantity %> <% i.value.measure %> <% i.key %></li>
+<% FOREACH k IN shop.keys.sort %>
+        <li><% shop.$k.quantity %> <% shop.$k.measure %> <% k %></li>
+        <br />
 <% END %>
     </ol>
 
