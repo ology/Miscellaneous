@@ -5,7 +5,7 @@
 Categories
 </h2>
 <% FOREACH c IN categories %>
-<a href="/?category=<% c.key | uri %>"><% c.key %> (<% c.value %>)</a>
+<a href="/?category=<% c.key.lower | uri %>"><% c.key %> (<% c.value %>)</a>
 <% END %>
 
 </div>
