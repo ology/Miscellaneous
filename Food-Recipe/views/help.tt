@@ -27,6 +27,8 @@
     <li>The shopping list page shows the recipe items you have collected, with a button to remove each.</li>
     <br />
     <li>The shopping list page computes the total ingredients that you will need for all recipes in your list, with many common kitchen measurements converted to ounces.</li>
+    <br />
+    <li>The serving size (yield) that you can change for a recipe is not used in your shopping list.</li>
 </ul>
 
 </div>
