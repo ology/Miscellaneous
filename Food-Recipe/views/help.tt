@@ -18,6 +18,8 @@
     <br />
     <li>Each search result is a link to the full recipe with itemized ingredients and directions.</li>
     <br />
+    <li>Some ingredients are listed on more than one line. So watch out for those.</li>
+    <br />
     <li>The recipe page also shows what is in your shopping list and allows you to add-to and clear-all items in your list.</li>
     <br />
     <li>Each item in your list is a link back to the recipe itself.</li>
