@@ -11,6 +11,7 @@ use Storable;
 our $VERSION = '0.4';
 
 any '/' => sub {
+    # Load the form variables
     my $title      = params->{title};
     my $category   = params->{category};
     my $ingredient = params->{ingredient};
@@ -20,6 +21,7 @@ any '/' => sub {
     $category   = [ split /\s+/, $category ] if $category;
     $ingredient = [ split /\s+/, $ingredient ] if $ingredient;
 
+    # Load the recipes
     my @recipes = import_mm(); 
 
     my @matched;
@@ -68,10 +70,12 @@ any '/' => sub {
 };
 
 get '/categories' => sub {
+    # Load the recipes
     my @recipes = import_mm(); 
 
     my %categories;
 
+    # Extract and normalize the categories
     for my $recipe ( @recipes ) {
         for my $cat ( @{ $recipe->categories } ) {
             $cat =~ s/^\s+//;
@@ -87,26 +91,31 @@ get '/categories' => sub {
 };
 
 any '/recipe' => sub {
+    # Load the form variables
     my $title = params->{title} or die 'No title provided';
     my $yield = params->{yield};
 
     my $ingredients;
 
+    # Load the recipes
     my @recipes = import_mm(); 
 
     my @match = grep { $_->title eq $title } @recipes;
 
+    # Convert the number of servings
     if ( $yield ) {
         my ($number) = split( / /, $match[0]->yield );
         my $factor = $yield / $number;
 
         for my $i ( @{ $match[0]->ingredients } ) {
+            # Make sure the quantity is an arithmetic expression
             my $quantity = $i->quantity;
             if ( $quantity ) {
                 $quantity =~ s/ /+/;
                 $quantity = eval $quantity;
                 $quantity *= $factor;
 
+                # Handle a quantity with a fractional part
                 if ( $quantity =~ /\./ ) {
                     my @parts   = split( /\./, $quantity );
                     my $integer = $parts[0] eq '0' ? '' : "$parts[0] ";
@@ -124,6 +133,7 @@ any '/recipe' => sub {
                 }
             }
 
+            # Keep a list of converted ingredients to display
             push @$ingredients, {
                 quantity => $quantity,
                 measure  => $i->measure,
@@ -132,6 +142,7 @@ any '/recipe' => sub {
         }
     }
 
+    # Save the recipe to display, if there is a match
     my $recipe;
     $recipe = {
         title       => $match[0]->title,
@@ -141,6 +152,7 @@ any '/recipe' => sub {
         directions  => $match[0]->directions,
     } if @match;
 
+    # Change the shopping list cookie to an array reference to display
     my $list = cookie('list');
     $list = [ split /\s*\|\s*/, $list ]
         if $list;
@@ -154,8 +166,10 @@ any '/recipe' => sub {
 };
 
 post '/add' => sub {
+    # Load the form variables
     my $title = params->{title} or die 'No title provided';
 
+    # Add the item to the shopping list
     my $list = cookie('list');
     my %list;
     if ( $list || $title ) {
@@ -169,8 +183,10 @@ post '/add' => sub {
 };
 
 post '/clear' => sub {
+    # Load the form variables
     my $title = params->{title} or die 'No title provided';
 
+    # Clear the shopping list
     cookie( list => '' );
 
     redirect '/recipe?title=' . $title;
@@ -178,8 +194,10 @@ post '/clear' => sub {
 };
 
 post '/remove' => sub {
+    # Load the form variables
     my $title = params->{title} or die 'No title provided';
 
+    # Remove the given item from the shopping list
     my $list = cookie('list');
     my %list;
     if ( $title ) {
@@ -207,14 +225,17 @@ get '/list'  => sub {
         t  => sub { return ( $_[0] * 0.167, 'oz' ) },       # teaspoon
     };
 
+    # Load the recipes
     my @recipes = import_mm(); 
 
+    # Change the shopping list cookie to an array reference to display
     my $list = cookie('list');
     $list = [ split /\s*\|\s*/, $list ]
         if $list;
 
     my @items;
 
+    # Find the given recipe by title
     for my $i ( @$list ) {
         RECIPE: for my $recipe ( @recipes ) {
             if ( $recipe->title eq $i ) {
