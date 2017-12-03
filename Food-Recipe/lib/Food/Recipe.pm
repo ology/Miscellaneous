@@ -122,10 +122,10 @@ any '/recipe' => sub {
                     my $decimal = "0.$parts[1]";
 
                     # Handle the broken behavior of Math::Fraction
-                    $quantity = sprintf '%.2f', $quantity if length($decimal) > 7;
+                    $quantity = sprintf '%.2f', $quantity if length($decimal) > 8;
 
                     # Handle the broken behavior of Math::Fraction
-                    $decimal = sprintf '%.2f', $decimal if length($decimal) > 7;
+                    $decimal = sprintf '%.2f', $decimal if length($decimal) > 8;
                     $decimal = eval { frac($decimal) };
                     die "Can't frac($decimal): $@" if $@;
 
@@ -277,7 +277,7 @@ get '/list'  => sub {
             $quantity += $ingredient->{quantity};
         }
 
-        $quantity = sprintf '%.2f', $quantity if length($quantity) > 7;
+        $quantity = sprintf '%.2f', $quantity if length($quantity) > 8;
 
         $shop->{$item} = {
             measure  => $measure,
