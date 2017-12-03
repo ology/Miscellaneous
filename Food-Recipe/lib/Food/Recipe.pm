@@ -3,7 +3,7 @@ package Food::Recipe;
 use Dancer qw( :syntax );
 use Dancer::Cookies;
 use File::Find::Rule;
-use List::Util qw( all first );
+use List::Util qw( all );
 use Math::Fraction;
 use MealMaster;
 use Storable;
