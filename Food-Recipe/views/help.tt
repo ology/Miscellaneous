@@ -10,25 +10,27 @@
     <br />
     <li>Remember to try searching for the same word in different ways (i.e. with title, categories, ingredients). You will often get more results.</li>
     <br />
-    <li>Unfortunately, there are misspellings. Check the Categories list for "variations."</li>
+    <li>There are plurals and unfortunate misspellings. Check the Categories list for variations.</li>
     <br />
     <li>To clear your results list, submit a search for nothing. That is, blank-out each slot on the main page and click the submit button.</li>
     <br />
     <li>Searching is done by ignoring the case of words.  Also "partial matching" is a lot better than being too descriptive.</li>
     <br />
-    <li>Each search result is a link to the full recipe with itemized ingredients and directions.</li>
+    <li>Each search result has a link to the full recipe, with itemized ingredients and directions.</li>
     <br />
     <li>Some ingredients are listed on more than one line. So watch out for those.</li>
     <br />
-    <li>The recipe page also shows what is in your shopping list and allows you to add-to and clear-all items in your list.</li>
+    <li>The recipe page also shows what is in your shopping list and allows you to add-to and clear-all items.</li>
     <br />
     <li>Each item in your list is a link back to the recipe itself.</li>
     <br />
     <li>The shopping list page shows the recipe items you have collected, with a button to remove each.</li>
     <br />
-    <li>The shopping list page computes the total ingredients that you will need for all recipes in your list, with many common kitchen measurements converted to ounces.</li>
+    <li>The shopping list page computes the total ingredients that you will need for all recipes in your list.</li>
     <br />
-    <li>The serving size (yield) that you can change for a recipe is not used in your shopping list.</li>
+    <li>Common kitchen measurements converted to ounces for the shopping list.</li>
+    <br />
+    <li>Please note that the serving size (yield) that you can change for a recipe is not used in your shopping list.</li>
 </ul>
 
 </div>
