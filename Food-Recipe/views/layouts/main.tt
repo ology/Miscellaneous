@@ -4,7 +4,6 @@
 <head>
 <meta http-equiv="Content-type" content="text/html; charset=<% settings.charset %>" />
 <title>Recipe Search Tool</title>
-<link rel="stylesheet" href="<% request.uri_base %>/css/style.css" />
 
 <!-- Grab jQuery from a CDN, fall back to local if necessary -->
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -13,12 +12,16 @@
 /* ]]> */</script>
 
 </head>
+
 <body>
+
 <% content %>
 <div id="footer">
     Created by <a href="http://gene.ology.net/">Gene Boggs</a>
     |
     <a href="/help">Help</a>
 </div>
+
 </body>
+
 </html>
