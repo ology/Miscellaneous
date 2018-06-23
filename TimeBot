@@ -28,17 +28,21 @@ sub said {
     my $re = qr/(\S+(?:\s+[\d:]+['"])?)/;
 
     if ( $arguments->{raw_body} =~ /^TimeBot:/ ) {
+        # Return the source code link
         if ( $arguments->{body} =~ /^source$/ ) {
             $body = 'https://github.com/ology/Miscellaneous/blob/master/TimeBot';
         }
+        # Return the current time
         elsif ( $arguments->{body} =~ /^now$/ ) {
             $body = DateTime->now( time_zone => 'local' );
         }
+        # Return the localtime string of a given timestamp
         elsif ( $arguments->{body} =~ /^localtime $re$/ ) {
             my $capture = $1;
             $capture =~ s/['"]//g;
             $body = scalar( localtime UnixDate( $capture, '%s') );
         }
+        # Return the day of the week of a given timestamp
         elsif ( $arguments->{body} =~ /^dow $re$/ ) {
             my $capture = $1;
             $capture =~ s/['"]//g;
@@ -47,6 +51,7 @@ sub said {
 
             $body = $dt->day_name;
         }
+        # Return the difference between two given timestamps
         elsif ( $arguments->{body} =~ /^difference $re $re$/ ) {
             my $capture1 = $1;
             $capture1 =~ s/['"]//g;
@@ -66,6 +71,7 @@ sub said {
                 $dt1->delta_ms($dt2)->minutes,
                 $dt1->delta_ms($dt2)->seconds;
         }
+        # Return the addition or subtraction of the given span and offset from the given timestamp
         elsif ( $arguments->{body} =~ /^([a-zA-Z]+)_([a-zA-Z]+) (\d+) $re$/ ) {
             my $method = $1;
             my $span = $2;
