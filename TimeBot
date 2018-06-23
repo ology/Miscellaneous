@@ -45,8 +45,7 @@ sub said {
         # Return the day of the week of a given timestamp
         elsif ( $arguments->{body} =~ /^dow $re$/ ) {
             my $capture = capture($1);
-            my $stamp = UnixDate( $capture, $format );
-            my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
+            my $dt = to_dt( $capture, $format );
 
             $body = $dt->day_name;
         }
@@ -55,10 +54,8 @@ sub said {
             my $capture1 = capture($1);
             my $capture2 = capture($2);
 
-            my $stamp1 = UnixDate( $capture1, $format );
-            my $dt1 = DateTime::Format::DateParse->parse_datetime($stamp1);
-            my $stamp2 = UnixDate( $capture2, $format );
-            my $dt2 = DateTime::Format::DateParse->parse_datetime($stamp2);
+            my $dt1 = to_dt( $capture1, $format );
+            my $dt2 = to_dt( $capture2, $format );
 
             $body = sprintf '%.2fd or %dh %dm %ds',
                 $dt1->delta_ms($dt2)->hours / 24 + $dt1->delta_ms($dt2)->minutes / 1440 + $dt1->delta_ms($dt2)->seconds / 86400,
@@ -75,8 +72,7 @@ sub said {
 
             my $capture = capture($4);
 
-            my $stamp = UnixDate( $capture, $format );
-            my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
+            my $dt = to_dt( $capture, $format );
 
             $body = $dt->$method( $span => $3 );
         }
@@ -96,8 +92,15 @@ sub capture {
     return $string;
 }
 
+sub to_dt {
+    my( $capture, $format ) = @_;
+    my $stamp = UnixDate( $capture, $format );
+    my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
+    return $dt;
+}
+
 package main;
- 
+
 my $bot = Bot->new(
     server      => 'irc.perl.org',
     port        => '6667',
