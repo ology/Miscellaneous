@@ -7,7 +7,6 @@ use base qw(Bot::BasicBot);
 
 use Date::Manip;
 use DateTime;
-use DateTime::Format::Strptime;
 use DateTime::Format::DateParse;
 
 sub said {
