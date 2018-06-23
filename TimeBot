@@ -25,6 +25,8 @@ sub said {
 
     my $body;
 
+    my $re = qr/(\S+(?:\s+\S+)?)/;
+
     if ( $arguments->{raw_body} =~ /^TimeBot:/ ) {
         if ( $arguments->{body} =~ /^source$/ ) {
             $body = 'https://github.com/ology/Miscellaneous/blob/master/TimeBot';
@@ -32,8 +34,10 @@ sub said {
         elsif ( $arguments->{body} =~ /^now$/ ) {
             $body = DateTime->now( time_zone => 'local' );
         }
-        elsif ( $arguments->{body} =~ /^localtime (\S+)$/ ) {
-            $body = scalar( localtime UnixDate( $1, '%s') );
+        elsif ( $arguments->{body} =~ /^localtime $re$/ ) {
+            my $stamp = $1;
+            $stamp =~ s/['"]//g;
+            $body = scalar( localtime UnixDate( $stamp, '%s') );
         }
         elsif ( $arguments->{body} =~ /^dow (\S+)$/ ) {
             my $stamp = UnixDate( $1, "%Y-%m-%dT%H:%M:%S" );
