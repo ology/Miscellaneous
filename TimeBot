@@ -72,7 +72,10 @@ sub said {
 
             $method = 'subtract' if $method eq 'sub';
 
-            my $stamp = UnixDate( $4, "%Y-%m-%dT%H:%M:%S" );
+            my $capture = $4;
+            $capture =~ s/['"]//g;
+
+            my $stamp = UnixDate( $capture, "%Y-%m-%dT%H:%M:%S" );
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
 
             $body = $dt->$method( $span => $3 );
