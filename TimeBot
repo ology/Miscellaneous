@@ -68,9 +68,7 @@ sub said {
         }
         elsif ( $arguments->{body} =~ /^([a-zA-Z]+)_([a-zA-Z]+) (\d+) $re$/ ) {
             my $method = $1;
-            $method =~ s/['"]//g;
             my $span = $2;
-            $span =~ s/['"]//g;
 
             $method = 'subtract' if $method eq 'sub';
 
