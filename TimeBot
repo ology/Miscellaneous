@@ -25,7 +25,7 @@ sub said {
 
     my $body;
 
-    my $re = qr/(\S+(?:\s+\S+)?)/;
+    my $re = qr/(\S+(?:\s+[\d:]+['"])?)/;
 
     if ( $arguments->{raw_body} =~ /^TimeBot:/ ) {
         if ( $arguments->{body} =~ /^source$/ ) {
