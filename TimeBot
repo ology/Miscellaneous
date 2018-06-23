@@ -60,10 +60,7 @@ sub said {
             my $stamp2 = UnixDate( $capture2, $format );
             my $dt2 = DateTime::Format::DateParse->parse_datetime($stamp2);
 
-            $body = sprintf '%dy %dm %dd or %dh %dm %ds',
-                $dt1->delta_md($dt2)->years,
-                $dt1->delta_md($dt2)->months,
-                $dt1->delta_md($dt2)->days,
+            $body = sprintf '%dh %dm %ds',
                 $dt1->delta_ms($dt2)->hours,
                 $dt1->delta_ms($dt2)->minutes,
                 $dt1->delta_ms($dt2)->seconds;
