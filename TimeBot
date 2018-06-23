@@ -28,7 +28,7 @@ sub said {
     my $re = qr/(\S+(?:\s+[\d:]+['"])?)/;
     my $format = '%Y-%m-%dT%H:%M:%S';
 
-    if ( $arguments->{raw_body} =~ /^TimeBot:/ ) {
+    if ( $arguments->{address} ) {
         # Return the source code link
         if ( $arguments->{body} =~ /^source$/ ) {
             $body = 'https://github.com/ology/Miscellaneous/blob/master/TimeBot';
