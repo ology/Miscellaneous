@@ -35,20 +35,27 @@ sub said {
             $body = DateTime->now( time_zone => 'local' );
         }
         elsif ( $arguments->{body} =~ /^localtime $re$/ ) {
-            my $stamp = $1;
-            $stamp =~ s/['"]//g;
-            $body = scalar( localtime UnixDate( $stamp, '%s') );
+            my $capture = $1;
+            $capture =~ s/['"]//g;
+            $body = scalar( localtime UnixDate( $capture, '%s') );
         }
-        elsif ( $arguments->{body} =~ /^dow (\S+)$/ ) {
-            my $stamp = UnixDate( $1, "%Y-%m-%dT%H:%M:%S" );
+        elsif ( $arguments->{body} =~ /^dow $re$/ ) {
+            my $capture = $1;
+            $capture =~ s/['"]//g;
+            my $stamp = UnixDate( $capture, "%Y-%m-%dT%H:%M:%S" );
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
 
             $body = $dt->day_name;
         }
-        elsif ( $arguments->{body} =~ /^difference (\S+) (\S+)$/ ) {
-            my $stamp1 = UnixDate( $1, "%Y-%m-%dT%H:%M:%S" );
+        elsif ( $arguments->{body} =~ /^difference $re $re$/ ) {
+            my $capture1 = $1;
+            $capture1 =~ s/['"]//g;
+            my $capture2 = $2;
+            $capture2 =~ s/['"]//g;
+
+            my $stamp1 = UnixDate( $capture1, "%Y-%m-%dT%H:%M:%S" );
             my $dt1 = DateTime::Format::DateParse->parse_datetime($stamp1);
-            my $stamp2 = UnixDate( $2, "%Y-%m-%dT%H:%M:%S" );
+            my $stamp2 = UnixDate( $capture2, "%Y-%m-%dT%H:%M:%S" );
             my $dt2 = DateTime::Format::DateParse->parse_datetime($stamp2);
 
             $body = sprintf '%dy %dm %dd or %dh %dm %ds',
@@ -59,9 +66,11 @@ sub said {
                 $dt1->delta_ms($dt2)->minutes,
                 $dt1->delta_ms($dt2)->seconds;
         }
-        elsif ( $arguments->{body} =~ /^([a-zA-Z]+)_([a-zA-Z]+) (\S+) (\S+)$/ ) {
+        elsif ( $arguments->{body} =~ /^([a-zA-Z]+)_([a-zA-Z]+) (\d+) $re$/ ) {
             my $method = $1;
+            $method =~ s/['"]//g;
             my $span = $2;
+            $span =~ s/['"]//g;
 
             $method = 'subtract' if $method eq 'sub';
 
