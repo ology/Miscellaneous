@@ -61,7 +61,7 @@ sub said {
             my $dt2 = DateTime::Format::DateParse->parse_datetime($stamp2);
 
             $body = sprintf '%.2fd or %dh %dm %ds',
-                $dt1->delta_ms($dt2)->hours / 24 + $dt1->delta_ms($dt2)->minutes / 60 + $dt1->delta_ms($dt2)->seconds / 3600,
+                $dt1->delta_ms($dt2)->hours / 24 + $dt1->delta_ms($dt2)->minutes / 1440 + $dt1->delta_ms($dt2)->seconds / 86400,
                 $dt1->delta_ms($dt2)->hours,
                 $dt1->delta_ms($dt2)->minutes,
                 $dt1->delta_ms($dt2)->seconds;
