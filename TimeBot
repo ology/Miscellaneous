@@ -15,7 +15,7 @@ sub help {
 
     $self->say(
         channel => $arguments->{channel},
-        body    => 'source|now|localtime $stamp|dow $stamp|difference $stamp $stamp|{add,sub}_{years,months,days} $offset $stamp',
+        body    => 'source|now|localtime $stamp|dow $stamp|diff $stamp $stamp|{add,sub}_{years,months,days} $offset $stamp',
     );
 }
 
@@ -53,7 +53,7 @@ sub said {
             $body = $dt->day_name;
         }
         # Return the difference between two given timestamps
-        elsif ( $arguments->{body} =~ /^difference $re $re$/ ) {
+        elsif ( $arguments->{body} =~ /^diff $re $re$/ ) {
             my $capture1 = $1;
             $capture1 =~ s/['"]//g;
             my $capture2 = $2;
