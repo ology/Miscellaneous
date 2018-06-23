@@ -26,6 +26,7 @@ sub said {
     my $body;
 
     my $re = qr/(\S+(?:\s+[\d:]+['"])?)/;
+    my $format = '%Y-%m-%dT%H:%M:%S';
 
     if ( $arguments->{raw_body} =~ /^TimeBot:/ ) {
         # Return the source code link
@@ -46,7 +47,7 @@ sub said {
         elsif ( $arguments->{body} =~ /^dow $re$/ ) {
             my $capture = $1;
             $capture =~ s/['"]//g;
-            my $stamp = UnixDate( $capture, "%Y-%m-%dT%H:%M:%S" );
+            my $stamp = UnixDate( $capture, $format );
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
 
             $body = $dt->day_name;
@@ -58,9 +59,9 @@ sub said {
             my $capture2 = $2;
             $capture2 =~ s/['"]//g;
 
-            my $stamp1 = UnixDate( $capture1, "%Y-%m-%dT%H:%M:%S" );
+            my $stamp1 = UnixDate( $capture1, $format );
             my $dt1 = DateTime::Format::DateParse->parse_datetime($stamp1);
-            my $stamp2 = UnixDate( $capture2, "%Y-%m-%dT%H:%M:%S" );
+            my $stamp2 = UnixDate( $capture2, $format );
             my $dt2 = DateTime::Format::DateParse->parse_datetime($stamp2);
 
             $body = sprintf '%dy %dm %dd or %dh %dm %ds',
@@ -81,7 +82,7 @@ sub said {
             my $capture = $4;
             $capture =~ s/['"]//g;
 
-            my $stamp = UnixDate( $capture, "%Y-%m-%dT%H:%M:%S" );
+            my $stamp = UnixDate( $capture, $format );
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
 
             $body = $dt->$method( $span => $3 );
