@@ -15,7 +15,7 @@ sub help {
 
     $self->say(
         channel => $arguments->{channel},
-        body    => 'Foo!',
+        body    => 'source|now|localtime $stamp|dow $stamp|difference $stamp $stamp|{add,sub}_{years,months,days} $offset $stamp',
     );
 }
 
