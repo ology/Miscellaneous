@@ -9,6 +9,16 @@ use Date::Manip;
 use DateTime;
 use DateTime::Format::DateParse;
 
+sub help {
+    my $self      = shift;
+    my $arguments = shift;
+
+    $self->say(
+        channel => $arguments->{channel},
+        body    => 'Foo!',
+    );
+}
+
 sub said {
     my $self      = shift;
     my $arguments = shift;
