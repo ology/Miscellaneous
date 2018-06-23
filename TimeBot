@@ -40,11 +40,13 @@ sub said {
         # Return the localtime string of a given timestamp
         elsif ( $arguments->{body} =~ /^localtime $re$/ ) {
             my $capture = capture($1);
+
             $body = scalar( localtime UnixDate( $capture, '%s') );
         }
         # Return the day of the week of a given timestamp
         elsif ( $arguments->{body} =~ /^dow $re$/ ) {
             my $capture = capture($1);
+
             my $dt = to_dt( $capture, $format );
 
             $body = $dt->day_name;
