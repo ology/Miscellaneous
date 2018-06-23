@@ -9,22 +9,19 @@ use Date::Manip;
 use DateTime;
 use DateTime::Format::Strptime;
 use DateTime::Format::DateParse;
-use Time::Duration::Parse;
 
-my %DURATIONS = (
-    w => 'weeks',
-    d => 'days',
-    h => 'hours',
-    m => 'minutes',
-    s => 'seconds',
-);
- 
 sub said {
     my $self      = shift;
     my $arguments = shift;
 
     if ( $arguments->{raw_body} =~ /^TimeBot:/ ) {
-        if ( $arguments->{body} =~ /^now$/ ) {
+        if ( $arguments->{body} =~ /^source$/ ) {
+            $self->say(
+                channel => $arguments->{channel},
+                body    => 'https://github.com/ology/Miscellaneous/blob/master/TimeBot',
+            );
+        }
+        elsif ( $arguments->{body} =~ /^now$/ ) {
             $self->say(
                 channel => $arguments->{channel},
                 body    => DateTime->now( time_zone => 'local' ),
