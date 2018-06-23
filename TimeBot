@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-package Bot;
+package TimeBot;
 use base qw(Bot::BasicBot);
 
 use Date::Manip;
@@ -103,7 +103,7 @@ sub to_dt {
 
 package main;
 
-my $bot = Bot->new(
+my $bot = TimeBot->new(
     server      => 'irc.perl.org',
     port        => '6667',
     channels    => ['#bottest'],
