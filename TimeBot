@@ -13,33 +13,23 @@ sub said {
     my $self      = shift;
     my $arguments = shift;
 
+    my $body;
+
     if ( $arguments->{raw_body} =~ /^TimeBot:/ ) {
         if ( $arguments->{body} =~ /^source$/ ) {
-            $self->say(
-                channel => $arguments->{channel},
-                body    => 'https://github.com/ology/Miscellaneous/blob/master/TimeBot',
-            );
+            $body = 'https://github.com/ology/Miscellaneous/blob/master/TimeBot';
         }
         elsif ( $arguments->{body} =~ /^now$/ ) {
-            $self->say(
-                channel => $arguments->{channel},
-                body    => DateTime->now( time_zone => 'local' ),
-            );
+            $body = DateTime->now( time_zone => 'local' );
         }
         elsif ( $arguments->{body} =~ /^localtime (\S+)$/ ) {
-            $self->say(
-                channel => $arguments->{channel},
-                body    => scalar( localtime UnixDate( $1, '%s') ),
-            );
+            $body = scalar( localtime UnixDate( $1, '%s') );
         }
         elsif ( $arguments->{body} =~ /^dow (\S+)$/ ) {
             my $stamp = UnixDate( $1, "%Y-%m-%dT%H:%M:%S" );
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
 
-            $self->say(
-                channel => $arguments->{channel},
-                body    => $dt->day_name,
-            );
+            $body = $dt->day_name;
         }
         elsif ( $arguments->{body} =~ /^difference (\S+) (\S+)$/ ) {
             my $stamp1 = UnixDate( $1, "%Y-%m-%dT%H:%M:%S" );
@@ -47,18 +37,13 @@ sub said {
             my $stamp2 = UnixDate( $2, "%Y-%m-%dT%H:%M:%S" );
             my $dt2 = DateTime::Format::DateParse->parse_datetime($stamp2);
 
-            my $out = sprintf '%dy %dm %dd or %dh %dm %ds',
+            $body = sprintf '%dy %dm %dd or %dh %dm %ds',
                 $dt1->delta_md($dt2)->years,
                 $dt1->delta_md($dt2)->months,
                 $dt1->delta_md($dt2)->days,
                 $dt1->delta_ms($dt2)->hours,
                 $dt1->delta_ms($dt2)->minutes,
                 $dt1->delta_ms($dt2)->seconds;
-
-            $self->say(
-                channel => $arguments->{channel},
-                body    => $out,
-            );
         }
         elsif ( $arguments->{body} =~ /^([a-zA-Z]+)_([a-zA-Z]+) (\S+) (\S+)$/ ) {
             my $method = $1;
@@ -69,11 +54,13 @@ sub said {
             my $stamp = UnixDate( $4, "%Y-%m-%dT%H:%M:%S" );
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
 
-            $self->say(
-                channel => $arguments->{channel},
-                body    => $dt->$method( $span => $3 ),
-            );
+            $body = $dt->$method( $span => $3 );
         }
+
+        $self->say(
+            channel => $arguments->{channel},
+            body    => $body,
+        );
      
 #        $self->shutdown('I have done my job here.');
     }
