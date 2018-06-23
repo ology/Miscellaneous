@@ -23,7 +23,7 @@ sub said {
     my $self      = shift;
     my $arguments = shift;
 
-    my $body;
+    my $body = '?';
 
     my $re = qr/(\S+(?:\s+[\d:]+['"])?)/;
     my $format = '%Y-%m-%dT%H:%M:%S';
