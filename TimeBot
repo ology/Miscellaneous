@@ -39,14 +39,12 @@ sub said {
         }
         # Return the localtime string of a given timestamp
         elsif ( $arguments->{body} =~ /^localtime $re$/ ) {
-            my $capture = $1;
-            $capture =~ s/['"]//g;
+            my $capture = capture($1);
             $body = scalar( localtime UnixDate( $capture, '%s') );
         }
         # Return the day of the week of a given timestamp
         elsif ( $arguments->{body} =~ /^dow $re$/ ) {
-            my $capture = $1;
-            $capture =~ s/['"]//g;
+            my $capture = capture($1);
             my $stamp = UnixDate( $capture, $format );
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
 
@@ -54,10 +52,8 @@ sub said {
         }
         # Return the difference between two given timestamps
         elsif ( $arguments->{body} =~ /^diff $re $re$/ ) {
-            my $capture1 = $1;
-            $capture1 =~ s/['"]//g;
-            my $capture2 = $2;
-            $capture2 =~ s/['"]//g;
+            my $capture1 = capture($1);
+            my $capture2 = capture($2);
 
             my $stamp1 = UnixDate( $capture1, $format );
             my $dt1 = DateTime::Format::DateParse->parse_datetime($stamp1);
@@ -79,8 +75,7 @@ sub said {
 
             $method = 'subtract' if $method eq 'sub';
 
-            my $capture = $4;
-            $capture =~ s/['"]//g;
+            my $capture = capture($4);
 
             my $stamp = UnixDate( $capture, $format );
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
@@ -96,7 +91,13 @@ sub said {
 #        $self->shutdown('I have done my job here.');
     }
 }
- 
+
+sub capture {
+    my ($string) = @_;
+    $string =~ s/['"]//g;
+    return $string;
+}
+
 package main;
  
 my $bot = Bot->new(
