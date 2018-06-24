@@ -15,9 +15,9 @@ my $found = 0;
 
 my @games;
 
-system( 'phantomjs', 'scrape.js' );
+system( 'phantomjs', 'next-soccer.js' );
 
-my $html = 'scraped.html';
+my $html = 'next-soccer.html';
 
 my $te = HTML::TableExtract->new( depth => $depth, count => $count );
 
