@@ -7,7 +7,7 @@ use Date::Manip;
 use DateTime;
 use DateTime::Format::DateParse;
 
-my $pat = shift || '';
+my $pat = shift || 'MLS';  # 'World Cup' etc.
 
 my $found = 0;
 
