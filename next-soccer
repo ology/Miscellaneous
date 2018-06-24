@@ -28,13 +28,9 @@ for my $tab ( $te->tables ) {
         if ( $found && ( $row->[0] =~ /^\d\d:\d\d/ || $row->[0] =~ /^\s\d\d/ || $row->[0] =~ /^Half-time/ ) ) {
             next unless $row->[2] eq 'stats';
 
-            my $dt;
-
-            if ( $row->[0] =~ /^\d/ ) {
-                my $stamp = UnixDate( $row->[0], "%Y-%m-%dT%H:%M:%S" );
-                $dt = DateTime::Format::DateParse->parse_datetime($stamp);
-                $dt->subtract( hours => 9 );  # Hardcode Pacific Time
-            }
+            my $stamp = UnixDate( $row->[0], "%Y-%m-%dT%H:%M:%S" );
+            my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
+            $dt->subtract( hours => 9 );  # Hardcode Pacific Time
 
             push @games, sprintf( '%d:%02d %s vs %s', $dt->hour, $dt->minute, $row->[1], $row->[3] );
         }
