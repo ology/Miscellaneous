@@ -28,7 +28,7 @@ for my $tab ( $te->tables ) {
         if ( $found && ( $row->[0] =~ /^\d\d:\d\d/ || $row->[0] =~ /^\s\d\d/ || $row->[0] =~ /^Half-time/ ) ) {
             next unless $row->[2] eq 'stats';
 
-            my $stamp = UnixDate( $row->[0], "%Y-%m-%dT%H:%M:%S" );
+            my $stamp = UnixDate( $row->[0], '%Y-%m-%dT%H:%M:%S' );
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
             $dt->subtract( hours => 9 );  # Hardcode Pacific Time
 
