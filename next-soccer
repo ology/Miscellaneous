@@ -7,15 +7,15 @@ use Date::Manip;
 use DateTime;
 use DateTime::Format::DateParse;
 
-my $pat   = shift || '';
+my $pat = shift || '';
 
 my $found = 0;
 
 my @games;
 
-system( 'phantomjs', 'next-soccer.js' );
+system( 'phantomjs', "$0.js" );
 
-my $html = 'next-soccer.html';
+my $html = "$0.html";
 
 my $te = HTML::TableExtract->new();
 
