@@ -35,7 +35,7 @@ for my $tab ($te->tables) {
             if ( $row->[0] =~ /^\d/ ) {
                 my $stamp = UnixDate( $row->[0], "%Y-%m-%dT%H:%M:%S" );
                 $dt = DateTime::Format::DateParse->parse_datetime($stamp);
-                $dt->subtract( hours => 9 );
+                $dt->subtract( hours => 9 );  # Hardcode Pacific Time
             }
 
             push @games, sprintf( '%d:%02d %s vs %s', $dt->hour, $dt->minute, $row->[1], $row->[3] );
