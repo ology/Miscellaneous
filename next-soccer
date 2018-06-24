@@ -8,8 +8,6 @@ use DateTime;
 use DateTime::Format::DateParse;
 
 my $pat   = shift || '';
-my $depth = shift || undef;
-my $count = shift || undef;
 
 my $found = 0;
 
@@ -19,7 +17,7 @@ system( 'phantomjs', 'next-soccer.js' );
 
 my $html = 'next-soccer.html';
 
-my $te = HTML::TableExtract->new( depth => $depth, count => $count );
+my $te = HTML::TableExtract->new();
 
 $te->parse_file($html);
 
