@@ -21,8 +21,8 @@ my $te = HTML::TableExtract->new();
 
 $te->parse_file($html);
 
-for my $tab ($te->tables) {
-    for my $row ($tab->rows) {
+for my $tab ( $te->tables ) {
+    for my $row ( $tab->rows ) {
         my $string = join ', ', grep { $_ } @$row;
 
         if ( $found && ( $row->[0] =~ /^\d\d:\d\d/ || $row->[0] =~ /^\s\d\d/ || $row->[0] =~ /^Half-time/ ) ) {
