@@ -1,0 +1,52 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use HTML::TableExtract;
+use Date::Manip;
+use DateTime;
+use DateTime::Format::DateParse;
+
+my $pat   = shift || '';
+my $depth = shift || undef;
+my $count = shift || undef;
+
+my $found = 0;
+
+my @games;
+
+system( 'phantomjs', 'scrape.js' );
+
+my $html = 'scraped.html';
+
+my $te = HTML::TableExtract->new( depth => $depth, count => $count );
+
+$te->parse_file($html);
+
+for my $tab ($te->tables) {
+    for my $row ($tab->rows) {
+        my $string = join ', ', grep { $_ } @$row;
+
+        if ( $found && ( $row->[0] =~ /^\d\d:\d\d/ || $row->[0] =~ /^\s\d\d/ || $row->[0] =~ /^Half-time/ ) ) {
+            next unless $row->[2] eq 'stats';
+
+            my $dt;
+
+            if ( $row->[0] =~ /^\d/ ) {
+                my $stamp = UnixDate( $row->[0], "%Y-%m-%dT%H:%M:%S" );
+                $dt = DateTime::Format::DateParse->parse_datetime($stamp);
+                $dt->subtract( hours => 9 );
+            }
+
+            push @games, sprintf( '%d:%02d %s vs %s', $dt->hour, $dt->minute, $row->[1], $row->[3] );
+        }
+        elsif ( $string =~ /$pat/ ) {
+            $found = 1;
+        }
+        else {
+            $found = 0;
+        }
+    }
+}
+
+print join( ', ', @games ), "\n";
