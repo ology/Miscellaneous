@@ -13,7 +13,7 @@ page.open(address, function (status) {
         console.log('Unable to load the address!');
     } else {
         var content = page.content;
-        fs.write(path,content,'w');
+        fs.write(path, content, 'w');
     }
 
     phantom.exit();
