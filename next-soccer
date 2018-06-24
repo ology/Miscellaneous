@@ -47,4 +47,4 @@ for my $tab ( $te->tables ) {
     }
 }
 
-print join( ', ', @games ), "\n";
+print join( "\n", @games ), "\n";
