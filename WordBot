@@ -1,0 +1,70 @@
+#!/usr/bin/env perl
+
+# This code has been superseded by https://github.com/ology/Bot-BasicBot-Pluggable-Module-DateTimeCalc
+
+use strict;
+use warnings;
+
+package WordBot;
+use base qw(Bot::BasicBot);
+
+use lib '/Users/gene/sandbox/Lingua-Word-Parser/lib';
+use Lingua::Word::Parser;
+
+sub help {
+    my $self      = shift;
+    my $arguments = shift;
+
+    $self->say(
+        channel => $arguments->{channel},
+        body    => '',
+    );
+}
+
+sub said {
+    my $self      = shift;
+    my $arguments = shift;
+
+    my $body = '?';
+
+    if ( $arguments->{address} ) {
+        if ( $arguments->{body} =~ /^source$/ ) {
+            $body = 'https://github.com/ology/Miscellaneous/blob/master/WordBot';
+        }
+        elsif ( $arguments->{body} =~ /^parse ([a-zA-Z]+)$/ ) {
+            my $p = Lingua::Word::Parser->new(
+                word => $1,
+                file => 'lexicon.dat',
+            );
+
+            my $known  = $p->knowns;
+            my $combos = $p->power;
+            my $score  = $p->score;
+
+            my @parts;
+            for my $part ( @{ $score->{ [ sort keys %$score ]->[-1] } } ) {
+                push @parts, $part->{partition};
+            }
+
+            $body = join ' | ', @parts;;
+        }
+
+        $self->say(
+            channel => $arguments->{channel},
+            body    => $body,
+        );
+    }
+}
+
+package main;
+
+my $bot = WordBot->new(
+    server      => 'irc.perl.org',
+    port        => '6667',
+    channels    => ['#bottest'],
+    nick        => 'WordBot',
+    name        => 'Gene Boggs Bot',
+    ignore_list => [],
+);
+
+$bot->run();
