@@ -31,7 +31,7 @@ sub said {
         if ( $arguments->{body} =~ /^source$/ ) {
             $body = 'https://github.com/ology/Miscellaneous/blob/master/WordBot';
         }
-        elsif ( $arguments->{body} =~ /^parse ([a-zA-Z]+)$/ ) {
+        elsif ( $arguments->{body} =~ /^part ([a-zA-Z]+)$/ ) {
             my $p = Lingua::Word::Parser->new(
                 word => $1,
                 file => 'lexicon.dat',
@@ -46,7 +46,7 @@ sub said {
                 push @parts, $part->{partition};
             }
 
-            $body = join ' | ', @parts;;
+            $body = join ' | ', @parts;
         }
 
         $self->say(
