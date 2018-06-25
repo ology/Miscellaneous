@@ -31,9 +31,12 @@ sub said {
         if ( $arguments->{body} =~ /^source$/ ) {
             $body = 'https://github.com/ology/Miscellaneous/blob/master/WordBot';
         }
-        elsif ( $arguments->{body} =~ /^part ([a-zA-Z]+)$/ ) {
+        elsif ( $arguments->{body} =~ /^([a-zA-Z]+) ([a-zA-Z]+)$/ ) {
+            my $op   = $1;
+            my $word = $2;
+
             my $p = Lingua::Word::Parser->new(
-                word => $1,
+                word => $word,
                 file => 'lexicon.dat',
             );
 
@@ -43,7 +46,11 @@ sub said {
 
             my @parts;
             for my $part ( @{ $score->{ [ sort keys %$score ]->[-1] } } ) {
-                push @parts, $part->{partition};
+                push @parts,
+                    $op eq 'part'  ? $part->{partition}   :
+                    $op eq 'def'   ? $part->{definition}  :
+                    $op eq 'score' ? $part->{score}       :
+                    $op eq 'fam'   ? $part->{familiarity} : '?';
             }
 
             $body = join ' | ', @parts;
