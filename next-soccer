@@ -7,7 +7,7 @@ use Date::Manip;
 use DateTime;
 use DateTime::Format::DateParse;
 
-my $pat = shift || 'MLS';  # 'World Cup' etc.
+my @pats = @ARGV ? @ARGV : qw( League );
 
 my $found = 0;
 
@@ -34,7 +34,7 @@ for my $tab ( $te->tables ) {
 
             push @games, sprintf( '%d:%02d %s vs %s', $dt->hour, $dt->minute, $row->[1], $row->[3] );
         }
-        elsif ( $string =~ /$pat/ ) {
+        elsif ( grep { $string =~ /$_/ } @pats ) {
             $found = 1;
         }
         else {
