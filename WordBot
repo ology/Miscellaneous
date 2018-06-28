@@ -1,7 +1,4 @@
 #!/usr/bin/env perl
-
-# This code has been superseded by https://github.com/ology/Bot-BasicBot-Pluggable-Module-DateTimeCalc
-
 use strict;
 use warnings;
 
