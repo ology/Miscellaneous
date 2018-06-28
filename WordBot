@@ -32,7 +32,7 @@ sub said {
             $body = 'https://github.com/ology/Miscellaneous/blob/master/WordBot';
         }
         elsif ( $arguments->{body} =~ /^([a-zA-Z]+) ([a-zA-Z]+)$/ ) {
-            my $op   = $1;
+            my $op   = $1;  # Operation
             my $word = $2;
 
             my $p = Lingua::Word::Parser->new(
@@ -40,12 +40,15 @@ sub said {
                 file => 'lexicon.dat',
             );
 
+            # Crunch the numbers:
             my $known  = $p->knowns;
             my $combos = $p->power;
             my $score  = $p->score;
 
             my @parts;
+            # For each partition of the final match...
             for my $part ( @{ $score->{ [ sort keys %$score ]->[-1] } } ) {
+                # Choose the part based on the operation
                 push @parts,
                     $op eq 'part'  ? $part->{partition}   :
                     $op eq 'def'   ? $part->{definition}  :
