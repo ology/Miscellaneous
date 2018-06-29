@@ -38,7 +38,7 @@ for my $tab ( $te->tables ) {
             push @games, sprintf( "\t%d. %d:%02d %s vs %s", $i, $dt->hour, $dt->minute, $row->[1], $row->[3] );
         }
         elsif ( grep { $string =~ /$_/ } @pats ) {
-            push @games, $string;
+            push @games, $row->[0];
             $found = 1;
         }
         else {
