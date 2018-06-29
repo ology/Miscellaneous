@@ -21,6 +21,8 @@ my $te = HTML::TableExtract->new();
 
 $te->parse_file($html);
 
+my $i = 0;
+
 for my $tab ( $te->tables ) {
     for my $row ( $tab->rows ) {
         my $string = join ', ', grep { $_ } @$row;
@@ -32,10 +34,11 @@ for my $tab ( $te->tables ) {
             my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
             $dt->subtract( hours => 9 );  # Hardcode Pacific Time
 
-            push @games, sprintf( '%d:%02d %s vs %s', $dt->hour, $dt->minute, $row->[1], $row->[3] );
+            $i++;
+            push @games, sprintf( "\t%d. %d:%02d %s vs %s", $i, $dt->hour, $dt->minute, $row->[1], $row->[3] );
         }
         elsif ( grep { $string =~ /$_/ } @pats ) {
-#warn(__PACKAGE__,' ',__LINE__," MARK: ",$string,"\n");
+            push @games, $string;
             $found = 1;
         }
         else {
