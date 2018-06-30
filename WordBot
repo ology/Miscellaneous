@@ -14,7 +14,7 @@ sub help {
 
     $self->say(
         channel => $arguments->{channel},
-        body    => '',
+        body    => 'part|def|score|fam $word',
     );
 }
 
