@@ -37,9 +37,9 @@ sub said {
             );
 
             # Crunch the numbers:
-            my $known  = $p->knowns;
-            my $combos = $p->power;
-            my $score  = $p->score;
+            $p->knowns;
+            $p->power;
+            my $score = $p->score;
 
             my @parts;
             # For each partition of the final match...
