@@ -18,7 +18,7 @@ sub help {
 
     $self->say(
         channel => $arguments->{channel},
-        body    => 'source|now|localtime $stamp|dow $stamp|diff $stamp $stamp|{add,sub}_{years,months,days} $offset $stamp',
+        body    => 'source|now|localtime $epoch|dow $stamp|diff $stamp $stamp|{add,sub}_{years,months,days} $offset $stamp',
     );
 }
 
@@ -40,10 +40,9 @@ sub said {
             $body = DateTime->now( time_zone => 'local' );
         }
         # Return the localtime string of a given timestamp
-        elsif ( $arguments->{body} =~ /^localtime $re$/ ) {
+        elsif ( $arguments->{body} =~ /^localtime (\d+)$/ ) {
             my $capture = capture($1);
-
-            $body = scalar( localtime UnixDate( $capture, '%s') );
+            $body = scalar localtime $capture;
         }
         # Return the day of the week of a given timestamp
         elsif ( $arguments->{body} =~ /^dow $re$/ ) {
