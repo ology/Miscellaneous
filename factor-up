@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-my $seconds = shift || die "Usage: perl $0 seconds convert_char\n";
+my $seconds = shift || die "Usage: perl $0 seconds m|h|d|w|M|Q|Y use_wks use_qtr\n";
 my $convert = shift || 'Y';
 my $use_wks = shift // 0;
 my $use_qtr = shift // 0;
