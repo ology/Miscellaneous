@@ -57,6 +57,11 @@ else {
 warn(__PACKAGE__,' ',__LINE__," MARK: $M M $d d $h h $m m $s s",,"\n");
 }
 
+if ( $M >= $quarters ) {
+    ( $Q, $M ) = int_rem( $M, $quarters );
+}
+warn(__PACKAGE__,' ',__LINE__," MARK: $Q Q $M M $w w $d d $h h $m m $s s",,"\n");
+
 sub int_rem {
     my ( $frame, $factor ) = @_;
 
