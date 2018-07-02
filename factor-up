@@ -78,9 +78,7 @@ warn(__PACKAGE__,' ',__LINE__," MARK: $Y Y $M M $w w $d d $h h $m m $s s",,"\n")
 sub int_rem {
     my ( $frame, $factor ) = @_;
 
-    my $integer = $frame / $factor;
-
-    $integer =~ s/^(\d+)(?:\.\d+)?$/$1/;
+    my $integer = int $frame / $factor;
 
     my $remainder = $frame % $factor;
 
