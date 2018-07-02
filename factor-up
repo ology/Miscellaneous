@@ -1,0 +1,70 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+my $x       = shift || 789;
+my $use_wks = shift // 0;
+my $use_qtr = shift // 0;
+
+my $minutes  = 60; # seconds
+my $hours    = 60; # minutes
+my $days     = 24; # hours
+my $weeks    = 7;  # days
+my $months   = $use_wks ? 4 : 30;  # weeks or days
+my $quarters = 3;  # months
+my $years    = $use_qtr ? 4 : 12;  # quarters or months
+
+my $s = 0;
+my $m = 0;
+my $h = 0;
+my $d = 0;
+my $w = 0;
+my $M = 0;
+my $Q = 0;
+my $Y = 0;
+
+warn(__PACKAGE__,' ',__LINE__," MARK: $x s",,"\n");
+if ( $x >= $minutes ) {
+    ( $m, $s ) = int_rem( $x, $minutes );
+}
+warn(__PACKAGE__,' ',__LINE__," MARK: $m m $s s",,"\n");
+
+if ( $m >= $hours ) {
+    ( $h, $m ) = int_rem( $m, $hours );
+}
+warn(__PACKAGE__,' ',__LINE__," MARK: $h h $m m $s s",,"\n");
+
+if ( $h >= $days ) {
+    ( $d, $h ) = int_rem( $h, $days );
+}
+warn(__PACKAGE__,' ',__LINE__," MARK: $d d $h h $m m $s s",,"\n");
+
+if ( $use_wks ) {
+    if ( $d >= $weeks ) {
+        ( $w, $d ) = int_rem( $d, $weeks );
+    }
+warn(__PACKAGE__,' ',__LINE__," MARK: $w w $d d $h h $m m $s s",,"\n");
+
+    if ( $w >= $months ) {
+        ( $M, $w ) = int_rem( $w, $months );
+    }
+warn(__PACKAGE__,' ',__LINE__," MARK: $M M $w w $d d $h h $m m $s s",,"\n");
+}
+else {
+    if ( $d >= $months ) {
+        ( $M, $d ) = int_rem( $d, $months );
+    }
+warn(__PACKAGE__,' ',__LINE__," MARK: $M M $d d $h h $m m $s s",,"\n");
+}
+
+sub int_rem {
+    my ( $frame, $factor ) = @_;
+
+    my $integer = $frame / $factor;
+
+    $integer =~ s/^(\d+)(?:\.\d+)?$/$1/;
+
+    my $remainder = $frame % $factor;
+
+    return $integer, $remainder;
+}
