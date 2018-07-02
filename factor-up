@@ -25,7 +25,7 @@ my $Y = 0;
 
 warn(__PACKAGE__,' ',__LINE__," MARK: $seconds s",,"\n");
 if ( $seconds >= $minutes ) {
-    ( $m, $seconds ) = int_rem( $seconds, $minutes );
+    ( $m, $s ) = int_rem( $seconds, $minutes );
 }
 warn(__PACKAGE__,' ',__LINE__," MARK: $m m $s s",,"\n");
 
