@@ -61,18 +61,18 @@ if ( $use_qtr ) {
     if ( $M >= $quarters ) {
         ( $Q, $M ) = int_rem( $M, $quarters );
     }
-    warn(__PACKAGE__,' ',__LINE__," MARK: $Q Q $M M $w w $d d $h h $m m $s s",,"\n");
+warn(__PACKAGE__,' ',__LINE__," MARK: $Q Q $M M $w w $d d $h h $m m $s s",,"\n");
 
     if ( $Q >= $years ) {
         ( $Y, $Q ) = int_rem( $Q, $years );
     }
-    warn(__PACKAGE__,' ',__LINE__," MARK: $Y Y $Q Q $M M $w w $d d $h h $m m $s s",,"\n");
+warn(__PACKAGE__,' ',__LINE__," MARK: $Y Y $Q Q $M M $w w $d d $h h $m m $s s",,"\n");
 }
 else {
     if ( $M >= $years ) {
         ( $Y, $M ) = int_rem( $M, $years );
     }
-    warn(__PACKAGE__,' ',__LINE__," MARK: $Y Y $M M $w w $d d $h h $m m $s s",,"\n");
+warn(__PACKAGE__,' ',__LINE__," MARK: $Y Y $M M $w w $d d $h h $m m $s s",,"\n");
 }
 
 sub int_rem {
