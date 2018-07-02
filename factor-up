@@ -12,7 +12,7 @@ my $hours    = 60; # minutes
 my $days     = 24; # hours
 my $weeks    = 7;  # days
 my $months   = $use_wks ? 4 : 30;  # weeks or days
-my $quarters = 4;  # months
+my $quarters = 3;  # months
 my $years    = $use_qtr ? 4 : 12;  # quarters or months
 
 my $s = 0;
