@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 my $seconds = shift || 789;
+my $convert = shift || 'Y';
 my $use_wks = shift // 0;
 my $use_qtr = shift // 0;
 
@@ -23,56 +24,65 @@ my $M = 0;
 my $Q = 0;
 my $Y = 0;
 
-warn(__PACKAGE__,' ',__LINE__," MARK: $seconds s",,"\n");
+print "$seconds s\n";
 if ( $seconds >= $minutes ) {
     ( $m, $s ) = int_rem( $seconds, $minutes );
 }
-warn(__PACKAGE__,' ',__LINE__," MARK: $m m $s s",,"\n");
+print "$m m $s s\n";
+exit if $convert eq 'm';
 
 if ( $m >= $hours ) {
     ( $h, $m ) = int_rem( $m, $hours );
 }
-warn(__PACKAGE__,' ',__LINE__," MARK: $h h $m m $s s",,"\n");
+print "$h h $m m $s s\n";
+exit if $convert eq 'h';
 
 if ( $h >= $days ) {
     ( $d, $h ) = int_rem( $h, $days );
 }
-warn(__PACKAGE__,' ',__LINE__," MARK: $d d $h h $m m $s s",,"\n");
+print "$d d $h h $m m $s s\n";
+exit if $convert eq 'd';
 
 if ( $use_wks ) {
     if ( $d >= $weeks ) {
         ( $w, $d ) = int_rem( $d, $weeks );
     }
-warn(__PACKAGE__,' ',__LINE__," MARK: $w w $d d $h h $m m $s s",,"\n");
+    print "$w w $d d $h h $m m $s s\n";
+    exit if $convert eq 'w';
 
     if ( $w >= $months ) {
         ( $M, $w ) = int_rem( $w, $months );
     }
-warn(__PACKAGE__,' ',__LINE__," MARK: $M M $w w $d d $h h $m m $s s",,"\n");
+    print "$M M $w w $d d $h h $m m $s s\n";
+    exit if $convert eq 'M';
 }
 else {
     if ( $d >= $months ) {
         ( $M, $d ) = int_rem( $d, $months );
     }
-warn(__PACKAGE__,' ',__LINE__," MARK: $M M $d d $h h $m m $s s",,"\n");
+    print "$M M $d d $h h $m m $s s\n";
+    exit if $convert eq 'M';
 }
 
 if ( $use_qtr ) {
     if ( $M >= $quarters ) {
         ( $Q, $M ) = int_rem( $M, $quarters );
     }
-warn(__PACKAGE__,' ',__LINE__," MARK: $Q Q $M M $w w $d d $h h $m m $s s",,"\n");
+    print "$Q Q $M M $w w $d d $h h $m m $s s\n";
+    exit if $convert eq 'Q';
 
     if ( $Q >= $years ) {
         ( $Y, $Q ) = int_rem( $Q, $years );
     }
-warn(__PACKAGE__,' ',__LINE__," MARK: $Y Y $Q Q $M M $w w $d d $h h $m m $s s",,"\n");
+    print "$Y Y $Q Q $M M $w w $d d $h h $m m $s s\n";
+    exit if $convert eq 'Y';
 }
 else {
     if ( $M >= $years ) {
         ( $Y, $M ) = int_rem( $M, $years );
     }
-warn(__PACKAGE__,' ',__LINE__," MARK: $Y Y $M M $w w $d d $h h $m m $s s",,"\n");
+    print "$Y Y $M M $w w $d d $h h $m m $s s\n";
+    exit if $convert eq 'Y';
 }
 
 sub int_rem {
