@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-my $x       = shift || 789;
+my $seconds = shift || 789;
 my $use_wks = shift // 0;
 my $use_qtr = shift // 0;
 
@@ -23,9 +23,9 @@ my $M = 0;
 my $Q = 0;
 my $Y = 0;
 
-warn(__PACKAGE__,' ',__LINE__," MARK: $x s",,"\n");
-if ( $x >= $minutes ) {
-    ( $m, $s ) = int_rem( $x, $minutes );
+warn(__PACKAGE__,' ',__LINE__," MARK: $seconds s",,"\n");
+if ( $seconds >= $minutes ) {
+    ( $m, $seconds ) = int_rem( $seconds, $minutes );
 }
 warn(__PACKAGE__,' ',__LINE__," MARK: $m m $s s",,"\n");
 
