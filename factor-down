@@ -1,0 +1,141 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+my $number  = shift || die "Usage: perl $0 number m|h|d|w|M|Q|Y s|m|h|d|w|M|Q use_wks use_qtr\n";
+my $from    = shift || 'Y';
+my $to      = shift || 's';
+my $use_wks = shift // 0;
+my $use_qtr = shift // 0;
+
+my %span = (
+    minute  => 60, # seconds
+    hour    => 60, # minutes
+    day     => 24, # hours
+    week    => 7,  # days
+    month   => $use_wks ? 4 : 30,  # weeks or days
+    quarter => 3,  # months
+    year    => $use_qtr ? 4 : 12,  # quarters or months
+);
+
+my $result = 0;
+
+if ( $to eq 's' ) {
+    if ( $from eq 'm' ) {
+        $result = $number * $span{minute};
+    }
+    elsif ( $from eq 'h' ) {
+        $result = $number * $span{minute} * $span{hour};
+    }
+    elsif ( $from eq 'd' ) {
+        $result = $number * $span{minute} * $span{hour} * $span{day};
+    }
+    elsif ( $from eq 'w' ) {
+        $result = $number * $span{minute} * $span{hour} * $span{day} * $span{week};
+    }
+    elsif ( $from eq 'M' ) {
+        $result = $number * $span{minute} * $span{hour} * $span{day} * week0() * $span{month};
+    }
+    elsif ( $from eq 'Q' ) {
+        $result = $number * $span{minute} * $span{hour} * $span{day} * week0() * $span{month} * $span{quarter};
+    }
+    elsif ( $from eq 'Y' ) {
+        $result = $number * $span{minute} * $span{hour} * $span{day} * week0() * $span{month} * quarter0() * $span{year};
+    }
+    printf "%ds\n", $result;
+}
+
+if ( $to eq 'm' ) {
+    if ( $from eq 'h' ) {
+        $result = $number * $span{hour};
+    }
+    elsif ( $from eq 'd' ) {
+        $result = $number * $span{hour} * $span{day};
+    }
+    elsif ( $from eq 'w' ) {
+        $result = $number * $span{hour} * $span{day} * $span{week};
+    }
+    elsif ( $from eq 'M' ) {
+        $result = $number * $span{hour} * $span{day} * week0() * $span{month};
+    }
+    elsif ( $from eq 'Q' ) {
+        $result = $number * $span{hour} * $span{day} * week0() * $span{month} * $span{quarter};
+    }
+    elsif ( $from eq 'Y' ) {
+        $result = $number * $span{hour} * $span{day} * week0() * $span{month} * quarter0() * $span{year};
+    }
+    printf "%dm\n", $result;
+}
+
+if ( $to eq 'h' ) {
+    if ( $from eq 'd' ) {
+        $result = $number * $span{day};
+    }
+    elsif ( $from eq 'w' ) {
+        $result = $number * $span{day} * $span{week};
+    }
+    elsif ( $from eq 'M' ) {
+        $result = $number * $span{day} * week0() * $span{month};
+    }
+    elsif ( $from eq 'Q' ) {
+        $result = $number * $span{day} * week0() * $span{month} * $span{quarter};
+    }
+    elsif ( $from eq 'Y' ) {
+        $result = $number * $span{day} * week0() * $span{month} * quarter0() * $span{year};
+    }
+    printf "%dh\n", $result;
+}
+
+if ( $to eq 'd' ) {
+    if ( $from eq 'w' ) {
+        $result = $number * $span{week};
+    }
+    elsif ( $from eq 'M' ) {
+        $result = $number * week0() * $span{month};
+    }
+    elsif ( $from eq 'Q' ) {
+        $result = $number * week0() * $span{month} * $span{quarter};
+    }
+    elsif ( $from eq 'Y' ) {
+        $result = $number * week0() * $span{month} * quarter0() * $span{year};
+    }
+    printf "%dd\n", $result;
+}
+
+if ( $to eq 'w' ) {
+    if ( $from eq 'M' ) {
+        $result = $number * $span{month};
+    }
+    elsif ( $from eq 'Q' ) {
+        $result = $number * $span{month} * $span{quarter};
+    }
+    elsif ( $from eq 'Y' ) {
+        $result = $number * $span{month} * quarter0() * $span{year};
+    }
+    printf "%dw\n", $result;
+}
+
+if ( $to eq 'M' ) {
+    if ( $from eq 'Q' ) {
+        $result = $number * $span{quarter};
+    }
+    elsif ( $from eq 'Y' ) {
+        $result = $number * quarter0() * $span{year};
+    }
+    printf "%dM\n", $result;
+}
+
+if ( $to eq 'Q' ) {
+    if ( $from eq 'Y' ) {
+        $result = $number * $span{year};
+    }
+    printf "%dQ\n", $result;
+}
+
+sub week0 {
+    return $use_wks ? $span{week} : 1;
+}
+
+sub quarter0 {
+    return $use_qtr ? $span{quarter} : 1;
+}
