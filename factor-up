@@ -8,13 +8,15 @@ my $to      = shift || 'Y';
 my $use_wks = shift // 0;
 my $use_qtr = shift // 0;
 
-my $minute_num  = 60; # seconds
-my $hour_num    = 60; # minutes
-my $day_num     = 24; # hours
-my $week_num    = 7;  # days
-my $month_num   = $use_wks ? 4 : 30;  # weeks or days
-my $quarter_num = 3;  # months
-my $year_num    = $use_qtr ? 4 : 12;  # quarters or months
+my %span = (
+    minute  => 60, # seconds
+    hour    => 60, # minutes
+    day     => 24, # hours
+    week    => 7,  # days
+    month   => $use_wks ? 4 : 30,  # weeks or days
+    quarter => 3,  # months
+    year    => $use_qtr ? 4 : 12,  # quarters or months
+);
 
 my $seconds  = 0;
 my $minutes  = 0;
@@ -52,24 +54,24 @@ elsif ( $from eq 'Y' ) {
 
 if ( $from eq 's' ) {
     print "$seconds s\n";
-    if ( $seconds >= $minute_num ) {
-        ( $minutes, $seconds ) = int_rem( $seconds, $minute_num );
+    if ( $seconds >= $span{minute} ) {
+        ( $minutes, $seconds ) = int_rem( $seconds, $span{minute} );
     }
     printf "%dm %ds\n", $minutes, $seconds;
     exit if $to eq 'm';
 }
 
 if ( grep { $from eq $_ } qw( s m ) ) {
-    if ( $minutes >= $hour_num ) {
-        ( $hours, $minutes ) = int_rem( $minutes, $hour_num );
+    if ( $minutes >= $span{hour} ) {
+        ( $hours, $minutes ) = int_rem( $minutes, $span{hour} );
     }
     printf "%dh %dm %ds\n", $hours, $minutes, $seconds;
     exit if $to eq 'h';
 }
 
 if ( grep { $from eq $_ } qw( s m h ) ) {
-    if ( $hours >= $day_num ) {
-        ( $days, $hours ) = int_rem( $hours, $day_num );
+    if ( $hours >= $span{day} ) {
+        ( $days, $hours ) = int_rem( $hours, $span{day} );
     }
     printf "%dd %dh %dm %ds\n", $days, $hours, $minutes, $seconds;
     exit if $to eq 'd';
@@ -77,8 +79,8 @@ if ( grep { $from eq $_ } qw( s m h ) ) {
 
 if ( $use_wks ) {
     if ( grep { $from eq $_ } qw( s m h d ) ) {
-        if ( $days >= $week_num ) {
-            ( $weeks, $days ) = int_rem( $days, $week_num );
+        if ( $days >= $span{week} ) {
+            ( $weeks, $days ) = int_rem( $days, $span{week} );
         }
         printf "%dw %dd %dh %dm %ds\n",
             $weeks, $days, $hours, $minutes, $seconds;
@@ -86,8 +88,8 @@ if ( $use_wks ) {
     }
 
     if ( grep { $from eq $_ } qw( s m h d w ) ) {
-        if ( $weeks >= $month_num ) {
-            ( $months, $weeks ) = int_rem( $weeks, $month_num );
+        if ( $weeks >= $span{month} ) {
+            ( $months, $weeks ) = int_rem( $weeks, $span{month} );
         }
         printf "%dM %dw %dd %dh %dm %ds\n",
             $months, $weeks, $days, $hours, $minutes, $seconds;
@@ -96,8 +98,8 @@ if ( $use_wks ) {
 }
 else {
     if ( grep { $from eq $_ } qw( s m h d ) ) {
-        if ( $days >= $month_num ) {
-            ( $months, $days ) = int_rem( $days, $month_num );
+        if ( $days >= $span{month} ) {
+            ( $months, $days ) = int_rem( $days, $span{month} );
         }
         printf "%dM %dd %dh %dm %ds\n",
             $months, $days, $hours, $minutes, $seconds;
@@ -107,8 +109,8 @@ else {
 
 if ( $use_qtr ) {
     if ( grep { $from eq $_ } qw( s m h d w M ) ) {
-        if ( $months >= $quarter_num ) {
-            ( $quarters, $months ) = int_rem( $months, $quarter_num );
+        if ( $months >= $span{quarter} ) {
+            ( $quarters, $months ) = int_rem( $months, $span{quarter} );
         }
         printf "%dQ %dM %dw %dd %dh %dm %ds\n",
             $quarters, $months, $weeks, $days, $hours, $minutes, $seconds;
@@ -116,8 +118,8 @@ if ( $use_qtr ) {
     }
 
     if ( grep { $from eq $_ } qw( s m h d w M Q ) ) {
-        if ( $quarters >= $year_num ) {
-            ( $years, $quarters ) = int_rem( $quarters, $year_num );
+        if ( $quarters >= $span{year} ) {
+            ( $years, $quarters ) = int_rem( $quarters, $span{year} );
         }
         printf "%dY %dQ %dM %dw %dd %dh %dm %ds\n",
             $years, $quarters, $months, $weeks, $days, $hours, $minutes, $seconds;
@@ -125,8 +127,8 @@ if ( $use_qtr ) {
 }
 else {
     if ( grep { $from eq $_ } qw( s m h d w M ) ) {
-        if ( $months >= $year_num ) {
-            ( $years, $months ) = int_rem( $months, $year_num );
+        if ( $months >= $span{year} ) {
+            ( $years, $months ) = int_rem( $months, $span{year} );
         }
         printf "%dY %dM %dw %dd %dh %dm %ds\n",
             $years, $months, $weeks, $days, $hours, $minutes, $seconds;
