@@ -130,8 +130,7 @@ else {
 sub int_rem {
     my ( $frame, $factor ) = @_;
 
-    my $integer = int $frame / $factor;
-
+    my $integer   = int $frame / $factor;
     my $remainder = $frame % $factor;
 
     return $integer, $remainder;
