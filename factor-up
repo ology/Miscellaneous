@@ -51,82 +51,82 @@ elsif ( $from eq 'Y' ) {
 }
 
 if ( $from eq 's' ) {
-print "$s s\n";
-if ( $s >= $minutes ) {
-    ( $m, $s ) = int_rem( $s, $minutes );
-}
-print "$m m $s s\n";
-exit if $to eq 'm';
+    print "$s s\n";
+    if ( $s >= $minutes ) {
+        ( $m, $s ) = int_rem( $s, $minutes );
+    }
+    print "$m m $s s\n";
+    exit if $to eq 'm';
 }
 
 if ( grep { $from eq $_ } qw( s m ) ) {
-if ( $m >= $hours ) {
-    ( $h, $m ) = int_rem( $m, $hours );
-}
-print "$h h $m m $s s\n";
-exit if $to eq 'h';
+    if ( $m >= $hours ) {
+        ( $h, $m ) = int_rem( $m, $hours );
+    }
+    print "$h h $m m $s s\n";
+    exit if $to eq 'h';
 }
 
 if ( grep { $from eq $_ } qw( s m h ) ) {
-if ( $h >= $days ) {
-    ( $d, $h ) = int_rem( $h, $days );
-}
-print "$d d $h h $m m $s s\n";
-exit if $to eq 'd';
+    if ( $h >= $days ) {
+        ( $d, $h ) = int_rem( $h, $days );
+    }
+    print "$d d $h h $m m $s s\n";
+    exit if $to eq 'd';
 }
 
 if ( $use_wks ) {
-if ( grep { $from eq $_ } qw( s m h d ) ) {
-    if ( $d >= $weeks ) {
-        ( $w, $d ) = int_rem( $d, $weeks );
+    if ( grep { $from eq $_ } qw( s m h d ) ) {
+        if ( $d >= $weeks ) {
+            ( $w, $d ) = int_rem( $d, $weeks );
+        }
+        print "$w w $d d $h h $m m $s s\n";
+        exit if $to eq 'w';
     }
-    print "$w w $d d $h h $m m $s s\n";
-    exit if $to eq 'w';
-}
 
-if ( grep { $from eq $_ } qw( s m h d w ) ) {
-    if ( $w >= $months ) {
-        ( $M, $w ) = int_rem( $w, $months );
+    if ( grep { $from eq $_ } qw( s m h d w ) ) {
+        if ( $w >= $months ) {
+            ( $M, $w ) = int_rem( $w, $months );
+        }
+        print "$M M $w w $d d $h h $m m $s s\n";
+        exit if $to eq 'M';
     }
-    print "$M M $w w $d d $h h $m m $s s\n";
-    exit if $to eq 'M';
-}
 }
 else {
-if ( grep { $from eq $_ } qw( s m h d ) ) {
-    if ( $d >= $months ) {
-        ( $M, $d ) = int_rem( $d, $months );
+    if ( grep { $from eq $_ } qw( s m h d ) ) {
+        if ( $d >= $months ) {
+            ( $M, $d ) = int_rem( $d, $months );
+        }
+        print "$M M $d d $h h $m m $s s\n";
+        exit if $to eq 'M';
     }
-    print "$M M $d d $h h $m m $s s\n";
-    exit if $to eq 'M';
-}
 }
 
 if ( $use_qtr ) {
-if ( grep { $from eq $_ } qw( s m h d w M ) ) {
-    if ( $M >= $quarters ) {
-        ( $Q, $M ) = int_rem( $M, $quarters );
+    if ( grep { $from eq $_ } qw( s m h d w M ) ) {
+        if ( $M >= $quarters ) {
+            ( $Q, $M ) = int_rem( $M, $quarters );
+        }
+        print "$Q Q $M M $w w $d d $h h $m m $s s\n";
+        exit if $to eq 'Q';
     }
-    print "$Q Q $M M $w w $d d $h h $m m $s s\n";
-    exit if $to eq 'Q';
-}
 
-if ( grep { $from eq $_ } qw( s m h d w M Q ) ) {
-    if ( $Q >= $years ) {
-        ( $Y, $Q ) = int_rem( $Q, $years );
+    if ( grep { $from eq $_ } qw( s m h d w M Q ) ) {
+        if ( $Q >= $years ) {
+            ( $Y, $Q ) = int_rem( $Q, $years );
+        }
+        print "$Y Y $Q Q $M M $w w $d d $h h $m m $s s\n";
+        exit if $to eq 'Y';
     }
-    print "$Y Y $Q Q $M M $w w $d d $h h $m m $s s\n";
-    exit if $to eq 'Y';
-}
 }
 else {
-if ( grep { $from eq $_ } qw( s m h d w M ) ) {
-    if ( $M >= $years ) {
-        ( $Y, $M ) = int_rem( $M, $years );
+    if ( grep { $from eq $_ } qw( s m h d w M ) ) {
+        if ( $M >= $years ) {
+            ( $Y, $M ) = int_rem( $M, $years );
+        }
+        print "$Y Y $M M $w w $d d $h h $m m $s s\n";
+        exit if $to eq 'Y';
     }
-    print "$Y Y $M M $w w $d d $h h $m m $s s\n";
-    exit if $to eq 'Y';
-}
 }
 
 sub int_rem {
