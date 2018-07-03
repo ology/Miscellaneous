@@ -80,7 +80,8 @@ if ( $use_wks ) {
         if ( $days >= $week_num ) {
             ( $weeks, $days ) = int_rem( $days, $week_num );
         }
-        printf "%dw %dd %dh %dm %ds\n", $weeks, $days, $hours, $minutes, $seconds;
+        printf "%dw %dd %dh %dm %ds\n",
+            $weeks, $days, $hours, $minutes, $seconds;
         exit if $to eq 'w';
     }
 
@@ -88,7 +89,8 @@ if ( $use_wks ) {
         if ( $weeks >= $month_num ) {
             ( $months, $weeks ) = int_rem( $weeks, $month_num );
         }
-        printf "%dM %dw %dd %dh %dm %ds\n", $months, $weeks, $days, $hours, $minutes, $seconds;
+        printf "%dM %dw %dd %dh %dm %ds\n",
+            $months, $weeks, $days, $hours, $minutes, $seconds;
         exit if $to eq 'M';
     }
 }
@@ -97,7 +99,8 @@ else {
         if ( $days >= $month_num ) {
             ( $months, $days ) = int_rem( $days, $month_num );
         }
-        printf "%dM %dd %dh %dm %ds\n", $months, $days, $hours, $minutes, $seconds;
+        printf "%dM %dd %dh %dm %ds\n",
+            $months, $days, $hours, $minutes, $seconds;
         exit if $to eq 'M';
     }
 }
@@ -107,7 +110,8 @@ if ( $use_qtr ) {
         if ( $months >= $quarter_num ) {
             ( $quarters, $months ) = int_rem( $months, $quarter_num );
         }
-        printf "%dQ %dM %dw %dd %dh %dm %ds\n", $quarters, $months, $weeks, $days, $hours, $minutes, $seconds;
+        printf "%dQ %dM %dw %dd %dh %dm %ds\n",
+            $quarters, $months, $weeks, $days, $hours, $minutes, $seconds;
         exit if $to eq 'Q';
     }
 
@@ -115,7 +119,8 @@ if ( $use_qtr ) {
         if ( $quarters >= $year_num ) {
             ( $years, $quarters ) = int_rem( $quarters, $year_num );
         }
-        printf "%dY %dQ %dM %dw %dd %dh %dm %ds\n", $years, $quarters, $months, $weeks, $days, $hours, $minutes, $seconds;
+        printf "%dY %dQ %dM %dw %dd %dh %dm %ds\n",
+            $years, $quarters, $months, $weeks, $days, $hours, $minutes, $seconds;
     }
 }
 else {
@@ -123,7 +128,8 @@ else {
         if ( $months >= $year_num ) {
             ( $years, $months ) = int_rem( $months, $year_num );
         }
-        printf "%dY %dM %dw %dd %dh %dm %ds\n", $years, $months, $weeks, $days, $hours, $minutes, $seconds;
+        printf "%dY %dM %dw %dd %dh %dm %ds\n",
+            $years, $months, $weeks, $days, $hours, $minutes, $seconds;
     }
 }
 
