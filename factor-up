@@ -136,10 +136,10 @@ else {
 }
 
 sub int_rem {
-    my ( $frame, $factor ) = @_;
+    my ( $frame, $span ) = @_;
 
-    my $integer   = int $frame / $factor;
-    my $remainder = $frame % $factor;
+    my $integer   = int $frame / $span;
+    my $remainder = $frame % $span;
 
     return $integer, $remainder;
 }
