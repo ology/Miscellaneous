@@ -2,8 +2,9 @@
 use strict;
 use warnings;
 
-my $number  = shift || die "Usage: perl $0 seconds m|h|d|w|M|Q|Y use_wks use_qtr\n";
-my $convert = shift || 'Y';
+my $number  = shift || die "Usage: perl $0 number m|h|d|w|M|Q|Y m|h|d|w|M|Q|Y use_wks use_qtr\n";
+my $from    = shift || 's';
+my $to      = shift || 'Y';
 my $use_wks = shift // 0;
 my $use_qtr = shift // 0;
 
@@ -15,7 +16,7 @@ my $months   = $use_wks ? 4 : 30;  # weeks or days
 my $quarters = 3;  # months
 my $years    = $use_qtr ? 4 : 12;  # quarters or months
 
-my $s = $number;
+my $s = 0;
 my $m = 0;
 my $h = 0;
 my $d = 0;
@@ -24,65 +25,108 @@ my $M = 0;
 my $Q = 0;
 my $Y = 0;
 
+if ( $from eq 's' ) {
+    $s = $number;
+}
+elsif ( $from eq 'm' ) {
+    $m = $number;
+}
+elsif ( $from eq 'h' ) {
+    $h = $number;
+}
+elsif ( $from eq 'd' ) {
+    $d = $number;
+}
+elsif ( $from eq 'w' ) {
+    $w = $number;
+}
+elsif ( $from eq 'M' ) {
+    $M = $number;
+}
+elsif ( $from eq 'Q' ) {
+    $Q = $number;
+}
+elsif ( $from eq 'Y' ) {
+    $Y = $number;
+}
+
+if ( $from eq 's' ) {
 print "$s s\n";
 if ( $s >= $minutes ) {
     ( $m, $s ) = int_rem( $s, $minutes );
 }
 print "$m m $s s\n";
-exit if $convert eq 'm';
+exit if $to eq 'm';
+}
 
+if ( $from eq 's' || $from eq 'm' ) {
 if ( $m >= $hours ) {
     ( $h, $m ) = int_rem( $m, $hours );
 }
 print "$h h $m m $s s\n";
-exit if $convert eq 'h';
+exit if $to eq 'h';
+}
 
+if ( $from eq 's' || $from eq 'm' || $from eq 'h' ) {
 if ( $h >= $days ) {
     ( $d, $h ) = int_rem( $h, $days );
 }
 print "$d d $h h $m m $s s\n";
-exit if $convert eq 'd';
+exit if $to eq 'd';
+}
 
 if ( $use_wks ) {
+if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' ) {
     if ( $d >= $weeks ) {
         ( $w, $d ) = int_rem( $d, $weeks );
     }
     print "$w w $d d $h h $m m $s s\n";
-    exit if $convert eq 'w';
+    exit if $to eq 'w';
+}
 
+if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w' ) {
     if ( $w >= $months ) {
         ( $M, $w ) = int_rem( $w, $months );
     }
     print "$M M $w w $d d $h h $m m $s s\n";
-    exit if $convert eq 'M';
+    exit if $to eq 'M';
+}
 }
 else {
+if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' ) {
     if ( $d >= $months ) {
         ( $M, $d ) = int_rem( $d, $months );
     }
     print "$M M $d d $h h $m m $s s\n";
-    exit if $convert eq 'M';
+    exit if $to eq 'M';
+}
 }
 
 if ( $use_qtr ) {
+if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w' || $from eq 'M' ) {
     if ( $M >= $quarters ) {
         ( $Q, $M ) = int_rem( $M, $quarters );
     }
     print "$Q Q $M M $w w $d d $h h $m m $s s\n";
-    exit if $convert eq 'Q';
+    exit if $to eq 'Q';
+}
 
+if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w' || $from eq 'M' || $from eq 'Q' ) {
     if ( $Q >= $years ) {
         ( $Y, $Q ) = int_rem( $Q, $years );
     }
     print "$Y Y $Q Q $M M $w w $d d $h h $m m $s s\n";
-    exit if $convert eq 'Y';
+    exit if $to eq 'Y';
+}
 }
 else {
+if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w' || $from eq 'M' ) {
     if ( $M >= $years ) {
         ( $Y, $M ) = int_rem( $M, $years );
     }
     print "$Y Y $M M $w w $d d $h h $m m $s s\n";
-    exit if $convert eq 'Y';
+    exit if $to eq 'Y';
+}
 }
 
 sub int_rem {
