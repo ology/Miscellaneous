@@ -8,123 +8,123 @@ my $to      = shift || 'Y';
 my $use_wks = shift // 0;
 my $use_qtr = shift // 0;
 
-my $minutes  = 60; # seconds
-my $hours    = 60; # minutes
-my $days     = 24; # hours
-my $weeks    = 7;  # days
-my $months   = $use_wks ? 4 : 30;  # weeks or days
-my $quarters = 3;  # months
-my $years    = $use_qtr ? 4 : 12;  # quarters or months
+my $minute_num  = 60; # seconds
+my $hour_num    = 60; # minutes
+my $day_num     = 24; # hours
+my $week_num    = 7;  # days
+my $month_num   = $use_wks ? 4 : 30;  # weeks or days
+my $quarter_num = 3;  # months
+my $year_num    = $use_qtr ? 4 : 12;  # quarters or months
 
-my $s = 0;
-my $m = 0;
-my $h = 0;
-my $d = 0;
-my $w = 0;
-my $M = 0;
-my $Q = 0;
-my $Y = 0;
+my $seconds  = 0;
+my $minutes  = 0;
+my $hours    = 0;
+my $days     = 0;
+my $weeks    = 0;
+my $months   = 0;
+my $quarters = 0;
+my $years    = 0;
 
 if ( $from eq 's' ) {
-    $s = $number;
+    $seconds = $number;
 }
 elsif ( $from eq 'm' ) {
-    $m = $number;
+    $minutes = $number;
 }
 elsif ( $from eq 'h' ) {
-    $h = $number;
+    $hours = $number;
 }
 elsif ( $from eq 'd' ) {
-    $d = $number;
+    $days = $number;
 }
 elsif ( $from eq 'w' ) {
-    $w = $number;
+    $weeks = $number;
 }
 elsif ( $from eq 'M' ) {
-    $M = $number;
+    $months = $number;
 }
 elsif ( $from eq 'Q' ) {
-    $Q = $number;
+    $quarters = $number;
 }
 elsif ( $from eq 'Y' ) {
-    $Y = $number;
+    $years = $number;
 }
 
 if ( $from eq 's' ) {
-    print "$s s\n";
-    if ( $s >= $minutes ) {
-        ( $m, $s ) = int_rem( $s, $minutes );
+    print "$seconds s\n";
+    if ( $seconds >= $minute_num ) {
+        ( $minutes, $seconds ) = int_rem( $seconds, $minute_num );
     }
-    print "$m m $s s\n";
+    print "$minutes m $seconds s\n";
     exit if $to eq 'm';
 }
 
 if ( grep { $from eq $_ } qw( s m ) ) {
-    if ( $m >= $hours ) {
-        ( $h, $m ) = int_rem( $m, $hours );
+    if ( $minutes >= $hour_num ) {
+        ( $hours, $minutes ) = int_rem( $minutes, $hour_num );
     }
-    print "$h h $m m $s s\n";
+    print "$hours h $minutes m $seconds s\n";
     exit if $to eq 'h';
 }
 
 if ( grep { $from eq $_ } qw( s m h ) ) {
-    if ( $h >= $days ) {
-        ( $d, $h ) = int_rem( $h, $days );
+    if ( $hours >= $day_num ) {
+        ( $days, $hours ) = int_rem( $hours, $day_num );
     }
-    print "$d d $h h $m m $s s\n";
+    print "$days d $hours h $minutes m $seconds s\n";
     exit if $to eq 'd';
 }
 
 if ( $use_wks ) {
     if ( grep { $from eq $_ } qw( s m h d ) ) {
-        if ( $d >= $weeks ) {
-            ( $w, $d ) = int_rem( $d, $weeks );
+        if ( $days >= $week_num ) {
+            ( $weeks, $days ) = int_rem( $days, $week_num );
         }
-        print "$w w $d d $h h $m m $s s\n";
+        print "$weeks w $days d $hours h $minutes m $seconds s\n";
         exit if $to eq 'w';
     }
 
     if ( grep { $from eq $_ } qw( s m h d w ) ) {
-        if ( $w >= $months ) {
-            ( $M, $w ) = int_rem( $w, $months );
+        if ( $weeks >= $month_num ) {
+            ( $months, $weeks ) = int_rem( $weeks, $month_num );
         }
-        print "$M M $w w $d d $h h $m m $s s\n";
+        print "$months M $weeks w $days d $hours h $minutes m $seconds s\n";
         exit if $to eq 'M';
     }
 }
 else {
     if ( grep { $from eq $_ } qw( s m h d ) ) {
-        if ( $d >= $months ) {
-            ( $M, $d ) = int_rem( $d, $months );
+        if ( $days >= $month_num ) {
+            ( $months, $days ) = int_rem( $days, $month_num );
         }
-        print "$M M $d d $h h $m m $s s\n";
+        print "$months M $days d $hours h $minutes m $seconds s\n";
         exit if $to eq 'M';
     }
 }
 
 if ( $use_qtr ) {
     if ( grep { $from eq $_ } qw( s m h d w M ) ) {
-        if ( $M >= $quarters ) {
-            ( $Q, $M ) = int_rem( $M, $quarters );
+        if ( $months >= $quarter_num ) {
+            ( $quarters, $months ) = int_rem( $months, $quarter_num );
         }
-        print "$Q Q $M M $w w $d d $h h $m m $s s\n";
+        print "$quarters Q $months M $weeks w $days d $hours h $minutes m $seconds s\n";
         exit if $to eq 'Q';
     }
 
     if ( grep { $from eq $_ } qw( s m h d w M Q ) ) {
-        if ( $Q >= $years ) {
-            ( $Y, $Q ) = int_rem( $Q, $years );
+        if ( $quarters >= $year_num ) {
+            ( $years, $quarters ) = int_rem( $quarters, $year_num );
         }
-        print "$Y Y $Q Q $M M $w w $d d $h h $m m $s s\n";
+        print "$years Y $quarters Q $months M $weeks w $days d $hours h $minutes m $seconds s\n";
         exit if $to eq 'Y';
     }
 }
 else {
     if ( grep { $from eq $_ } qw( s m h d w M ) ) {
-        if ( $M >= $years ) {
-            ( $Y, $M ) = int_rem( $M, $years );
+        if ( $months >= $year_num ) {
+            ( $years, $months ) = int_rem( $months, $year_num );
         }
-        print "$Y Y $M M $w w $d d $h h $m m $s s\n";
+        print "$years Y $months M $weeks w $days d $hours h $minutes m $seconds s\n";
         exit if $to eq 'Y';
     }
 }
