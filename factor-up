@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-my $number  = shift || die "Usage: perl $0 number m|h|d|w|M|Q|Y m|h|d|w|M|Q|Y use_wks use_qtr\n";
+my $number  = shift || die "Usage: perl $0 number s|m|h|d|w|M|Q|Y m|h|d|w|M|Q|Y use_wks use_qtr\n";
 my $from    = shift || 's';
 my $to      = shift || 'Y';
 my $use_wks = shift // 0;
