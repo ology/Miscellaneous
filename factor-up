@@ -55,7 +55,7 @@ if ( $from eq 's' ) {
     if ( $seconds >= $minute_num ) {
         ( $minutes, $seconds ) = int_rem( $seconds, $minute_num );
     }
-    print "$minutes m $seconds s\n";
+    printf "%dm %ds\n", $minutes, $seconds;
     exit if $to eq 'm';
 }
 
@@ -63,7 +63,7 @@ if ( grep { $from eq $_ } qw( s m ) ) {
     if ( $minutes >= $hour_num ) {
         ( $hours, $minutes ) = int_rem( $minutes, $hour_num );
     }
-    print "$hours h $minutes m $seconds s\n";
+    printf "%dh %dm %ds\n", $hours, $minutes, $seconds;
     exit if $to eq 'h';
 }
 
@@ -71,7 +71,7 @@ if ( grep { $from eq $_ } qw( s m h ) ) {
     if ( $hours >= $day_num ) {
         ( $days, $hours ) = int_rem( $hours, $day_num );
     }
-    print "$days d $hours h $minutes m $seconds s\n";
+    printf "%dd %dh %dm %ds\n", $days, $hours, $minutes, $seconds;
     exit if $to eq 'd';
 }
 
@@ -80,7 +80,7 @@ if ( $use_wks ) {
         if ( $days >= $week_num ) {
             ( $weeks, $days ) = int_rem( $days, $week_num );
         }
-        print "$weeks w $days d $hours h $minutes m $seconds s\n";
+        printf "%dw %dd %dh %dm %ds\n", $weeks, $days, $hours, $minutes, $seconds;
         exit if $to eq 'w';
     }
 
@@ -88,7 +88,7 @@ if ( $use_wks ) {
         if ( $weeks >= $month_num ) {
             ( $months, $weeks ) = int_rem( $weeks, $month_num );
         }
-        print "$months M $weeks w $days d $hours h $minutes m $seconds s\n";
+        printf "%dM %dw %dd %dh %dm %ds\n", $months, $weeks, $days, $hours, $minutes, $seconds;
         exit if $to eq 'M';
     }
 }
@@ -97,7 +97,7 @@ else {
         if ( $days >= $month_num ) {
             ( $months, $days ) = int_rem( $days, $month_num );
         }
-        print "$months M $days d $hours h $minutes m $seconds s\n";
+        printf "%dM %dd %dh %dm %ds\n", $months, $days, $hours, $minutes, $seconds;
         exit if $to eq 'M';
     }
 }
@@ -107,7 +107,7 @@ if ( $use_qtr ) {
         if ( $months >= $quarter_num ) {
             ( $quarters, $months ) = int_rem( $months, $quarter_num );
         }
-        print "$quarters Q $months M $weeks w $days d $hours h $minutes m $seconds s\n";
+        printf "%dQ %dM %dw %dd %dh %dm %ds\n", $quarters, $months, $weeks, $days, $hours, $minutes, $seconds;
         exit if $to eq 'Q';
     }
 
@@ -115,7 +115,7 @@ if ( $use_qtr ) {
         if ( $quarters >= $year_num ) {
             ( $years, $quarters ) = int_rem( $quarters, $year_num );
         }
-        print "$years Y $quarters Q $months M $weeks w $days d $hours h $minutes m $seconds s\n";
+        printf "%dY %dQ %dM %dw %dd %dh %dm %ds\n", $years, $quarters, $months, $weeks, $days, $hours, $minutes, $seconds;
     }
 }
 else {
@@ -123,7 +123,7 @@ else {
         if ( $months >= $year_num ) {
             ( $years, $months ) = int_rem( $months, $year_num );
         }
-        print "$years Y $months M $weeks w $days d $hours h $minutes m $seconds s\n";
+        printf "%dY %dM %dw %dd %dh %dm %ds\n", $years, $months, $weeks, $days, $hours, $minutes, $seconds;
     }
 }
 
