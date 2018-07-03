@@ -59,7 +59,7 @@ print "$m m $s s\n";
 exit if $to eq 'm';
 }
 
-if ( $from eq 's' || $from eq 'm' ) {
+if ( grep { $from eq $_ } qw( s m ) ) {
 if ( $m >= $hours ) {
     ( $h, $m ) = int_rem( $m, $hours );
 }
@@ -67,7 +67,7 @@ print "$h h $m m $s s\n";
 exit if $to eq 'h';
 }
 
-if ( $from eq 's' || $from eq 'm' || $from eq 'h' ) {
+if ( grep { $from eq $_ } qw( s m h ) ) {
 if ( $h >= $days ) {
     ( $d, $h ) = int_rem( $h, $days );
 }
@@ -76,7 +76,7 @@ exit if $to eq 'd';
 }
 
 if ( $use_wks ) {
-if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' ) {
+if ( grep { $from eq $_ } qw( s m h d ) ) {
     if ( $d >= $weeks ) {
         ( $w, $d ) = int_rem( $d, $weeks );
     }
@@ -84,7 +84,7 @@ if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' ) {
     exit if $to eq 'w';
 }
 
-if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w' ) {
+if ( grep { $from eq $_ } qw( s m h d w ) ) {
     if ( $w >= $months ) {
         ( $M, $w ) = int_rem( $w, $months );
     }
@@ -93,7 +93,7 @@ if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w
 }
 }
 else {
-if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' ) {
+if ( grep { $from eq $_ } qw( s m h d ) ) {
     if ( $d >= $months ) {
         ( $M, $d ) = int_rem( $d, $months );
     }
@@ -103,7 +103,7 @@ if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' ) {
 }
 
 if ( $use_qtr ) {
-if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w' || $from eq 'M' ) {
+if ( grep { $from eq $_ } qw( s m h d w M ) ) {
     if ( $M >= $quarters ) {
         ( $Q, $M ) = int_rem( $M, $quarters );
     }
@@ -111,7 +111,7 @@ if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w
     exit if $to eq 'Q';
 }
 
-if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w' || $from eq 'M' || $from eq 'Q' ) {
+if ( grep { $from eq $_ } qw( s m h d w M Q ) ) {
     if ( $Q >= $years ) {
         ( $Y, $Q ) = int_rem( $Q, $years );
     }
@@ -120,7 +120,7 @@ if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w
 }
 }
 else {
-if ( $from eq 's' || $from eq 'm' || $from eq 'h' || $from eq 'd' || $from eq 'w' || $from eq 'M' ) {
+if ( grep { $from eq $_ } qw( s m h d w M ) ) {
     if ( $M >= $years ) {
         ( $Y, $M ) = int_rem( $M, $years );
     }
