@@ -116,7 +116,6 @@ if ( $use_qtr ) {
             ( $years, $quarters ) = int_rem( $quarters, $year_num );
         }
         print "$years Y $quarters Q $months M $weeks w $days d $hours h $minutes m $seconds s\n";
-        exit if $to eq 'Y';
     }
 }
 else {
@@ -125,7 +124,6 @@ else {
             ( $years, $months ) = int_rem( $months, $year_num );
         }
         print "$years Y $months M $weeks w $days d $hours h $minutes m $seconds s\n";
-        exit if $to eq 'Y';
     }
 }
 
