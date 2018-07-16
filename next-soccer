@@ -9,10 +9,6 @@ use DateTime::Format::DateParse;
 
 my @pats = @ARGV ? @ARGV : qw( Soccer );
 
-my $found = 0;
-
-my @games;
-
 my @dates;
 my $dt = DateTime->now;
 push @dates, $dt->ymd('');
@@ -20,6 +16,8 @@ for ( 1 .. 6 ) {
     push @dates, $dt->add( days => 1 )->ymd('');
 }
 
+my @games;
+my $found = 0;
 my $i = 0;
 
 for my $date ( @dates ) {
