@@ -1,7 +1,21 @@
-// phantomjs next-soccer.js
+// phantomjs next-soccer.js [yyyymmdd]
 
-var address = 'http://www.sportstats.com/soccer/matches/';
-var path = 'next-soccer.html'
+var system = require('system');
+var args = system.args;
+
+var date;
+
+if (args.length === 1) {
+    date = ''
+} else {
+    args.forEach(function(arg, i) {
+        date = arg
+    });
+}
+
+var address = 'http://www.sportstats.com/soccer/matches/' + date;
+
+var path = 'next-soccer.html';
 
 var fs = require('fs');
 
