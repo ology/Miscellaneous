@@ -23,37 +23,37 @@ for ( 1 .. 6 ) {
 my $i = 0;
 
 for my $date ( @dates ) {
-system( 'phantomjs', "$0.js", $date );
+    system( 'phantomjs', "$0.js", $date );
 
-my $html = "$0.html";
+    my $html = "$0.html";
 
-my $te = HTML::TableExtract->new();
+    my $te = HTML::TableExtract->new();
 
-$te->parse_file($html);
+    $te->parse_file($html);
 
-for my $tab ( $te->tables ) {
-    for my $row ( $tab->rows ) {
-        my $string = join ', ', grep { $_ } @$row;
+    for my $tab ( $te->tables ) {
+        for my $row ( $tab->rows ) {
+            my $string = join ', ', grep { $_ } @$row;
 
-        if ( $found && ( $row->[0] =~ /^\d\d:\d\d/ || $row->[0] =~ /^\s\d\d/ || $row->[0] =~ /^Half-time/ ) ) {
-            next unless $row->[2] eq 'stats';
+            if ( $found && ( $row->[0] =~ /^\d\d:\d\d/ || $row->[0] =~ /^\s\d\d/ || $row->[0] =~ /^Half-time/ ) ) {
+                next unless $row->[2] eq 'stats';
 
-            my $stamp = UnixDate( $row->[0], '%Y-%m-%dT%H:%M:%S' );
-            my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
-            $dt->subtract( hours => 9 );  # Hardcode Pacific Time
+                my $stamp = UnixDate( $row->[0], '%Y-%m-%dT%H:%M:%S' );
+                my $dt = DateTime::Format::DateParse->parse_datetime($stamp);
+                $dt->subtract( hours => 9 );  # Hardcode Pacific Time
 
-            $i++;
-            push @games, sprintf( "\t%d. %d %d:%02d %s vs %s", $i, $date, $dt->hour, $dt->minute, $row->[1], $row->[3] );
-        }
-        elsif ( grep { $string =~ /$_/ } @pats ) {
-            push @games, $row->[0];
-            $found = 1;
-        }
-        else {
-            $found = 0;
+                $i++;
+                push @games, sprintf( "\t%d. %d %d:%02d %s vs %s", $i, $date, $dt->hour, $dt->minute, $row->[1], $row->[3] );
+            }
+            elsif ( grep { $string =~ /$_/ } @pats ) {
+                push @games, $row->[0];
+                $found = 1;
+            }
+            else {
+                $found = 0;
+            }
         }
     }
-}
 }
 
 print join( "\n", @games ), "\n";
