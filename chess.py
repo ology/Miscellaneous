@@ -119,6 +119,13 @@ def train():
     return X_train, X_test, y_train, y_test
 
 
+def decision_tree(X_train, X_test, y_train, y_test):
+    decisiontree = DecisionTreeClassifier(random_state=0)
+    model = decisiontree.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    print metrics.accuracy_score(y_test, y_pred)
+
+
 create_csv(0)
 
 X_train, X_test, y_train, y_test = train()
@@ -165,19 +172,9 @@ print metrics.accuracy_score(y_test, y_pred) # 0.18930197268588772 for all moves
 
 # Decision Tree
 from sklearn.tree import DecisionTreeClassifier
-decisiontree = DecisionTreeClassifier(random_state=0)
-model = decisiontree.fit(X_train, y_train)
-y_pred = model.predict(X_test)
-print metrics.accuracy_score(y_test, y_pred) # 0.21282245827010624 for all moves in game
+decision_tree(X_train, X_test, y_train, y_test) # 0.21282245827010624 for all moves in game
 
 # Woo. I'm approximately 1.3% above my happiness threshold!
-
-
-def decision_tree(X_train, X_test, y_train, y_test):
-    decisiontree = DecisionTreeClassifier(random_state=0)
-    model = decisiontree.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-    print metrics.accuracy_score(y_test, y_pred)
 
 
 create_csv(3)
