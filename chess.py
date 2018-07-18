@@ -123,7 +123,7 @@ def decision_tree(X_train, X_test, y_train, y_test):
     decisiontree = DecisionTreeClassifier(random_state=0)
     model = decisiontree.fit(X_train, y_train)
     y_pred = model.predict(X_test)
-    print metrics.accuracy_score(y_test, y_pred)
+    return metrics.accuracy_score(y_test, y_pred)
 
 
 create_csv(0)
@@ -171,19 +171,37 @@ print metrics.accuracy_score(y_test, y_pred) # 0.18930197268588772 for all moves
 
 # Decision Tree
 from sklearn.tree import DecisionTreeClassifier
-decision_tree(X_train, X_test, y_train, y_test) # 0.21282245827010624 for all moves in game
+accuracy = decision_tree(X_train, X_test, y_train, y_test)
+print accuracy # 0.21282245827010624 for all moves in game
 
 # Woo. I'm approximately 1.3% above my happiness threshold!
 
 
 create_csv(3)
 X_train, X_test, y_train, y_test = train()
-decision_tree(X_train, X_test, y_train, y_test) # 0.9240196078431373
+accuracy = decision_tree(X_train, X_test, y_train, y_test)
+print accuracy # 0.9240196078431373
 
 create_csv(6)
 X_train, X_test, y_train, y_test = train()
-decision_tree(X_train, X_test, y_train, y_test) # 0.8419117647058824
+accuracy = decision_tree(X_train, X_test, y_train, y_test)
+print accuracy # 0.8419117647058824
 
 create_csv(12)
 X_train, X_test, y_train, y_test = train()
-decision_tree(X_train, X_test, y_train, y_test) # 0.5765931372549019
+accuracy = decision_tree(X_train, X_test, y_train, y_test)
+print accuracy # 0.5765931372549019
+
+k_range = range(1, 15)
+scores = []
+for k in k_range:
+    create_csv(k)
+    X_train, X_test, y_train, y_test = train()
+    accuracy = decision_tree(X_train, X_test, y_train, y_test)
+    scores.append(accuracy)
+
+plt.plot(k_range, scores)
+plt.xlabel('Moves')
+plt.ylabel('Accuracy')
+plt.show()
+
