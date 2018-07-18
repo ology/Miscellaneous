@@ -127,7 +127,6 @@ def decision_tree(X_train, X_test, y_train, y_test):
 
 
 create_csv(0)
-
 X_train, X_test, y_train, y_test = train()
 
 
