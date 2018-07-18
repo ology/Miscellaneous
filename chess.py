@@ -94,9 +94,6 @@ def create_csv(threshold):
             # For each move...
             for i in range(1, moves + 1):
                 move = get_nth_move(game, i)
-                # Make the move
-                board.push_san(move)
-                #board
                 # Write the CSV transformed board for the player move
                 if (player and (i % 2)) or (not(player) and not(i % 2)):
                     t = board_transform(board)
@@ -105,6 +102,7 @@ def create_csv(threshold):
                     # Add the subsequent move
                     t.append(move)
                     fh.writerow(t)
+                board.push_san(move) # Make the move
 
 
 def train():
@@ -120,7 +118,7 @@ def train():
 
 
 def decision_tree(X_train, X_test, y_train, y_test):
-    decisiontree = DecisionTreeClassifier(random_state=0)
+    decisiontree = DecisionTreeClassifier()
     model = decisiontree.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     return metrics.accuracy_score(y_test, y_pred)
@@ -198,6 +196,7 @@ for k in k_range:
     create_csv(k)
     X_train, X_test, y_train, y_test = train()
     accuracy = decision_tree(X_train, X_test, y_train, y_test)
+    print accuracy
     scores.append(accuracy)
 
 plt.plot(k_range, scores)
