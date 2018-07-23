@@ -159,6 +159,7 @@ parameters = {'alpha': [0.01,0.1,1,1.5,2]}
 model = MultinomialNB()
 grid = GridSearchCV(estimator=model, param_grid=parameters)
 grid.fit(X_train_dtm, y_train)
+#grid.fit(X_dtm, y) # 0.6498925851181564 - lower??
 
 # summarize the results of the grid search
 print(grid.best_score_) # 0.661299422768109
