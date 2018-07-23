@@ -48,6 +48,7 @@ vect = CountVectorizer() #stop_words='english' => 0.6598099205832574
 
 X_train_dtm = vect.fit_transform(X_train)
 X_test_dtm = vect.transform(X_test)
+#X_dtm = vect.transform(X)
 
 
 # TF-IDF SCALE THE VOCABULARY
