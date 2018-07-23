@@ -77,3 +77,38 @@ predicted = clf.predict(X_new_counts)
 for doc, who in zip(docs, predicted):
     print '%r => %s' % (doc, who)
 
+
+# MOST PREDICTIVE TOKENS
+vect = CountVectorizer(stop_words='english') # => 0.6598099205832574
+X_train_dtm = vect.fit_transform(X_train)
+X_test_dtm = vect.transform(X_test)
+clf = MultinomialNB().fit(X_train_dtm, y_train)
+
+X_train_tokens = vect.get_feature_names()
+
+mccoy_token_count = clf.feature_count_[0, :]
+spock_token_count = clf.feature_count_[1, :]
+kirk_token_count  = clf.feature_count_[2, :]
+
+tokens = pd.DataFrame(
+    {
+        'token': X_train_tokens,
+        'mccoy': mccoy_token_count,
+        'spock': spock_token_count,
+        'kirk': kirk_token_count
+    }
+).set_index('token')
+tokens.head()
+
+tokens['mccoy'] = tokens.mccoy + 1
+tokens['spock'] = tokens.spock + 1
+tokens['kirk']  = tokens.kirk + 1
+
+tokens['mccoy'] = tokens.mccoy / clf.class_count_[0]
+tokens['spock'] = tokens.spock / clf.class_count_[1]
+tokens['kirk']  = tokens.kirk / clf.class_count_[2]
+
+tokens.sort_values('mccoy', ascending=False).head(10)
+tokens.sort_values('spock', ascending=False).head(10)
+tokens.sort_values('kirk', ascending=False).head(10)
+
