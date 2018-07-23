@@ -136,3 +136,11 @@ docs = [ 'our father who art in heaven' ]
 who_said(docs)
 # 'our father who art in heaven' => kirk
 
+
+# SVM
+from sklearn.linear_model import SGDClassifier
+clf = SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5, random_state=42)
+clf.fit(X_train_dtm, y_train)
+y_pred = clf.predict(X_test_dtm)
+metrics.accuracy_score(y_test, y_pred) # 0.6397604478583517
+
