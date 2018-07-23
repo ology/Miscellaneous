@@ -130,12 +130,9 @@ def who_said(docs):
     for doc, who in zip(docs, predicted):
         print '%r => %s' % (doc, who)
 
-docs = [ 'take me to the doctor, captain' ]
+docs = [ 'take me to the doctor, captain', 'jim, where is spock?' ]
 who_said(docs)
 # 'take me to the doctor, captain' => spock
-
-docs = [ 'jim, where is spock?' ]
-who_said(docs)
 # 'jim, where is spock?' => mccoy
 
 docs = [ 'our father who art in heaven' ]
