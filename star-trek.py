@@ -118,24 +118,21 @@ tokens.sort_values('spock', ascending=False).head(10)
 
 
 # Some more phrases!
+def who_said(docs):
+    X_new_counts = vect.transform(docs)
+    predicted = clf.predict(X_new_counts)
+    for doc, who in zip(docs, predicted):
+        print '%r => %s' % (doc, who)
+
 docs = [ 'take me to the doctor, captain' ]
-X_new_counts = vect.transform(docs)
-predicted = clf.predict(X_new_counts)
-for doc, who in zip(docs, predicted):
-    print '%r => %s' % (doc, who)
+who_said(docs)
 # 'take me to the doctor, captain' => spock
 
 docs = [ 'jim, where is spock?' ]
-X_new_counts = vect.transform(docs)
-predicted = clf.predict(X_new_counts)
-for doc, who in zip(docs, predicted):
-    print '%r => %s' % (doc, who)
+who_said(docs)
 # 'jim, where is spock?' => mccoy
 
 docs = [ 'our father who art in heaven' ]
-X_new_counts = vect.transform(docs)
-predicted = clf.predict(X_new_counts)
-for doc, who in zip(docs, predicted):
-    print '%r => %s' % (doc, who)
+who_said(docs)
 # 'our father who art in heaven' => kirk
 
