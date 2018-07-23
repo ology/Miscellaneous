@@ -17,7 +17,7 @@ def file_to_df(path, name):
         columns=['text','person']
     )
 
-path = '/Users/gene/Documents/lit/Kirk-and-Spock'
+path = '/Users/gene/Documents/lit/Kirk-Spock-McCoy'
 
 mccoy = file_to_df(path, 'mccoy')
 spock = file_to_df(path, 'spock')
@@ -149,4 +149,20 @@ who_said(docs)
 #clf.fit(X_train_tfidf, y_train)
 #y_pred = clf.predict(X_test_tfidf)
 #metrics.accuracy_score(y_test, y_pred) # 0.6165863819815128
+
+
+# GRIDSEARCH
+from sklearn.model_selection import GridSearchCV
+
+# prepare a range of values to test
+parameters = {'alpha': [0.01,0.1,1,1.5,2]}
+
+# create and fit a ridge regression model, testing each alpha
+model = MultinomialNB()
+grid = GridSearchCV(estimator=model, param_grid=parameters)
+grid.fit(X_train_dtm, y_train)
+
+# summarize the results of the grid search
+print(grid.best_score_) # 0.661299422768109
+print(grid.best_estimator_.alpha) # 1
 
