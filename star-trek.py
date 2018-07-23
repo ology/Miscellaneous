@@ -26,6 +26,12 @@ kirk  = file_to_df(path, 'kirk')
 result = pd.concat([mccoy, spock, kirk])
 
 
+# SHOW COUNTS
+import matplotlib.pyplot as plt
+result.groupby('person').text.count().plot.bar(ylim=0)
+plt.show()
+
+
 # GET THE TRAIN/TEST DATA
 X = result.text
 y = result.person
@@ -138,9 +144,9 @@ who_said(docs)
 
 
 # SVM
-from sklearn.linear_model import SGDClassifier
-clf = SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5, random_state=42)
-clf.fit(X_train_dtm, y_train)
-y_pred = clf.predict(X_test_dtm)
-metrics.accuracy_score(y_test, y_pred) # 0.6397604478583517
+#from sklearn.linear_model import SGDClassifier
+#clf = SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5, random_state=42)
+#clf.fit(X_train_tfidf, y_train)
+#y_pred = clf.predict(X_test_tfidf)
+#metrics.accuracy_score(y_test, y_pred) # 0.6165863819815128
 
