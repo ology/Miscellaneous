@@ -82,13 +82,17 @@ for doc, who in zip(docs, predicted):
 vect = CountVectorizer(stop_words='english') # => 0.6598099205832574
 X_train_dtm = vect.fit_transform(X_train)
 X_test_dtm = vect.transform(X_test)
-clf = MultinomialNB().fit(X_train_dtm, y_train)
+tfidf_transformer = TfidfTransformer()
+X_train_tfidf = tfidf_transformer.fit_transform(X_train_dtm)
+X_test_tfidf = tfidf_transformer.fit_transform(X_test_dtm)
+clf = MultinomialNB().fit(X_train_tfidf, y_train)
+#clf = MultinomialNB().fit(X_train_dtm, y_train)
 
 X_train_tokens = vect.get_feature_names()
 
-mccoy_token_count = clf.feature_count_[0, :]
-spock_token_count = clf.feature_count_[1, :]
-kirk_token_count  = clf.feature_count_[2, :]
+kirk_token_count  = clf.feature_count_[0, :]
+mccoy_token_count = clf.feature_count_[1, :]
+spock_token_count = clf.feature_count_[2, :]
 
 tokens = pd.DataFrame(
     {
@@ -100,15 +104,38 @@ tokens = pd.DataFrame(
 ).set_index('token')
 tokens.head()
 
+tokens['kirk']  = tokens.kirk + 1
 tokens['mccoy'] = tokens.mccoy + 1
 tokens['spock'] = tokens.spock + 1
-tokens['kirk']  = tokens.kirk + 1
 
-tokens['mccoy'] = tokens.mccoy / clf.class_count_[0]
-tokens['spock'] = tokens.spock / clf.class_count_[1]
-tokens['kirk']  = tokens.kirk / clf.class_count_[2]
+tokens['kirk']  = tokens.kirk / clf.class_count_[0]
+tokens['mccoy'] = tokens.mccoy / clf.class_count_[1]
+tokens['spock'] = tokens.spock / clf.class_count_[2]
 
+tokens.sort_values('kirk', ascending=False).head(10)
 tokens.sort_values('mccoy', ascending=False).head(10)
 tokens.sort_values('spock', ascending=False).head(10)
-tokens.sort_values('kirk', ascending=False).head(10)
+
+
+# Some more phrases!
+docs = [ 'take me to the doctor, captain' ]
+X_new_counts = vect.transform(docs)
+predicted = clf.predict(X_new_counts)
+for doc, who in zip(docs, predicted):
+    print '%r => %s' % (doc, who)
+# 'take me to the doctor, captain' => spock
+
+docs = [ 'jim, where is spock?' ]
+X_new_counts = vect.transform(docs)
+predicted = clf.predict(X_new_counts)
+for doc, who in zip(docs, predicted):
+    print '%r => %s' % (doc, who)
+# 'jim, where is spock?' => mccoy
+
+docs = [ 'our father who art in heaven' ]
+X_new_counts = vect.transform(docs)
+predicted = clf.predict(X_new_counts)
+for doc, who in zip(docs, predicted):
+    print '%r => %s' % (doc, who)
+# 'our father who art in heaven' => kirk
 
