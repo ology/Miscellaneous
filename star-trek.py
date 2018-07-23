@@ -79,7 +79,7 @@ for doc, who in zip(docs, predicted):
 
 
 # MOST PREDICTIVE TOKENS
-vect = CountVectorizer(stop_words='english') # => 0.6598099205832574
+vect = CountVectorizer(stop_words='english')
 X_train_dtm = vect.fit_transform(X_train)
 X_test_dtm = vect.transform(X_test)
 tfidf_transformer = TfidfTransformer()
