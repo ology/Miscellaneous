@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 
-www = '/Users/gene/sandbox/dev/Web/mech_dir/beatles-who-wrote-what.txt'
+www = '/Users/gene/Documents/data/beatles-who-wrote-what.txt'
 path = '/Users/gene/Documents/lit/Beatles/'
 
 d = {}
