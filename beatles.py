@@ -2,6 +2,7 @@ import re
 import os.path
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 
@@ -39,7 +40,7 @@ for key in sorted(d):
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
-vect = CountVectorizer(stop_words='english') #, ngram_range=(1, 2))
+vect = CountVectorizer() #stop_words='english') #, ngram_range=(1, 2))
 
 vect.fit(X_train)
 X_train_dtm = vect.transform(X_train)
@@ -52,5 +53,16 @@ nb.fit(X_train_dtm, y_train)
 
 y_pred = nb.predict(X_test_dtm)
 
-metrics.accuracy_score(y_test, y_pred)
-metrics.confusion_matrix(y_test, y_pred)
+print(metrics.accuracy_score(y_test, y_pred))
+
+#metrics.confusion_matrix(y_test, y_pred)
+
+
+# TF-IDF SCALE THE VOCABULARY
+#tfidf_transformer = TfidfTransformer()
+
+#X_train_tfidf = tfidf_transformer.fit_transform(X_train_dtm)
+
+#nb = MultinomialNB().fit(X_train_tfidf, y_train)
+
+#y_pred = nb.predict(X_test_dtm)
