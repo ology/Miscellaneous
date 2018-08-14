@@ -43,6 +43,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 vect = CountVectorizer() #stop_words='english' #ngram_range=(1, 2)
 
 vect.fit(X_train)
+
 X_train_dtm = vect.transform(X_train)
 
 X_test_dtm = vect.transform(X_test)
