@@ -53,16 +53,16 @@ nb.fit(X_train_dtm, y_train)
 
 y_pred = nb.predict(X_test_dtm)
 
-print(metrics.accuracy_score(y_test, y_pred))
-
-#metrics.confusion_matrix(y_test, y_pred)
+print(metrics.accuracy_score(y_test, y_pred)) # 0.625
 
 
 # TF-IDF SCALE THE VOCABULARY
-#tfidf_transformer = TfidfTransformer()
+tfidf_transformer = TfidfTransformer()
 
-#X_train_tfidf = tfidf_transformer.fit_transform(X_train_dtm)
+X_train_tfidf = tfidf_transformer.fit_transform(X_train_dtm)
 
-#nb = MultinomialNB().fit(X_train_tfidf, y_train)
+nb = MultinomialNB().fit(X_train_tfidf, y_train)
 
-#y_pred = nb.predict(X_test_dtm)
+y_pred = nb.predict(X_test_dtm)
+
+print(metrics.accuracy_score(y_test, y_pred)) # 0.46875
