@@ -40,7 +40,7 @@ for key in sorted(d):
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
 
-vect = CountVectorizer() #stop_words='english') #, ngram_range=(1, 2))
+vect = CountVectorizer() #stop_words='english' #ngram_range=(1, 2)
 
 vect.fit(X_train)
 X_train_dtm = vect.transform(X_train)
@@ -61,8 +61,10 @@ tfidf_transformer = TfidfTransformer()
 
 X_train_tfidf = tfidf_transformer.fit_transform(X_train_dtm)
 
-nb = MultinomialNB().fit(X_train_tfidf, y_train)
+nb = MultinomialNB(alpha=0.001)
+
+nb.fit(X_train_tfidf, y_train)
 
 y_pred = nb.predict(X_test_dtm)
 
-print(metrics.accuracy_score(y_test, y_pred)) # 0.46875
+print(metrics.accuracy_score(y_test, y_pred)) # 0.625
