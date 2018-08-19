@@ -2,8 +2,6 @@
 import pandas as pd
 import nltk.data
 
-#nltk.download()
-
 def file_to_df(path, name):
     fh = open(path + '/' + name + '.txt')
     data = fh.read()
