@@ -90,8 +90,8 @@ X_test_dtm = vect.transform(X_test)
 tfidf_transformer = TfidfTransformer()
 X_train_tfidf = tfidf_transformer.fit_transform(X_train_dtm)
 X_test_tfidf = tfidf_transformer.fit_transform(X_test_dtm)
-#clf = MultinomialNB().fit(X_train_tfidf, y_train)
-clf = MultinomialNB().fit(X_train_dtm, y_train)
+clf = MultinomialNB().fit(X_train_tfidf, y_train)
+#clf = MultinomialNB().fit(X_train_dtm, y_train)
 
 X_train_tokens = vect.get_feature_names()
 
