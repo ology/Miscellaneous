@@ -80,7 +80,7 @@ X_new_counts = vect.transform(docs)
 predicted = clf.predict(X_new_counts)
 
 for doc, who in zip(docs, predicted):
-    print '%r => %s' % (doc, who)
+    print('%r => %s' % (doc, who))
 
 
 # MOST PREDICTIVE TOKENS
@@ -127,7 +127,7 @@ def who_said(docs):
     X_new_counts = vect.transform(docs)
     predicted = clf.predict(X_new_counts)
     for doc, who in zip(docs, predicted):
-        print '%r => %s' % (doc, who)
+        print('%r => %s' % (doc, who))
 
 docs = [ 'take me to the doctor, captain', 'jim, where is spock?' ]
 who_said(docs)
