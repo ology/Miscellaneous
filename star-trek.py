@@ -50,7 +50,7 @@ X_dtm = vect.transform(X)
 
 
 # TF-IDF SCALE THE VOCABULARY
-#from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import TfidfTransformer
 #tfidf_transformer = TfidfTransformer()
 #X_train_tfidf = tfidf_transformer.fit_transform(X_train_dtm)
 #X_test_tfidf = tfidf_transformer.fit_transform(X_test_dtm)
