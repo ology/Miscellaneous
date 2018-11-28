@@ -1,0 +1,45 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Net::IMAP::Simple;
+use Email::Simple;
+use Term::ReadKey;
+
+my $username = 'you@gmail.com';
+my $mailhost = 'pop.gmail.com';
+
+ReadMode('noecho');
+print "Password for $username: ";
+my $password = ReadLine(0);
+chomp $password;
+print "\n";
+ReadMode('restore');
+
+my $imap = Net::IMAP::Simple->new(
+    $mailhost,
+    port    => 993,
+    use_ssl => 1,
+) or die "Unable to connect to IMAP: $Net::IMAP::Simple::errstr\n";
+
+if ( !$imap->login( $username, $password ) ) {
+    warn "Login failed: ", $imap->errstr, "\n";
+    exit(64);
+}
+
+my $nm = $imap->select('INBOX');
+
+my ($unseen, $recent, $num_messages) = $imap->status();
+printf "Unseen: %d, Recent: %d, Total: %d\n\n", $unseen, $recent, $num_messages;
+
+for ( my $i = 1 ; $i <= $nm ; $i++ ) {
+    if ( $imap->seen($i) ) {
+        next;
+    }
+    else {
+        my $es = Email::Simple->new( join '', @{ $imap->top($i) } );
+        printf "[%03d] %s %s\n\t%s\n", $i, $es->header('Date'), $es->header('From'), $es->header('Subject');
+    }
+}
+
+$imap->quit;
