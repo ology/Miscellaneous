@@ -9,46 +9,30 @@ use Test::More;
 my $mysqld = Test::mysqld->new(
     my_cnf => {
         'skip-networking' => '', # no TCP socket
-#        password => 'abc123',
     },
-#    copy_data_from => '/usr/local/var/mysql',
-#    base_dir => '/tmp',
+    copy_data_from => '/usr/local/var/mysql',
 ) or die $Test::mysqld::errstr;
-#warn(__PACKAGE__,' ',__LINE__," MARK: ",$mysqld->base_dir,"\n");
 
 $mysqld->setup;
 $mysqld->start;
 
 my $dbh = DBI->connect(
-    $mysqld->dsn(),
-);
+    $mysqld->dsn(dbname => 'stuff'), 'root', 'abc123'
+) or die $DBI::errstr;
 
-my $sql =<<'SQL';
-CREATE TABLE test (
-    id INT NOT NULL AUTO_INCREMENT,
-    text VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
-)
-SQL
-
+my $sql = 'select * from junk';
 my $sth = $dbh->prepare($sql) or die "Couldn't prepare statement: " . $dbh->errstr;
 $sth->execute() or die "Couldn't execute statement: " . $sth->errstr;
 
-$sql = "insert into test (text) values ('Yabba dabba doo!')";
-$sth = $dbh->prepare($sql) or die "Couldn't prepare statement: " . $dbh->errstr;
-$sth->execute() or die "Couldn't execute statement: " . $sth->errstr;
-
-$sql = 'select * from test';
-$sth = $dbh->prepare($sql) or die "Couldn't prepare statement: " . $dbh->errstr;
-$sth->execute() or die "Couldn't execute statement: " . $sth->errstr;
-
 my $results = $sth->fetchall_arrayref();
+#use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$results);
 
 $sth->finish;
 $dbh->disconnect;
 
-for my $result ( @$results ) {
-    is $result->[1], 'Yabba dabba doo!', "test id=$result->[0]";
-}
+$mysqld->stop;
+
+is_deeply $results->[0], [qw/foo 42 3/], 'results';
+is_deeply $results->[1], [qw/bar 1 1000/], 'results';
 
 done_testing();
