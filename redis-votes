@@ -119,13 +119,13 @@ sub post_article {
 
     my $article = 'article:' . $article_id;
 
-    $conn->hmset( $article, (
+    $conn->hmset( $article,
         title  => $title,
         link   => $link,
         poster => $user,
         time   => $now,
         votes  => 1,
-    ));
+    );
 
     $conn->zadd( 'score:', $now + $VOTE_SCORE, $article );
     $conn->zadd( 'time:', $now, $article );
