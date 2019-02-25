@@ -31,7 +31,7 @@ my $id = post_article( $redis, 'user:6', 'Foo!', 'http://ology.net/' );
 
 article_vote( $redis, 'user:1', "article:$id" );
 article_vote( $redis, 'user:6', 'article:1' );
-article_vote( $redis, 'user:1', 'article:2', -1 );
+article_vote( $redis, 'user:1', 'article:2', -1 ); # Vote direction: 1 or -1 (or not)
 article_vote( $redis, 'user:1', 'article:3' ); # Voting expired for this article
 
 add_remove_groups( $redis, 1, [qw/programming/] );
@@ -97,14 +97,9 @@ sub article_vote {
     my $article_id = [ split /:/, $article ]->[-1];
 
     if ( $conn->sadd( 'voted:' . $article_id, $user ) ) {
-        if ( $direction == 1 ) {
-            $conn->zincrby( 'score:', $VOTE_SCORE, $article );
-            $conn->hincrby( $article, 'votes', 1 );
-        }
-        else {
-            $conn->zincrby( 'score:', -$VOTE_SCORE, $article );
-            $conn->hincrby( $article, 'votes', -1 );
-        }
+        my $score = $direction * $VOTE_SCORE;
+        $conn->zincrby( 'score:', $score, $article );
+        $conn->hincrby( $article, 'votes', $direction );
     }
     else {
         warn "User already voted\n";
