@@ -90,7 +90,7 @@ sub article_vote {
 
     # Can the article still be voted on?
     if ( $conn->zscore( 'time:', $article ) < $cutoff ) {
-        warn "Article voting cutoff time reached for $user, $article\n";
+        warn "Article voting cutoff time reached for $article\n";
         return;
     }
 
