@@ -1,0 +1,49 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Mojo::File;
+use Mojo::UserAgent;
+
+my $url_base = 'https://www.example.com';
+my $url_path = '/lyrics/foo';
+my $url = $url_base . $url_path;
+
+my $fs_path = $ENV{HOME} . '/Documents/foo';
+mkdir $fs_path unless -d $fs_path;
+
+my $mojo_file = Mojo::File->new($fs_path);
+
+my $ua = Mojo::UserAgent->new;
+
+my $res = $ua->get($url)->result;
+
+my %seen;
+my $n = 0;
+
+$res->dom('a')->each(sub {
+    my $anchor = shift;
+
+    return unless $anchor->{href} =~ /^\Q$url_path/;
+
+    my $filename = $anchor->all_text;
+
+    return if $seen{$filename}++;
+
+    $n++;
+
+    $filename =~ s/\W/_/g;
+    $filename .= '.txt';
+
+    my $href = $url_base . $anchor->{href};
+
+    print "$n. $fs_path/$filename\n\t$href\n";
+
+    my $r = $ua->get($href)->result;
+
+    my $content = $r->dom->at('div[class="content-text-inner"]')->all_text;
+
+    $mojo_file->child($filename)->spurt($content);
+
+    sleep 5;
+});
