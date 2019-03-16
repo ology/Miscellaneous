@@ -2,21 +2,19 @@
 use strict;
 use warnings;
 
-# This is a variation of the first example of "Redis In Action" translated from python to Mojo::Redis2 perl, beginning at:
+# This is a variation of the first example of "Redis In Action" translated from python to perl, beginning at:
 # https://redislabs.com/ebook/part-1-getting-started/chapter-1-getting-to-know-redis/1-3-hello-redis/1-3-1-voting-on-articles/
 
-use Mojo::Redis2;
+use Mojo::Redis;
 
 my $ONE_DAY    = 86400;
 my $ONE_WEEK   = 7 * $ONE_DAY;
 my $VOTE_SCORE = 432;
 my $PER_PAGE   = 25;
 
-# Either have the redis server running (`redis-server /usr/local/etc/redis.conf`)
-# or uncomment this line:
-Mojo::Redis2::Server->start;
+# Have the redis server running (e.g. `redis-server /usr/local/etc/redis.conf`)
 
-my $redis = Mojo::Redis2->new;
+my $redis = Mojo::Redis->new;
 
 # Say hello!
 $redis->on(connection => sub { my ($self, $info) = @_; print "HELLO!\n" });
@@ -60,7 +58,7 @@ sub flush_keys {
         voted:2
         voted:4
     /) {
-        $conn->del($key);
+        $conn->db->del($key);
     }
 }
 
@@ -68,16 +66,16 @@ sub populate {
     my ($conn) = @_;
 
     for ( 1 .. 3 ) {
-        my $id = $conn->incr('article:');
+        my $id = $conn->db->incr('article:');
         my $stamp = $id == 3 ? time - 8 * $ONE_DAY : time - $ONE_DAY;
-        $conn->zadd( 'time:', $stamp, "article:$id" );
-        $conn->zadd( 'score:', $VOTE_SCORE, "article:$id" );
+        $conn->db->zadd( 'time:', $stamp, "article:$id" );
+        $conn->db->zadd( 'score:', $VOTE_SCORE, "article:$id" );
     }
 
     # All users vote for article 1
     for ( 1 .. 5 ) {
-        my $id = $conn->incr('user:');
-        $conn->sadd( 'voted:1', "user:$id" );
+        my $id = $conn->db->incr('user:');
+        $conn->db->sadd( 'voted:1', "user:$id" );
     }
 }
 
@@ -89,17 +87,17 @@ sub article_vote {
     my $cutoff = time - $ONE_WEEK;
 
     # Can the article still be voted on?
-    if ( $conn->zscore( 'time:', $article ) < $cutoff ) {
+    if ( $conn->db->zscore( 'time:', $article ) < $cutoff ) {
         warn "Article voting cutoff time reached for $article\n";
         return;
     }
 
     my $article_id = [ split /:/, $article ]->[-1];
 
-    if ( $conn->sadd( 'voted:' . $article_id, $user ) ) {
+    if ( $conn->db->sadd( 'voted:' . $article_id, $user ) ) {
         my $score = $direction * $VOTE_SCORE;
-        $conn->zincrby( 'score:', $score, $article );
-        $conn->hincrby( $article, 'votes', $direction );
+        $conn->db->zincrby( 'score:', $score, $article );
+        $conn->db->hincrby( $article, 'votes', $direction );
     }
     else {
         warn "User already voted\n";
@@ -109,17 +107,17 @@ sub article_vote {
 sub post_article {
     my ( $conn, $user, $title, $link ) = @_;
 
-    my $article_id = $conn->incr('article:');
+    my $article_id = $conn->db->incr('article:');
 
     my $voted = 'voted:' . $article_id;
-    $conn->sadd( $voted, $user );
-    $conn->expire( $voted, $ONE_WEEK );
+    $conn->db->sadd( $voted, $user );
+    $conn->db->expire( $voted, $ONE_WEEK );
 
     my $now = time;
 
     my $article = 'article:' . $article_id;
 
-    $conn->hmset( $article,
+    $conn->db->hmset( $article,
         title  => $title,
         link   => $link,
         poster => $user,
@@ -127,8 +125,8 @@ sub post_article {
         votes  => 1,
     );
 
-    $conn->zadd( 'score:', $now + $VOTE_SCORE, $article );
-    $conn->zadd( 'time:', $now, $article );
+    $conn->db->zadd( 'score:', $now + $VOTE_SCORE, $article );
+    $conn->db->zadd( 'time:', $now, $article );
 
     return $article_id;
 }
@@ -142,12 +140,12 @@ sub get_articles {
     my $start = ($page - 1) * $PER_PAGE;
     my $end   = $start + $PER_PAGE - 1;
 
-    my $ids = $conn->zrevrange( $order, $start, $end );
+    my $ids = $conn->db->zrevrange( $order, $start, $end );
 
     my @articles;
 
     for my $id ( @$ids ) {
-        my %article_data = @{ $conn->hgetall($id) };
+        my %article_data = %{ $conn->db->hgetall($id) };
         $article_data{id} = $id;
         push @articles, \%article_data;
     }
@@ -165,18 +163,18 @@ sub add_remove_groups {
 
     for my $group ( @$to_add ) {
         my $set = 'group:' . $group;
-        if ( $conn->sismember( $set, $article ) ) {
+        if ( $conn->db->sismember( $set, $article ) ) {
             warn "Article $article is already a member of $set\n";
         }
         else {
-            $conn->sadd( $set, $article );
+            $conn->db->sadd( $set, $article );
         }
     }
 
     for my $group ( @$to_remove ) {
         my $set = 'group:' . $group;
-        if ( $conn->sismember( $set, $article ) ) {
-            $conn->srem( $set, $article );
+        if ( $conn->db->sismember( $set, $article ) ) {
+            $conn->db->srem( $set, $article );
         }
         else {
             warn "Article $article is not a member of $set\n";
@@ -192,10 +190,10 @@ sub get_group_articles {
 
     my $key = $order . $group;
 
-    if ( not $conn->exists($key) ) {
+    if ( not $conn->db->exists($key) ) {
         my @keys = ( 'group:' . $group, $order );
-        $conn->zinterstore( $key, scalar(@keys), @keys, 'AGGREGATE' => 'MAX' );
-        $conn->expire( $key, 60 );
+        $conn->db->zinterstore( $key, scalar(@keys), @keys, 'AGGREGATE' => 'MAX' );
+        $conn->db->expire( $key, 60 );
     }
 
     return get_articles( $conn, $page, $key );
