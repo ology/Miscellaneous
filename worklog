@@ -1,0 +1,60 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+# Tab-separated worklog format:
+#
+# Date				What
+# ----------------------------------------------
+# YYYY-MM-DD hh:mm	Description of what was done
+# YYYY-MM-DD hh:mm
+#
+# ~
+# YYYY-MM-DD hh:mm	Another item!
+# YYYY-MM-DD hh:mm
+#
+# ~
+#
+
+use DateTime::Format::DateParse;
+
+my $file = shift || die "Usage: perl $0 /some/work/log.txt\n";
+
+open my $fh, '<', $file or die "Can't read $file: $!";
+
+# Build the events that have start and end times and a description.
+my %events;
+while ( my $line = readline($fh) ) {
+    # Skip all lines that don't start with a digit.
+    next unless $line =~ /^\d/;
+    chomp $line;
+
+    my @line = split /\t/, $line;
+
+    # Skip entries with no end time.
+    my $end;
+    $end = readline($fh) if defined $line[1];
+    next unless defined $end;
+    chomp $end;
+
+    $events{$line[0]} = {
+        end  => $end,
+        what => $line[1],
+    };
+}
+#use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper\%events);
+
+close $fh or die "Can't close $file: $!";
+
+# Sum the total number of seconds taken for each event.
+my $total = 0;
+for my $event ( sort keys %events ) {
+    my $start_dt = DateTime::Format::DateParse->parse_datetime($event);
+    my $end_dt   = DateTime::Format::DateParse->parse_datetime($events{$event}->{end});
+    my $duration = $end_dt->subtract_datetime_absolute($start_dt);
+    my $seconds  = $duration->seconds();
+    $total += $seconds;
+}
+
+my $hours = $total / 60 / 60;
+print "Total = $hours hours\n";
