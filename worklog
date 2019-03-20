@@ -27,9 +27,9 @@ while ( my $line = readline($fh) ) {
 
     my @line = split /\t/, $line;
 
-    # Skip entries with no end time.
+    # Skip entries with no end time, otherwise capture it and proceed.
     my $end;
-    $end = readline($fh) if defined $line[1];
+    $end = readline($fh) if @line;
     next unless defined $end;
     chomp $end;
 
