@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-# Tab-separated worklog format:
+# Newline divided, tab-separated worklog format:
 #
 # Date				What
 # ----------------------------------------------
