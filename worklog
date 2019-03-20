@@ -9,12 +9,8 @@ use warnings;
 # YYYY-MM-DD hh:mm	Description of what was done
 # YYYY-MM-DD hh:mm
 #
-# ~
 # YYYY-MM-DD hh:mm	Another item!
 # YYYY-MM-DD hh:mm
-#
-# ~
-#
 
 use DateTime::Format::DateParse;
 
