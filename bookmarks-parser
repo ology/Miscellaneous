@@ -1,0 +1,49 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use Bookmarks::Parser;
+use IO::Prompt;
+
+my $file = shift || 'bookmarks.html';
+
+my $parser = Bookmarks::Parser->new;
+
+my $bookmarks = $parser->parse({ filename => $file });
+
+my @items = $bookmarks->get_top_level;
+
+my $n = 0;
+
+traverse(@items);
+
+sub traverse {
+    my @items = @_;
+
+    for my $i ( @items ) {
+        if ( $i->{type} eq 'url' ) {
+
+            $n++;
+
+            if ( $n % 10 == 0 ) {
+                my $response = prompt "Enter=next q=quit:\n";
+                if ( $response eq 'q' ) {
+                    exit;
+                }
+            }
+
+            print "$n. '$i->{name}' ($i->{id})\n\t$i->{url}\n\n";
+        }
+        elsif ( $i->{type} eq 'folder' ) {
+            print '-' x 80, "\n";
+            print "FOLDER: '$i->{name}'\n\n";
+
+            my @c = $parser->get_folder_contents($i);
+
+            traverse(@c) if @c;
+        }
+    }
+}
+
+#my $x = $bookmarks->get_from_id(1068);
+#use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$x);
