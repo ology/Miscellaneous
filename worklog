@@ -48,8 +48,7 @@ for my $event ( sort keys %events ) {
     my $start_dt = DateTime::Format::DateParse->parse_datetime($event);
     my $end_dt   = DateTime::Format::DateParse->parse_datetime($events{$event}->{end});
     my $duration = $end_dt->subtract_datetime_absolute($start_dt);
-    my $seconds  = $duration->seconds();
-    $total += $seconds;
+    $total += $duration->seconds();
 }
 
 my $hours = $total / 60 / 60;
