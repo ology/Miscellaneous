@@ -22,7 +22,6 @@ sub traverse {
 
     for my $i ( keys %$items ) {
         if ( $i eq 'uri' ) {
-
             $n++;
 
             if ( $prompt && $n % 10 == 0 ) {
