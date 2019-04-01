@@ -26,9 +26,7 @@ sub traverse {
 
             if ( $prompt && $n % 10 == 0 ) {
                 my $response = prompt "Enter=next q=quit:\n";
-                if ( $response eq 'q' ) {
-                    exit;
-                }
+                exit if $response eq 'q';
             }
 
             print qq/$n. "$items->{title}" ($items->{id})\n\t$items->{uri}\n\n/;
