@@ -2,48 +2,46 @@
 use strict;
 use warnings;
 
-use Bookmarks::Parser;
+use Encode;
+use File::Slurper 'read_text';
 use IO::Prompt;
+use JSON::MaybeXS;
 
-my $file = shift || 'bookmarks.html';
+my $file = shift || die "Usage: perl $0 /some/bookmarks.json\n";
+my $prompt = shift // 1;
 
-my $parser = Bookmarks::Parser->new;
+my $content = read_text($file);
 
-my $bookmarks = $parser->parse({ filename => $file });
-
-my @items = $bookmarks->get_top_level;
+my $bookmarks = decode_json( encode( 'utf8', $content ) );
 
 my $n = 0;
 
-traverse(@items);
+traverse($bookmarks);
 
 sub traverse {
-    my @items = @_;
+    my ($items) = @_;
 
-    for my $i ( @items ) {
-        if ( $i->{type} eq 'url' ) {
+    for my $i ( keys %$items ) {
+        if ( $i eq 'uri' ) {
 
             $n++;
 
-            if ( $n % 10 == 0 ) {
+            if ( $prompt && $n % 10 == 0 ) {
                 my $response = prompt "Enter=next q=quit:\n";
                 if ( $response eq 'q' ) {
                     exit;
                 }
             }
 
-            print "$n. '$i->{name}' ($i->{id})\n\t$i->{url}\n\n";
+            print qq/$n. "$items->{title}" ($items->{id})\n\t$items->{uri}\n\n/;
         }
-        elsif ( $i->{type} eq 'folder' ) {
+        elsif ( $i eq 'children' ) {
             print '-' x 80, "\n";
-            print "FOLDER: '$i->{name}'\n\n";
+            print "FOLDER: '$items->{title}'\n\n";
 
-            my @c = $parser->get_folder_contents($i);
-
-            traverse(@c) if @c;
+            for my $child ( @{ $items->{children} } ) {
+                traverse($child);
+            }
         }
     }
 }
-
-#my $x = $bookmarks->get_from_id(1068);
-#use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$x);
