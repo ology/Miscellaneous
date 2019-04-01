@@ -2,6 +2,8 @@
 use strict;
 use warnings;
 
+# JSON bookmark parser (for Firefox backups).
+
 use Encode;
 use File::Slurper 'read_text';
 use IO::Prompt;
