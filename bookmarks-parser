@@ -34,8 +34,7 @@ sub traverse {
             print qq/$n. "$items->{title}" ($items->{id})\n\t$items->{uri}\n\n/;
         }
         elsif ( $i eq 'children' ) {
-            print '-' x 80, "\n";
-            print "FOLDER: '$items->{title}'\n\n";
+            print '-' x 80, "\nFOLDER: '$items->{title}'\n\n";
 
             traverse($_) for @{ $items->{children} };
         }
