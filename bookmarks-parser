@@ -35,9 +35,7 @@ sub traverse {
             print '-' x 80, "\n";
             print "FOLDER: '$items->{title}'\n\n";
 
-            for my $child ( @{ $items->{children} } ) {
-                traverse($child);
-            }
+            traverse($_) for @{ $items->{children} };
         }
     }
 }
