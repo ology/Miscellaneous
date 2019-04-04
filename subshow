@@ -26,14 +26,14 @@ for my $file ( @files ) {
         $n++;
         print "\t$n. $sub\n";
 
-        my $response = prompt( "\tEnter=next q=quit a=ack", '' );
+        my $response = prompt( "\tEnter=next q=quit g=grep", '' );
 
         if ( $response eq 'q' ) {
           last ROUTINE;
         }
-        elsif ( $response eq 'a' ) {
-            my $ack = qx{ ack $sub };
-            print $ack, "\n";
+        elsif ( $response eq 'g' ) {
+            my $res = qx{ grep -rc $sub * | grep -v :0 };
+            print $res, "\n";
         }
         else {
           next ROUTINE;
