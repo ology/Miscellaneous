@@ -1,0 +1,42 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use IO::Prompt::Tiny qw/prompt/;
+use Devel::Examine::Subs;
+
+my @files = @ARGV;
+die "Usage: perl $0 /some/perl/File.pm [/another/file.pl ...]\n" unless @files;
+
+my $i = 0;
+
+for my $file ( @files ) {
+    $i++;
+
+    print "\n$i. Processing $file...\n";
+
+    my $des = Devel::Examine::Subs->new( file => $file );
+
+    my $subs = $des->all;
+
+    my $n = 0;
+
+    ROUTINE:
+    for my $sub ( @$subs ) {
+        $n++;
+        print "\t$n. $sub\n";
+
+        my $response = prompt( "\tEnter=next q=quit a=ack", '' );
+
+        if ( $response eq 'q' ) {
+          last ROUTINE;
+        }
+        elsif ( $response eq 'a' ) {
+            my $ack = qx{ ack $sub };
+            print $ack, "\n";
+        }
+        else {
+          next ROUTINE;
+        }
+    }
+}
