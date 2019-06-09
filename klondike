@@ -22,7 +22,7 @@ my $Cards_From_Stock = 3;    # how many stock cards to take at a time
 my $Undo;                    # Games::Cards::Undo object
 my $Error;                   # current error message
 
-my $stats_file = '/tmp/klondike-stats.txt';
+my $stats = '/tmp/klondike-stats.txt';
 my $score = 0;
 
 ######################################################################
@@ -393,9 +393,9 @@ sub check_win
     {
         print "You have won!\n";
 
-        open my $fh, '>>', $stats_file or die "Can't write to $stats_file: $!";
+        open my $fh, '>>', $stats or die "Can't write to $stats: $!";
         print $fh scalar( gmtime time ), " - win - $score\n";
-        close $fh or die "Can't close $stats_file: $!";
+        close $fh or die "Can't close $stats: $!";
 
         if ( New_Game_Prompt() )
         {
@@ -439,14 +439,14 @@ sub New_Game
     my %stats;
     $stats{win}  = 0;
     $stats{lose} = 0;
-    open my $fh, '<', $stats_file or die "Can't read $stats_file: $!";
+    open my $fh, '<', $stats or die "Can't read $stats: $!";
     while ( my $line = readline($fh) )
     {
         chomp $line;
         my ( undef, $status ) = split /\s+-\s+/, $line;
         $stats{$status}++;
     }
-    close $fh or die "Can't close $stats_file: $!";
+    close $fh or die "Can't close $stats: $!";
     printf "\nWin/Lose: %d/%d = %.4f", $stats{win}, $stats{lose}, ($stats{lose} == 0 ? 0 : $stats{win} / $stats{lose});
 
     $score = 0;
@@ -594,8 +594,8 @@ sub update_stats
     my $x;
     if ( ( grep { $x = $_->top_card and $x->name('long') eq 'King' } ( values %Foundations ) ) != 4 )
     {
-        open my $fh, '>>', $stats_file or die "Can't write to $stats_file: $!";
+        open my $fh, '>>', $stats or die "Can't write to $stats: $!";
         print $fh scalar( gmtime time ), " - lose - $score\n";
-        close $fh or die "Can't close $stats_file: $!";
+        close $fh or die "Can't close $stats: $!";
     }
 }
