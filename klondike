@@ -10,17 +10,17 @@ use IO::Prompt::Tiny 'prompt';
 
 srand();
 
-my $Klondike;       # the game object
-my $Save_Deck;      # $Deck is copied from this; used for restart
-my $Deck;           # the deck we're using in the game
-my %Foundations;    # the four piles we're trying to fill
-my @Tableau;        # the table, where most of the play happens
-my $Tableau_Size = 7;    # number of piles in tableau
-my $Stock;               # cards in our hand
-my $Waste;               # cards go from stock to waste
-my $Cards_From_Stock = 3;    # how many stock cards to take at a time
-my $Undo;                    # Games::Cards::Undo object
-my $Error;                   # current error message
+my $Klondike;               # the game object
+my $Save_Deck;              # $Deck is copied from this; used for restart
+my $Deck;                   # the deck we're using in the game
+my %Foundations;            # the four piles we're trying to fill
+my @Tableau;                # the table, where most of the play happens
+my $Tableau_Size = 7;       # number of piles in tableau
+my $Stock;                  # cards in our hand
+my $Waste;                  # cards go from stock to waste
+my $Cards_From_Stock = 3;   # how many stock cards to take at a time
+my $Undo;                   # Games::Cards::Undo object
+my $Error;                  # current error message
 
 my $stats = '/tmp/klondike-stats.txt';
 my $score = 0;
