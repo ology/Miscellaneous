@@ -123,16 +123,16 @@ sub do_command
             move_to_column( $1, $2 );
             $Undo->end_move;
 
-            # Move a card to (correct) foundation from waste or from a column
         }
+        # Move a card to (correct) foundation from waste or from a column
         elsif (/^([w\d])f$/i)
         {
             move_to_foundation($1);
             $Undo->end_move;
             check_win();
 
-            # waste to stock
         }
+        # waste to stock
         elsif (/^w$/i)
         {
             if ( $Stock->size )
@@ -144,8 +144,8 @@ sub do_command
             $Stock->face_down;
             $Undo->end_move;
 
-            # stock to waste
         }
+        # stock to waste
         elsif (/^sw?$/i)
         {
             my $size = $Stock->size
@@ -154,51 +154,43 @@ sub do_command
             $Stock->give_cards( $Waste, $number );
             $Waste->face_up;    # really only need to face_up last $number cards
             $Undo->end_move;
-
-            # finish the game?
         }
+        # finish the game?
         elsif (/^z/i)
         {
             Finish();
-
-            # restart
         }
+        # restart
         elsif (/^o/i)
         {
             New_Game('restart') if New_Game_Prompt();
-
-            # undo
         }
+        # undo
         elsif (/^u/i)
         {
             Undo();
-
-            # redo
         }
+        # redo
         elsif (/^r/i)
         {
             Redo();
-
-            # help
         }
+        # help
         elsif (/^h/i)
         {
             Help();
-
-            # start a new game (abandon this one)
         }
+        # start a new game (abandon this one)
         elsif (/^n/i)
         {
             New_Game() if New_Game_Prompt();
-
-            # quit game
         }
+        # quit game
         elsif (/^q/i)
         {
             Quit();
-
-            # Handle some errors
         }
+        # Handle some errors
         elsif (/^.s/)
         {
             $Error = 'You can only transfer from the waste pile to the stock';
