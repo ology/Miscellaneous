@@ -444,7 +444,7 @@ sub New_Game
     while ( my $line = readline($fh) )
     {
         chomp $line;
-        my ( undef, $status ) = split /\s+-\s+/, $line, 2;
+        my ( undef, $status ) = split /\s+-\s+/, $line;
         $stats{$status}++;
     }
     close $fh or die "Can't close $stats_file: $!";
