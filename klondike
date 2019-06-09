@@ -27,12 +27,12 @@ my $score = 0;
 ######################################################################
 # SETUP THE GAME
 
-my $class_prefix = "Games::Cards::";
-my $class        = $class_prefix . "Game";
+my $class_prefix = 'Games::Cards::';
+my $class        = $class_prefix . 'Game';
 $Klondike = $class->new;
 
-$class     = $class_prefix . "Deck";
-$Save_Deck = $class->new( $Klondike, "Save Deck" );
+$class     = $class_prefix . 'Deck';
+$Save_Deck = $class->new( $Klondike, 'Save Deck' );
 
 New_Game();
 
@@ -49,7 +49,7 @@ while (1)
     if ($Error) { print "$Error\n\n"; }
 
     # Ask player what to do
-    print "Command (h for help): ";
+    print 'Command (h for help): ';
     my $input = <STDIN>;
     chomp($input);
     $input =~ s/\s*//g;
@@ -67,7 +67,7 @@ sub setup_game
 {
     my $restart = shift;
 
-    my $class_prefix = "Games::Cards::";
+    my $class_prefix = 'Games::Cards::';
 
     unless ($restart)
     {
@@ -75,10 +75,10 @@ sub setup_game
         $Save_Deck->shuffle;
     }
 
-    $Deck = $Save_Deck->clone( $Klondike, "Deck" );
+    $Deck = $Save_Deck->clone( $Klondike, 'Deck' );
 
     # Deal out the Tableau
-    my $s = $class_prefix . "Stack";
+    my $s = $class_prefix . 'Stack';
     @Tableau = ();    # erase Tableau from last game, if any
     foreach my $i ( 1 .. $Tableau_Size )
     {
@@ -92,18 +92,18 @@ sub setup_game
     }
 
     # Create the empty Foundations
-    foreach ( @{ $Klondike->{ "suits" } } )
+    foreach ( @{ $Klondike->{ 'suits' } } )
     {
-        $Foundations{ $_ } = $s->new( $Klondike, ucfirst($_) . " Pile", lc $_ );
+        $Foundations{ $_ } = $s->new( $Klondike, ucfirst($_) . ' Pile', lc $_ );
     }
 
     # Stock has what's left in the deck, wastepile starts out empty
-    my $q = $class_prefix . "Queue";
-    $Stock = $q->new( $Klondike, "Stock", "s" );
-    $Deck->give_cards( $Stock, "all" );
+    my $q = $class_prefix . 'Queue';
+    $Stock = $q->new( $Klondike, 'Stock', 's' );
+    $Deck->give_cards( $Stock, 'all' );
     $Stock->face_down;
 
-    $Waste = $s->new( $Klondike, "Waste", "w" );
+    $Waste = $s->new( $Klondike, 'Waste', 'w' );
 
     # Initialize the Undo engine with infinite size (no size arg. given to new)
     $Undo = new Games::Cards::Undo;
@@ -113,7 +113,7 @@ sub setup_game
 sub do_command
 {
     my $command = shift;
-    $Error = "";
+    $Error = '';
     for ($command)
     {
         # Move top card of the waste pile to a column OR move one or
@@ -140,7 +140,7 @@ sub do_command
                 $Error = "ERROR: Stock isn't empty yet";
                 return;
             }
-            $Waste->give_cards( $Stock, "all" );
+            $Waste->give_cards( $Stock, 'all' );
             $Stock->face_down;
             $Undo->end_move;
 
@@ -149,7 +149,7 @@ sub do_command
         elsif (/^sw?$/i)
         {
             my $size = $Stock->size
-                or $Error = "ERROR: Stock is empty", return;
+                or $Error = 'ERROR: Stock is empty', return;
             my $number = ( $size < $Cards_From_Stock ) ? $size : $Cards_From_Stock;
             $Stock->give_cards( $Waste, $number );
             $Waste->face_up;    # really only need to face_up last $number cards
@@ -165,7 +165,7 @@ sub do_command
         }
         elsif (/^o/i)
         {
-            New_Game("restart") if New_Game_Prompt();
+            New_Game('restart') if New_Game_Prompt();
 
             # undo
         }
@@ -201,15 +201,15 @@ sub do_command
         }
         elsif (/^.s/)
         {
-            $Error = "You can only transfer from the waste pile to the stock";
+            $Error = 'You can only transfer from the waste pile to the stock';
         }
         elsif (/^.w/)
         {
-            $Error = "You can only transfer to the waste pile from the stock";
+            $Error = 'You can only transfer to the waste pile from the stock';
         }
         else
         {
-            $Error = "ERROR: unknown command";
+            $Error = 'ERROR: unknown command';
         }    # end case if
 
     }    # end big case statement
@@ -233,7 +233,7 @@ sub move_to_column
         die "illegal column $from in sub move_to_column\n" unless $donor;
     }
     else { die "Unknown first arg '$from' to sub move_to_column!\n"; }
-    unless ( $donor->size ) { $Error = "ERROR: No cards to move"; return 0; }
+    unless ( $donor->size ) { $Error = 'ERROR: No cards to move'; return 0; }
 
     # To which Stack are we transferring cards?
     die "Unknown second arg '$to' to sub move!\n" unless $to =~ /\d/;
@@ -273,13 +273,13 @@ sub move_to_column
         }
         else
         {
-            $allowed = $card->name("long") eq "King";
+            $allowed = $card->name('long') eq 'King';
         }
 
         last if $allowed;
     }
 
-    unless ($allowed) { $Error = "ERROR: Illegal move"; return 0; }
+    unless ($allowed) { $Error = 'ERROR: Illegal move'; return 0; }
 
     # Now actually transfer the card(s)
     $donor->give_cards( $receiver, $transferred );
@@ -314,12 +314,12 @@ sub move_to_foundation
         die "illegal column $from in sub move_to_foundation\n" unless $donor;
     }
     else { warn "Unknown first arg '$from' to sub move_to_foundation!\n"; }
-    unless ( $donor->size ) { $Error = "ERROR: No cards to move"; return 0; }
+    unless ( $donor->size ) { $Error = 'ERROR: No cards to move'; return 0; }
 
     my $donor_card = $donor->top_card;
 
     # To which Stack are we transferring cards?
-    my $to = lc( $donor_card->suit("long") );
+    my $to = lc( $donor_card->suit('long') );
     $receiver = $Klondike->get_cardset_by_nickname($to);
     die "Unknown suit in sub move_to_foundation!\n" unless $receiver;
 
@@ -331,10 +331,10 @@ sub move_to_foundation
     }
     else
     {                                          # empty foundation
-        $allowed = $donor_card->name("long") eq "Ace";
+        $allowed = $donor_card->name('long') eq 'Ace';
     }
 
-    unless ($allowed) { $Error = "ERROR: Illegal move"; return 0; }
+    unless ($allowed) { $Error = 'ERROR: Illegal move'; return 0; }
 
     # Now actually transfer the card
     $donor->give_cards( $receiver, 1 );
@@ -357,14 +357,14 @@ sub Finish
 {
     if ( $Stock->size )
     {
-        $Error = "ERROR: Stock must be empty to finish";
+        $Error = 'ERROR: Stock must be empty to finish';
         return;
     }
     foreach my $col (@Tableau)
     {
         if ( grep { $_->is_face_down } @{ $col->cards } )
         {
-            $Error = "ERROR: All cards must be face up to finish";
+            $Error = 'ERROR: All cards must be face up to finish';
             return;
         }
     }
@@ -373,13 +373,13 @@ sub Finish
     do
     {
         $did_move = 0;
-        foreach my $j ( 1 .. @Tableau, "w" )
+        foreach my $j ( 1 .. @Tableau, 'w' )
         {
             if ( move_to_foundation($j) )
             {
                 $did_move = 1;
                 $Undo->end_move;
-                $Error = "";
+                $Error = '';
             }
         }
         print_game();
@@ -396,7 +396,7 @@ sub check_win
 {
     my $a;
 
-    if ( ( grep { $a = $_->top_card and $a->name("long") eq "King" } ( values %Foundations ) ) == 4 )
+    if ( ( grep { $a = $_->top_card and $a->name('long') eq 'King' } ( values %Foundations ) ) == 4 )
     {
         print "You have won!\n";
 
@@ -420,7 +420,7 @@ sub check_win
 # Returns true if you should start a new game
 sub New_Game_Prompt
 {
-    print "Start a new game? (y/n): ";
+    print 'Start a new game? (y/n): ';
     my $a = <STDIN>;
 
     if ($a =~ /^\s*y/i)
@@ -440,7 +440,7 @@ sub New_Game
     my $restart = shift;
     die "setup_game called with unknown arg $restart\n"
         if defined $restart
-        && $restart ne "restart";
+        && $restart ne 'restart';
 
     # Create new deck
     setup_game($restart);
@@ -467,8 +467,8 @@ sub Undo
     if ( $Undo->undo )
     {
         # if no error, make sure to erase any existing error message (like
-        # "can't redo any more")
-        $Error = "";
+        # 'can't redo any more')
+        $Error = '';
     }
     else
     {
@@ -483,7 +483,7 @@ sub Redo
     {
         # if no error, make sure to erase any existing error message (like
         # "can't redo any more")
-        $Error = "";
+        $Error = '';
     }
     else
     {
@@ -494,7 +494,7 @@ sub Redo
 
 sub Help
 {
-    my $Usage = <<"ENDUSAGE";
+    my $Usage = <<'ENDUSAGE';
   $0 - play "klondike", aka standard solitaire
 
   - Columns are 1 to 7, plus the Waste pile, Foundations and Stock
@@ -538,7 +538,7 @@ ENDUSAGE
 
 sub Quit
 {
-    print "Are you sure you want to quit? (y/n): ";
+    print 'Are you sure you want to quit? (y/n): ';
     my $a = <STDIN>;
     if ( $a !~ /^\s*n/i )
     {
@@ -559,15 +559,15 @@ sub print_columns
 
     # Print from bottom to top...
     my $index = ( sort { $a <=> $b } ( map { $_->size } @columns ) )[-1] - 1;
-    print " ", join( "     ", ( 1 .. @columns ) ), "\n";
-    print join( "   ", ("---") x @columns ), "\n";
+    print ' ', join( '     ', ( 1 .. @columns ) ), "\n";
+    print join( '   ', ('---') x @columns ), "\n";
     foreach ( 0 .. $index )
     {
-        my $to_print = "";
+        my $to_print = '';
         foreach my $column (@columns)
         {
             my $a = ${ $column->cards }[$_];
-            my $p = defined $a ? $a->print("short") : "    ";
+            my $p = defined $a ? $a->print('short') : '    ';
             $to_print .= "$p  ";
         }    # end loop over one row of each column
         print "$to_print\n";
@@ -579,16 +579,16 @@ sub print_columns
 sub print_game
 {
     # print out the current status in solitaire
-    print "\n\n", "-" x 55, "\n";
-    print "Stock: ", "*" x $Stock->size, "\n";
-    print $Waste->print("short"), "\n";
-    print "Foundations:   ";
+    print "\n\n", '-' x 55, "\n";
+    print 'Stock: ', '*' x $Stock->size, "\n";
+    print $Waste->print('short'), "\n";
+    print 'Foundations:   ';
     foreach ( keys %Foundations )
     {
         my $set = $Foundations{ $_ };
         my $to_print = $set->size
-            ? $set->top_card->print("short")
-            : "(none)";
+            ? $set->top_card->print('short')
+            : '(none)';
         print "$to_print   ";
     }
     print "\n\n";
@@ -602,7 +602,7 @@ sub print_game
 sub update_stats
 {
     my $x;
-    if ( ( grep { $x = $_->top_card and $x->name("long") eq "King" } ( values %Foundations ) ) != 4 )
+    if ( ( grep { $x = $_->top_card and $x->name('long') eq 'King' } ( values %Foundations ) ) != 4 )
     {
         open my $fh, '>>', $stats_file or die "Can't write to $stats_file: $!";
         print $fh scalar( gmtime time ), " - lose - $score\n";
