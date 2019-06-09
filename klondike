@@ -70,7 +70,6 @@ sub setup_game
 
     unless ($restart)
     {
-        print "Shuffling the deck.\n";
         $Save_Deck->shuffle;
     }
 
