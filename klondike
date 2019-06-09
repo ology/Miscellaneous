@@ -280,7 +280,8 @@ sub move_to_column
     # After removing a card from a column, make sure the next card in
     # that column is face up
     my $a;
-    if ( $from =~ /\d/ && ( $a = $donor->top_card ) ) {
+    if ( $from =~ /\d/ && ( $a = $donor->top_card ) )
+    {
         $score += 5;
         $a->face_up;
     }
@@ -335,7 +336,8 @@ sub move_to_foundation
     # After removing a card from a column, make sure the next card in
     # that column is face up
     my $a;
-    if ( $from =~ /\d/ && ( $a = $donor->top_card ) ) {
+    if ( $from =~ /\d/ && ( $a = $donor->top_card ) )
+    {
         $score += 5;
         $a->face_up;
     }
