@@ -105,7 +105,7 @@ sub setup_game
     $Waste = $s->new( $Klondike, 'Waste', 'w' );
 
     # Initialize the Undo engine with infinite size (no size arg. given to new)
-    $Undo = new Games::Cards::Undo;
+    $Undo = Games::Cards::Undo->new;
 }    # end sub setup_game
 
 
