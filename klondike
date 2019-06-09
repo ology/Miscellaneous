@@ -6,6 +6,7 @@ use warnings;
 # Modified Jun-2019 Gene Boggs
 
 use Games::Cards;
+use IO::Prompt::Tiny 'prompt';
 
 srand();
 
@@ -49,9 +50,7 @@ while (1)
     if ($Error) { print "$Error\n\n"; }
 
     # Ask player what to do
-    print 'Command (h for help): ';
-    my $input = <STDIN>;
-    chomp($input);
+    my $input = prompt('Command (h for help):');
     $input =~ s/\s*//g;
 
     do_command($input);
@@ -412,9 +411,7 @@ sub check_win
 # Returns true if you should start a new game
 sub New_Game_Prompt
 {
-    print 'Start a new game? (y/n): ';
-    my $a = <STDIN>;
-
+    my $a = prompt('Start a new game? (y/n):');
     if ($a =~ /^\s*y/i)
     {
         update_stats();
@@ -520,18 +517,17 @@ sub Help
 
     q  quits
     h  prints this help
+
 ENDUSAGE
 
     print $Usage;
-    print "\nType RETURN to continue\n";
-    <STDIN>;
+    prompt('Type RETURN to continue');
 }    # end sub Help
 
 
 sub Quit
 {
-    print 'Are you sure you want to quit? (y/n): ';
-    my $a = <STDIN>;
+    my $a = prompt('Are you sure you want to quit? (y/n):');
     if ( $a !~ /^\s*n/i )
     {
         update_stats();
