@@ -486,7 +486,7 @@ sub Redo
 
 sub Help
 {
-    my $Usage = <<'ENDUSAGE';
+    my $Usage = <<"ENDUSAGE";
   $0 - play "klondike", aka standard solitaire
 
   - Columns are 1 to 7, plus the Waste pile, Foundations and Stock
