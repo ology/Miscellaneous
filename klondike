@@ -279,11 +279,11 @@ sub move_to_column
 
     # After removing a card from a column, make sure the next card in
     # that column is face up
-    my $a;
-    if ( $from =~ /\d/ && ( $a = $donor->top_card ) )
+    my $x;
+    if ( $from =~ /\d/ && ( $x = $donor->top_card ) )
     {
         $score += 5;
-        $a->face_up;
+        $x->face_up;
     }
 
     return 1;
@@ -335,11 +335,11 @@ sub move_to_foundation
 
     # After removing a card from a column, make sure the next card in
     # that column is face up
-    my $a;
-    if ( $from =~ /\d/ && ( $a = $donor->top_card ) )
+    my $x;
+    if ( $from =~ /\d/ && ( $x = $donor->top_card ) )
     {
         $score += 5;
-        $a->face_up;
+        $x->face_up;
     }
 
     return 1;
@@ -387,9 +387,9 @@ sub Finish
 
 sub check_win
 {
-    my $a;
+    my $x;
 
-    if ( ( grep { $a = $_->top_card and $a->name('long') eq 'King' } ( values %Foundations ) ) == 4 )
+    if ( ( grep { $x = $_->top_card and $x->name('long') eq 'King' } ( values %Foundations ) ) == 4 )
     {
         print "You have won!\n";
 
@@ -413,8 +413,8 @@ sub check_win
 # Returns true if you should start a new game
 sub New_Game_Prompt
 {
-    my $a = prompt('Start a new game? (y/n):');
-    if ($a =~ /^\s*y/i)
+    my $x = prompt('Start a new game? (y/n):');
+    if ($x =~ /^\s*y/i)
     {
         update_stats();
         return 1;
@@ -529,8 +529,8 @@ ENDUSAGE
 
 sub Quit
 {
-    my $a = prompt('Are you sure you want to quit? (y/n):');
-    if ( $a !~ /^\s*n/i )
+    my $x = prompt('Are you sure you want to quit? (y/n):');
+    if ( $x !~ /^\s*n/i )
     {
         update_stats();
 
@@ -556,8 +556,8 @@ sub print_columns
         my $to_print = '';
         foreach my $column (@columns)
         {
-            my $a = ${ $column->cards }[$_];
-            my $p = defined $a ? $a->print('short') : '    ';
+            my $x = ${ $column->cards }[$_];
+            my $p = defined $x ? $x->print('short') : '    ';
             $to_print .= "$p  ";
         }    # end loop over one row of each column
         print "$to_print\n";
