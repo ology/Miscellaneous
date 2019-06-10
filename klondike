@@ -547,8 +547,6 @@ sub Quit
     if ( $x !~ /^\s*n/i )
     {
         update_stats();
-
-        print "Bye!\n";
         exit;
     }
 }
