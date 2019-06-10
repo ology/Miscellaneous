@@ -24,6 +24,7 @@ my $Error;                  # current error message
 
 my $stats = '/tmp/klondike-stats.txt';
 my $score = 0;
+my $last_score = 0;
 
 ######################################################################
 # SETUP THE GAME
@@ -274,13 +275,18 @@ sub move_to_column
     # Now actually transfer the card(s)
     $donor->give_cards( $receiver, $transferred );
 
-    $score += 5 if $from eq 'w';
+    if ($from eq 'w')
+    {
+        $last_score = 5;
+        $score += 5;
+    }
 
     # After removing a card from a column, make sure the next card in
     # that column is face up
     my $x;
     if ( $from =~ /\d/ && ( $x = $donor->top_card ) )
     {
+        $last_score += 5;
         $score += 5;
         $x->face_up;
     }
@@ -330,6 +336,7 @@ sub move_to_foundation
     # Now actually transfer the card
     $donor->give_cards( $receiver, 1 );
 
+    $last_score = 10;
     $score += 10;
 
     # After removing a card from a column, make sure the next card in
@@ -337,6 +344,7 @@ sub move_to_foundation
     my $x;
     if ( $from =~ /\d/ && ( $x = $donor->top_card ) )
     {
+        $last_score += 5;
         $score += 5;
         $x->face_up;
     }
@@ -459,6 +467,8 @@ sub Undo
         # if no error, make sure to erase any existing error message (like
         # 'can't redo any more')
         $Error = '';
+        $score -= $last_score;
+        $last_score = 0;
     }
     else
     {
