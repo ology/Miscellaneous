@@ -43,12 +43,15 @@ New_Game();
 
 while (1)
 {
-    print_game();
-
     # If we got an error on the last turn, print the game status *first*,
     # then print the error right before the prompt (so that the reader will
     # see it)
-    if ($Error) { print "$Error\n\n"; }
+    if ($Error) {
+        print '~' x 55, "\n\n";
+        print "$Error\n\n";
+    }
+
+    print_game();
 
     # Ask player what to do
     my $input = prompt('Command (h for help):');
@@ -454,7 +457,8 @@ sub New_Game
         $stats{$status}++;
     }
     close $fh or die "Can't close $stats: $!";
-    printf "\nWin/Lose: %d/%d = %.4f\n",
+    print '~' x 55, "\n\n";
+    printf "Win/Lose: %d/%d = %.4f\n\n",
         $stats{win}, $stats{lose}, ($stats{lose} == 0 ? 0 : $stats{win} / $stats{lose});
 
     $score = 0;
@@ -579,7 +583,7 @@ sub print_columns
 sub print_game
 {
     # print out the current status in solitaire
-    print "\n", '-' x 55, "\n";
+    print '~' x 55, "\n\n";
     print 'Stock: ', '*' x $Stock->size, "\n";
     print $Waste->print('short'), "\n";
     print 'Foundations:   ';
