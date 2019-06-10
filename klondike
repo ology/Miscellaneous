@@ -454,7 +454,8 @@ sub New_Game
         $stats{$status}++;
     }
     close $fh or die "Can't close $stats: $!";
-    printf "\nWin/Lose: %d/%d = %.4f\n", $stats{win}, $stats{lose}, ($stats{lose} == 0 ? 0 : $stats{win} / $stats{lose});
+    printf "\nWin/Lose: %d/%d = %.4f\n",
+        $stats{win}, $stats{lose}, ($stats{lose} == 0 ? 0 : $stats{win} / $stats{lose});
 
     $score = 0;
 }
