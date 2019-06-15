@@ -22,7 +22,7 @@ my $Cards_From_Stock = 3;   # how many stock cards to take at a time
 my $Undo;                   # Games::Cards::Undo object
 my $Error;                  # current error message
 
-my $stats = '/tmp/klondike-stats.txt';
+my $stats = $ENV{HOME} . '/klondike-stats.txt';
 my $score = 0;
 my $last_score = 0;
 
@@ -449,6 +449,10 @@ sub New_Game
     my %stats;
     $stats{win}  = 0;
     $stats{lose} = 0;
+    unless ( -e $stats ) {
+        open my $fh, '>', $stats or die "Can't write $stats: $!";
+        close $fh or die "Can't close $stats: $!";
+    }
     open my $fh, '<', $stats or die "Can't read $stats: $!";
     while ( my $line = readline($fh) )
     {
