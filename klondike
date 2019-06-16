@@ -512,23 +512,9 @@ sub Redo
 sub Help
 {
     my $Usage = <<"ENDUSAGE";
-  $0 - play "klondike", aka standard solitaire
+  perl $0 - Play "klondike", aka standard solitaire
 
-  - Columns are 1 to 7, plus the Waste pile, Foundations and Stock
-
-  - Try to build piles of Ace through King of each suit in the Foundations.
-
-  - You can move the top card from the Waste pile onto the
-  corresponding Foundation pile or onto another column. Alternatively, you
-  can move all, some, or one of the cards in a column onto another column.
-
-  - You can move a card onto the next highest card of a different color, so,
-  e.g. a red ten can go on a black Jack. Only a King can be moved onto an
-  empty column.
-
-  - Take cards 3 at a time from the Stock into the Waste pile.
-
-  - Commands are one or two letters or numbers (from 1 to 7)
+  - Commands are one or two letters or numbers (from 1 to 7):
 
     23 moves one or more cards from column 2 to 3
     2f moves a card from column 2 to the foundation pile of the right suit
