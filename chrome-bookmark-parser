@@ -1,0 +1,36 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Encode;
+use File::Slurper 'read_text';
+use JSON::MaybeXS;
+
+my $bookmarks = $ENV{HOME} . '/Library/Application Support/Google/Chrome/Default/Bookmarks';
+
+my $content = read_text($bookmarks);
+
+my $data = decode_json( encode( 'utf-8', $content ) );
+#use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$data);exit;
+
+my $i = 0;
+
+traverse($data);
+
+sub traverse {
+    my $struct = shift;
+
+    for my $key ( keys %$struct ) {
+        if ( $key eq 'url' ) {
+            print ++$i, ". $struct->{name}\n\t$struct->{$key}\n";
+        }
+        elsif ( $key eq 'children' ) {
+            for my $child ( @{ $struct->{$key} } ) {
+                traverse($child);
+            }
+        }
+        elsif ( ref $struct->{$key} eq 'HASH' ) {
+            traverse( $struct->{$key} );
+        }
+    }
+}
