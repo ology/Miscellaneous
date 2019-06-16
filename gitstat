@@ -1,0 +1,68 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use IO::Prompt;
+
+my $path = shift || $ENV{HOME} . '/sandbox';
+
+opendir( my $dh, $path ) || die "Can't opendir $path: $!";
+my @repos = map { "$path/$_" } grep { !/^\./ && -d "$path/$_" } readdir($dh);
+closedir $dh;
+
+my $i = 0;
+
+REPO: for my $repo ( sort @repos ) {
+  chdir($repo) or die "Can't chdir $repo: $!";
+
+  my $branch = qx{ git branch 2> /dev/null | grep -e '\* ' | sed 's/^..\(.*\)/ \1/' };
+  chomp $branch;
+  next unless $branch;
+
+  $i++;
+
+  $repo =~ s/^$path\///;
+
+  while (1) {
+    print "\n$i. $repo $branch\n";
+
+    my $response = prompt 'Enter=next q=quit s=status p=pull m=master d=develop b=branches f=prune: ';
+
+    if ($response eq 'q') {
+      last REPO;
+    }
+    elsif ($response eq 's') {
+      my $git = qx{ git status };
+      $git =~ s/^On branch [\w\-\/]+//;
+      $git =~ s/ *\(.+?\) *//gm;
+      $git =~ s/\n+/\n/gm;
+      print $git;
+    }
+    elsif ($response eq 'p') {
+      my $git = qx{ git pull };
+      print "\n$git";
+    }
+    elsif ($response eq 'm') {
+      my $git = qx{ git checkout master };
+      $branch = '* master';
+      print "\n$git";
+    }
+    elsif ($response eq 'd') {
+      my $git = qx{ git checkout develop };
+      $branch = '* develop';
+      print "\n$git";
+    }
+    elsif ($response eq 'b') {
+      my $git = qx{ git branch -a };
+      print "\n$git";
+    }
+    elsif ($response eq 'f') {
+      my $git = qx{ git fetch --prune };
+      $git =~ s/\n+/\n/gm;
+      print $git;
+    }
+    else {
+      next REPO;
+    }
+  }
+}
