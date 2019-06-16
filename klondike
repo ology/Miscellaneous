@@ -466,7 +466,7 @@ sub New_Game
     }
     close $fh or die "Can't close $stats: $!";
     print '~' x 55, "\n\n";
-    printf "Win/Lose: %d/%d = %.4f, Avg scores: %.4f/%.4f\n\n",
+    printf "Win/Lose: %d/%d = %.4f, Avg scores: %.2f/%.2f\n\n",
         $stats{win},
         $stats{lose},
         $stats{lose} == 0 ? 0 : $stats{win} / $stats{lose},
