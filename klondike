@@ -520,9 +520,9 @@ sub Help
     2f moves a card from column 2 to the foundation pile of the right suit
     wf moves a card from the waste pile to the foundation pile of the right suit
     w2 moves a card from the waste pile to column 2
-    ws moves the whole waste pile back into the stock
-    sw (or just s) moves from the stockpile to the waste pile
-    z attempts to finish the game. The stock must be empty.
+    w  moves the whole waste pile back into the stock
+    s  moves from the stockpile to the waste pile
+    z  attempts to finish the game. The stock must be empty.
 
     u  undo last move (multiple undo/redo works)
     r  redo the last move you undid
