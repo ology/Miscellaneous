@@ -19,12 +19,12 @@ for my $file ( @files ) {
 
     my $subs = $des->all;
 
-    my $n = 0;
+    my $j = 0;
 
     ROUTINE:
     for my $sub ( @$subs ) {
-        $n++;
-        print "\t$n. $sub\n";
+        $j++;
+        print "\t$j. $sub\n";
 
         my $response = prompt( "\tEnter=next q=quit g=grep", '' );
 
