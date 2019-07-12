@@ -29,14 +29,14 @@ for my $file ( @files ) {
         my $response = prompt( "\tEnter=next q=quit g=grep", '' );
 
         if ( $response eq 'q' ) {
-          last ROUTINE;
+            last ROUTINE;
         }
         elsif ( $response eq 'g' ) {
             my $res = qx{ grep -rc $sub * | grep -v :0 };
             print $res, "\n";
         }
         else {
-          next ROUTINE;
+            next ROUTINE;
         }
     }
 }
