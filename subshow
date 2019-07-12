@@ -12,7 +12,6 @@ my $i = 0;
 
 for my $file ( @files ) {
     $i++;
-
     print "\n$i. Processing $file...\n";
 
     my $des = Devel::Examine::Subs->new( file => $file );
