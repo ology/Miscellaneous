@@ -24,7 +24,7 @@ unless ($flavor) {
     opendir(my $dir, $path) || die "Can't opendir $path: $!";
     my @fish = grep { /^.*?fish-\w+\.txt$/ } readdir($dir);
     closedir $dir;
-    die usage(), join("\n\t", "Fish in $path:", map { /^fish-(\w+)\.txt$/ } @fish), "\n";
+    die usage(), join("\n\t", "Fish in $path:", map { /^fish-(\w+)\.txt$/ } sort @fish), "\n";
 }
 
 # If we are given a file with a suffix: that is the fish to use.
