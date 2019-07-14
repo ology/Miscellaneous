@@ -2,17 +2,17 @@
 use strict;
 use warnings;
 
-# Newline divided, tab-separated worklog format.
+# Newline divided, tab-separated work-log format.
 # Lines that don't start with a digit are ignored.
 # <- These comments are only for documentation here.
 #
 # Date				What
-# -----------------------------------------------------------
-# YYYY-MM-DD hh:mm	Description of what is to be, or was done
-# YYYY-MM-DD hh:mm
+# ----------------------------------------------------------------
+# YYYY-MM-DD hh:mm:ss	Description of what is to be, or was done.
+# YYYY-MM-DD hh:mm:ss
 #
-# YYYY-MM-DD hh:mm	Another item!
-# YYYY-MM-DD hh:mm
+# YYYY-MM-DD hh:mm:ss	Another item!
+# YYYY-MM-DD hh:mm:ss
 
 use DateTime::Format::DateParse;
 
