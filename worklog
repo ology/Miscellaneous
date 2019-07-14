@@ -2,7 +2,9 @@
 use strict;
 use warnings;
 
-# Newline divided, tab-separated worklog format:
+# Newline divided, tab-separated worklog format.
+# Lines that don't start with a digit are ignored.
+# <- These comments are only for documentation here.
 #
 # Date				What
 # -----------------------------------------------------------
