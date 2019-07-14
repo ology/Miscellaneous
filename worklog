@@ -51,5 +51,5 @@ for my $event ( sort keys %events ) {
     $total += $duration->seconds();
 }
 
-my $hours = $total / 60 / 60;
+my $hours = $total / 60 / 60; # Seconds / Minutes
 print "Total = $hours hours\n";
