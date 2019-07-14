@@ -5,8 +5,8 @@ use warnings;
 # Newline divided, tab-separated worklog format:
 #
 # Date				What
-# ----------------------------------------------
-# YYYY-MM-DD hh:mm	Description of what was done
+# -----------------------------------------------------------
+# YYYY-MM-DD hh:mm	Description of what is to be, or was done
 # YYYY-MM-DD hh:mm
 #
 # YYYY-MM-DD hh:mm	Another item!
