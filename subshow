@@ -1,4 +1,8 @@
 #!/usr/bin/env perl
+
+# This program recursively greps the current directory for the subroutines in the fiven file(s).
+# Basically it either hunts down unused subroutines or shows the usage of them.
+
 use strict;
 use warnings;
 
