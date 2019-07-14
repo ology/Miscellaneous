@@ -15,7 +15,7 @@ my $flavor = shift || '';
 my $path = "$ENV{HOME}/sandbox/fish";
 die "ERROR: Path does not exist: $path" unless -d $path;
 
-# Unless given a flavor, show the available fish.
+# Unless given a flavor, show the available fish
 unless ($flavor) {
     opendir(my $dir, $path) || die "Can't opendir $path: $!";
     my @fish = grep { /^.*?fish-.+?\.txt$/ } readdir($dir);
@@ -33,8 +33,7 @@ unless (-e $fish) {
 # Set the editor ... to vim!
 my $editor = which('vim');
 
-# Start vim in edit mode at the bottom of the fish file.
+# Start vim in edit mode at the bottom of the fish file
 my @cmd = ($editor, '+', '-c', 'startinsert!', $fish);
 #warn "@cmd\n";
-# Execute the command.
 system @cmd;
