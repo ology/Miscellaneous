@@ -18,9 +18,9 @@ die "ERROR: Path does not exist: $path" unless -d $path;
 # Unless given a flavor, show the available fish.
 unless ($flavor) {
     opendir(my $dir, $path) || die "Can't opendir $path: $!";
-    my @fish = grep { /^.*?fish-\w+\.txt$/ } readdir($dir);
+    my @fish = grep { /^.*?fish-.+?\.txt$/ } readdir($dir);
     closedir $dir;
-    die usage(), join("\n\t", "Fish in $path:", map { /^fish-(\w+)\.txt$/ } sort @fish), "\n";
+    die usage(), join("\n\t", "Fish in $path:", map { /^fish-(.+?)\.txt$/ } sort @fish), "\n";
 }
 
 # If we are given a file with a suffix: that is the fish to use.
