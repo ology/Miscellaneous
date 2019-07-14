@@ -10,13 +10,9 @@ sub usage {
     return "Usage: perl $0 [flavor] [path] | path/to.txt\n";
 }
 
-# What flavor do we want?
 my $flavor = shift || '';
 
-# Where is our fish?
-my $path = shift;
-$path ||= "$ENV{HOME}/sandbox/fish";
-# Bail out if the path does not exist.
+my $path = "$ENV{HOME}/sandbox/fish";
 die "ERROR: Path does not exist: $path" unless -d $path;
 
 # Unless given a flavor, show the available fish.
@@ -28,11 +24,11 @@ unless ($flavor) {
 }
 
 # If we are given a file with a suffix: that is the fish to use.
-my($name, undef, $suffix) = fileparse($flavor);
-my $fish = $suffix ? $name : "$path/fish-$name.txt";
+my($name, undef, $suffix) = fileparse($flavor, qr/\.[^.]*/);
+my $fish = $suffix ? $flavor : "$path/fish-$name.txt";
 # Create it if the fish file does not exist.
 unless (-e $fish) {
-    warn "WARNING: Fish does not exist. Creating $fish";
+    warn "Fish does not exist. Creating $fish";
     touch($fish) || die "Can't touch $fish: $!\n";
 }
 
