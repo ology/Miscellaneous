@@ -33,7 +33,7 @@ unless (-e $fish) {
 # Set the editor ... to vim!
 my $editor = which('vim');
 
-# Build the command.
+# Start vim in edit mode at the bottom of the fish file.
 my @cmd = ($editor, '+', '-c', 'startinsert!', $fish);
 #warn "@cmd\n";
 # Execute the command.
