@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 
-use File::Basename;
 use File::Touch;
 use File::Which qw(which);
 
