@@ -7,7 +7,7 @@ use File::Touch;
 use File::Which qw(which);
 
 sub usage {
-    return "Usage: perl $0 [flavor] [path] | path/to.txt\n";
+    return "Usage: perl $0 [flavor] [path]\n";
 }
 
 my $flavor = shift || '';
@@ -23,10 +23,8 @@ unless ($flavor) {
     die usage(), join("\n\t", "Fish in $path:", map { /^fish-(.+?)\.txt$/ } sort @fish), "\n";
 }
 
-# If we are given a file with a suffix: that is the fish to use.
-my($name, undef, $suffix) = fileparse($flavor, qr/\.[^.]*/);
-my $fish = $suffix ? $flavor : "$path/fish-$name.txt";
-# Create it if the fish file does not exist.
+my $fish = "$path/fish-$flavor.txt";
+
 unless (-e $fish) {
     warn "Fish does not exist. Creating $fish";
     touch($fish) || die "Can't touch $fish: $!\n";
