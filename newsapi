@@ -5,9 +5,8 @@ use warnings;
 use Web::NewsAPI;
 
 my $items = shift || 40;
-my $key   = shift || '5a216dcaf092419d96493630904f1c22';
-#my $key   = shift || die "Usage: perl $0 items apikey [search_term category from_date to_date]\n";
-my $term  = shift || ''; # '' for no term
+my $key   = shift || die "Usage: perl $0 items apikey [search_term category from_date to_date]\n";
+my $term  = shift // ''; # '' for no term
 my $cat   = shift || 'science'; # business entertainment general health science sports technology
 my $from  = shift; # one month ago minimum YYYY-MM-DDThh:mm:ss
 my $to    = shift;
