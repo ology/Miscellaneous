@@ -4,7 +4,7 @@ use warnings;
 
 use Web::NewsAPI;
 
-my $items = shift || 10;
+my $items = shift;
 my $key   = shift || die "Usage: perl $0 items apikey [search_term category from_date to_date]\n";
 my $term  = shift; # '' for no term
 my $cat   = shift; # business entertainment general health science sports technology
