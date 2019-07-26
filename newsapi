@@ -17,8 +17,6 @@ my $newsapi = Web::NewsAPI->new( api_key => $key );
 #print $_->name, "\n" for @sources;
 #__END__
 
-binmode( STDOUT, ':utf8' );
-
 my $result;
 
 if ( $term ) {
@@ -33,6 +31,8 @@ else {
 my %articles = map { $_->url => { date => $_->publishedAt, title => $_->title } } $result->articles;
 
 my $n = 0;
+
+binmode( STDOUT, ':utf8' );
 
 for my $article ( sort { $articles{$a}->{date} cmp $articles{$b}->{date} } keys %articles ) {
     printf "%d. %s\n\t%s\n\t%s\n", ++$n, $articles{$article}->{date}, $articles{$article}->{title}, $article;
