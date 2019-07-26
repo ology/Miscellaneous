@@ -32,8 +32,8 @@ while ( my $line = readline($fh) ) {
     # Skip entries with no end time, otherwise capture it and proceed.
     my $end;
     $end = readline($fh) if @line;
-    next unless defined $end;
     chomp $end;
+    next unless defined $end;
 
     $events{$line[0]} = {
         end  => $end,
