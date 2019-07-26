@@ -1,0 +1,39 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Web::NewsAPI;
+
+my $items = shift || 10;
+my $key   = shift || die "Usage: perl $0 items apikey [search_term from_date to_date]\n";
+my $term  = shift; # '' for no term
+my $cat   = shift; # business entertainment general health science sports technology
+my $from  = shift; # one month ago minimum YYYY-MM-DDThh:mm:ss
+my $to    = shift;
+
+my $newsapi = Web::NewsAPI->new( api_key => $key );
+
+#my @sources = $newsapi->sources( language => 'en' );
+#print $_->name, "\n" for @sources;
+#__END__
+
+binmode( STDOUT, ':utf8' );
+
+my $result;
+
+if ( $term ) {
+    $result = $newsapi->everything( q => $term, from => $from, to => $to, pageSize => $items );
+}
+else {
+    my %args = ( country => 'us', pageSize => $items );
+    $args{category} = $cat if $cat;
+    $result = $newsapi->top_headlines(%args);
+}
+
+my %articles = map { $_->url => { date => $_->publishedAt, title => $_->title } } $result->articles;
+
+my $n = 0;
+
+for my $article ( sort { $articles{$a}->{date} cmp $articles{$b}->{date} } keys %articles ) {
+    printf "%d. %s\n\t%s\n\t%s\n", ++$n, $articles{$article}->{date}, $articles{$article}->{title}, $article;
+}
