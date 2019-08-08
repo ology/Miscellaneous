@@ -21,7 +21,14 @@ my $newsapi = Web::NewsAPI->new( api_key => $key );
 my $result;
 
 if ( $term ) {
-    $result = $newsapi->everything( q => $term, language => 'en', from => $from, to => $to, pageSize => $items );
+    $result = $newsapi->everything(
+        q              => $term,
+        language       => 'en',
+        from           => $from,
+        to             => $to,
+        pageSize       => $items,
+        excludeDomains => 'nytimes.com', # Pay-to-read site
+    );
 }
 else {
     my %args = ( country => 'us', pageSize => $items );
