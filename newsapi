@@ -5,7 +5,8 @@ use warnings;
 use Web::NewsAPI;
 
 my $items = shift || 40;
-my $key   = shift || die "Usage: perl $0 items apikey [search_term category from_date to_date]\n";
+my $key   = shift || 'c37699cb69b746e994596ec9d52e2ebb';
+#my $key   = shift || die "Usage: perl $0 items apikey [search_term category from_date to_date]\n";
 my $term  = shift // ''; # '' for no term
 my $cat   = shift // 'science'; # business entertainment general health science sports technology
 my $from  = shift; # one month ago minimum YYYY-MM-DDThh:mm:ss
@@ -20,7 +21,7 @@ my $newsapi = Web::NewsAPI->new( api_key => $key );
 my $result;
 
 if ( $term ) {
-    $result = $newsapi->everything( q => $term, from => $from, to => $to, pageSize => $items );
+    $result = $newsapi->everything( q => $term, language => 'en', from => $from, to => $to, pageSize => $items );
 }
 else {
     my %args = ( country => 'us', pageSize => $items );
