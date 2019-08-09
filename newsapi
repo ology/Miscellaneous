@@ -2,15 +2,11 @@
 use strict;
 use warnings;
 
+use IO::Prompt::Tiny qw/prompt/;
 use Web::NewsAPI;
 
 my $items = shift || 40;
-my $key   = shift || 'c37699cb69b746e994596ec9d52e2ebb';
-#my $key   = shift || die "Usage: perl $0 items apikey [search_term category from_date to_date]\n";
-my $term  = shift // ''; # '' for no term
-my $cat   = shift // 'science'; # business entertainment general health science sports technology
-my $from  = shift; # one month ago minimum YYYY-MM-DDThh:mm:ss
-my $to    = shift;
+my $key   = shift || die "Usage: perl $0 items apikey\n";
 
 my $newsapi = Web::NewsAPI->new( api_key => $key );
 
@@ -18,14 +14,17 @@ my $newsapi = Web::NewsAPI->new( api_key => $key );
 #print $_->name, "\n" for @sources;
 #__END__
 
+my $term = prompt( 'Term:', '' );
+
+print "Categories: business entertainment general health science sports technology\n";
+my $cat = prompt( 'Category:', '' );
+
 my $result;
 
 if ( $term ) {
     $result = $newsapi->everything(
         q              => $term,
         language       => 'en',
-        from           => $from,
-        to             => $to,
         pageSize       => $items,
         excludeDomains => 'nytimes.com', # Pay-to-read site
     );
