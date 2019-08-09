@@ -14,10 +14,10 @@ my $newsapi = Web::NewsAPI->new( api_key => $key );
 #print $_->name, "\n" for @sources;
 #__END__
 
-my $term = prompt( 'Term:', '' );
+my $term = prompt('Term:');
 
 print "Categories: business entertainment general health science sports technology\n";
-my $cat = prompt( 'Category:', '' );
+my $cat = prompt('Category:');
 
 my $result;
 
