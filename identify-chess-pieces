@@ -1,0 +1,230 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Chess::Pgn;
+use Chess::Rep;
+use File::Find::Rule;
+use IO::Prompt;
+use Text::CSV_XS;
+
+use constant SIZE => 7;
+
+my $prompt = shift // 1;
+my $dir    = shift || '/Users/gene/sandbox/Chess-Inspector/public/pgn';
+
+my @files = File::Find::Rule->file()->name('*.pgn')->in($dir);
+#my @files = File::Find::Rule->file()->name('kasparov-324.pgn')->in($dir);
+
+my $board = [];
+
+for my $pgn ( sort @files ) {
+warn(__PACKAGE__,' ',__LINE__," MARK: ",$pgn,"\n");
+    my $cpgn = Chess::Pgn->new($pgn);
+    $cpgn->ReadGame;
+    my $game = $cpgn->game;
+    $game =~ s/\n/ /g; # De-wrap.
+    my @pairs = split /\s*\d+\.\s*/, $game;
+    my @moves = ();
+    for my $pair (@pairs) {
+        next if $pair =~ m|[012/]-[012/]|;
+        next if $pair =~ /^\s*$/;
+        last if $pair =~ /{/;
+        last if [ split( ' ', $pair ) ]->[1] =~ /^\*$/;
+        push @moves, split /\s+/, $pair;
+    }
+
+    my $rep = Chess::Rep->new;
+
+    my $positions = assign_pieces($rep);
+
+    generate_board( $board, $rep, $positions );
+
+    my $i = 0;
+
+    MOVE:
+    for my $move ( @moves ) {
+        my $m = move_piece( $move, $rep, $positions );
+        generate_board( $board, $rep, $positions );
+#use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$positions);
+print ++$i, ". $move => $m\n";
+#print $rep->get_fen, "\n";
+#print join(',', @{$board->[-1]}), "\n";
+print_board($board);
+if ( $prompt ) {
+    my $response = prompt 'Enter=next q=quit: ';
+    if ($response eq 'q') {
+        last MOVE;
+    }
+}
+    }
+#last;
+}
+
+my $csv_file = "$0.csv";
+my $csv = Text::CSV_XS->new( { binary => 1, auto_diag => 1 } );
+open my $fh, '>:encoding(utf8)', $csv_file or die "Can't read $csv_file: $!";
+$csv->say($fh, $_) for @$board;
+close $fh or die "Can't close $csv_file: $!";
+
+sub print_board {
+    my ($b) = @_;
+    my $i = 0;
+    for my $s ( @{ $b->[-1] } ) {
+        $i++;
+        print $s;
+        print $i % 8 ? ',' : "\n";
+    }
+}
+
+sub assign_pieces {
+    my ($rep) = @_;
+
+    my %pieces;
+    @pieces{ values %{ +Chess::Rep::PIECE_TO_ID() } } = keys %{ +Chess::Rep::PIECE_TO_ID() };
+
+    my $positions;
+    my %names;
+
+    for my $row ( 0 .. SIZE ) {
+        for my $col ( 0 .. SIZE ) {
+            my $p = $rep->get_piece_at( $row, $col ); # decimal of index
+            if ( $p ) {
+                my $name = $pieces{$p};
+                $names{$name}++;
+#warn "$p, $row, $col, $name$names{$name}\n";
+
+                $positions->{ $name . $names{$name} } = $row . $col;
+            }
+        }
+    }
+
+    return $positions;
+}
+
+sub move_piece {
+    my ( $move, $rep, $by_pos ) = @_;
+
+    my $moved_piece;
+
+    my $res = $rep->go_move($move);
+
+    # Castling
+    if ( $move =~ /^O-O(?:-O)?$/ ) {
+        my $from = $res->{from_row} . $res->{from_col};
+        my $to   = $res->{to_row} . $res->{to_col};
+
+        for my $piece ( keys %$by_pos ) {
+            next unless $by_pos->{$piece};
+            if ( $by_pos->{$piece} eq $from ) {
+                $moved_piece = $piece;
+                $by_pos->{$piece} = $to;
+                last;
+            }
+        }
+    }
+
+    # Is pawn -> queen promotion
+    if ( $move =~ /8=Q$/ ) {
+        my $from = $res->{from_row} . $res->{from_col};
+        my $to   = $res->{to_row} . $res->{to_col};
+        for my $piece ( keys %$by_pos ) {
+            next unless $by_pos->{$piece};
+            if ( $by_pos->{$piece} eq $from ) {
+                $moved_piece = $piece;
+                $by_pos->{$piece} = undef;
+                last;
+            }
+        }
+        my $queen = $res->{piece} & 0x80 ? 'Q' : 'q';
+        $by_pos->{ $queen . 2 } = $to; # XXX Assume there is only one promotion per game!
+    }
+    # Is capture
+    elsif ( $move =~ /x/ ) {
+        my %rc = map { defined $by_pos->{$_} ? ( $_ => $by_pos->{$_} ) : () } keys %$by_pos;
+        %rc = reverse %rc;
+
+        my $from = $res->{from_row} . $res->{from_col};
+        my $to   = $res->{to_row} . $res->{to_col};
+
+        # Captured
+        if ( $rc{$to} ) {
+            for my $piece ( keys %$by_pos ) {
+                next unless $by_pos->{$piece};
+                if ( $by_pos->{$piece} eq $to ) {
+                    $by_pos->{$piece} = undef;
+                    last;
+                }
+            }
+        }
+        # En passant
+        else {
+            my $enpa = $res->{piece} & 0x80
+                ? ( $res->{to_row} - 1 ) . $res->{to_col}
+                : ( $res->{to_row} + 1 ) . $res->{to_col};
+            for my $piece ( keys %$by_pos ) {
+                next unless $by_pos->{$piece};
+                if ( $by_pos->{$piece} eq $enpa ) {
+                    $by_pos->{$piece} = undef;
+                    last;
+                }
+            }
+        }
+
+        # Capturing
+        for my $piece ( keys %$by_pos ) {
+            next unless $by_pos->{$piece};
+            if ( $by_pos->{$piece} eq $from ) {
+                $moved_piece = $piece;
+                $by_pos->{$piece} = $to;
+                last;
+            }
+        }
+    }
+    # Is normal movement
+    else {
+        my $row_col;
+
+        my %rc = map { defined $by_pos->{$_} ? ( $_ => $by_pos->{$_} ) : () } keys %$by_pos;
+        %rc = reverse %rc;
+
+        for my $row ( 0 .. SIZE ) {
+            for my $col ( 0 .. SIZE ) {
+                my $p = $rep->get_piece_at( $row, $col ); # decimal of index
+                if ( $p ) {
+                    if ( exists $rc{ $row . $col } ) {
+                        delete $rc{ $row . $col };
+                    }
+                    else {
+                        $row_col = $row . $col;
+                    }
+                }
+            }
+        }
+
+        for my $i ( values %rc ) {
+            $moved_piece ||= $i;
+            $by_pos->{$i} = $row_col;
+        }
+    }
+
+    return $moved_piece;
+}
+
+sub generate_board {
+    my ( $board, $rep, $by_pos ) = @_;
+
+    my %rc = map { defined $by_pos->{$_} ? ( $_ => $by_pos->{$_} ) : () } keys %$by_pos;
+    %rc = reverse %rc;
+
+    my @row = ();
+
+    for my $row ( 0 .. SIZE ) {
+        for my $col ( 0 .. SIZE ) {
+            my $p = $rep->get_piece_at( $row, $col ); # decimal of index
+            push @row, $p ? $rc{ $row . $col } : '--';
+        }
+    }
+
+    push @$board, \@row;
+}
