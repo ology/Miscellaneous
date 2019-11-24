@@ -8,7 +8,8 @@ use File::Find::Rule;
 use IO::Prompt;
 use Text::CSV_XS;
 
-use constant SIZE => 7;
+use constant SIZE  => 7;
+use constant BLANK => '--';
 
 my $prompt = shift // 1;
 my $dir    = shift || '/Users/gene/sandbox/Chess-Inspector/public/pgn';
@@ -22,11 +23,14 @@ GAME:
 for my $pgn ( sort @files ) {
     my ( $color, @moves ) = parse_pgn($pgn);
 
+#    next unless $color; # black
+    next if $color; # white
+
     my $rep = Chess::Rep->new;
 
     my $positions = assign_pieces($rep);
 
-    generate_board( $board, $rep, $positions );
+    generate_board( $board, $rep, $positions, '', $color );
 
     my $i = 0;
 
@@ -35,7 +39,7 @@ for my $pgn ( sort @files ) {
 
         my $moved_piece = move_piece( $move, $rep, $positions );
 
-        generate_board( $board, $rep, $positions, $moved_piece );
+        generate_board( $board, $rep, $positions, $moved_piece, $color );
 
 #        use Data::Dumper; print Dumper $positions;
 #        print "$i. $move => $moved_piece\n";
@@ -51,10 +55,26 @@ for my $pgn ( sort @files ) {
 #    last;
 }
 
+my $filtered_board = [];
+my $i = 0;
+for my $row ( @$board ) {
+    $i = 0 if $row->[65] eq BLANK;
+#    if ( ( $row->[64] && $i % 2 ) ) { # black
+    if ( !( $row->[64] || $i % 2 ) ) { # white
+        my $move = $board->[ $i + 1 ][-1];
+        pop @$row;
+        pop @$row;
+        $row->[64] = $move;
+        unshift @$row, $i;
+        push @$filtered_board, $row;
+    }
+    $i++;
+}
+
 my $csv_file = "$0.csv";
 my $csv = Text::CSV_XS->new( { binary => 1, auto_diag => 1 } );
 open my $fh, '>:encoding(utf8)', $csv_file or die "Can't write $csv_file: $!";
-$csv->say( $fh, $_ ) for @$board;
+$csv->say( $fh, $_ ) for @$filtered_board;
 close $fh or die "Can't close $csv_file: $!";
 
 sub parse_pgn {
@@ -233,7 +253,7 @@ sub move_piece {
 }
 
 sub generate_board {
-    my ( $board, $rep, $by_pos, $moved_piece ) = @_;
+    my ( $board, $rep, $by_pos, $moved_piece, $color ) = @_;
 
     my %rc = map { defined $by_pos->{$_} ? ( $_ => $by_pos->{$_} ) : () } keys %$by_pos;
     %rc = reverse %rc;
@@ -243,10 +263,11 @@ sub generate_board {
     for my $row ( 0 .. SIZE ) {
         for my $col ( 0 .. SIZE ) {
             my $p = $rep->get_piece_at( $row, $col ); # decimal of index
-            push @row, $p ? $rc{ $row . $col } : '--';
+            push @row, $p ? $rc{ $row . $col } : BLANK;
         }
     }
 
-    push @row, $moved_piece ? $moved_piece : '--';
+    push @row, $color ? 1 : 0;
+    push @row, $moved_piece ? $moved_piece : BLANK;
     push @$board, \@row;
 }
