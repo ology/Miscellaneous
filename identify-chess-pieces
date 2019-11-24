@@ -41,9 +41,7 @@ for my $pgn ( sort @files ) {
         print_board($board);
         if ( $prompt ) {
             my $response = prompt 'Enter=next q=quit: ';
-            if ($response eq 'q') {
-                last GAME;
-            }
+            last GAME if $response eq 'q';
         }
     }
 
