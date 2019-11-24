@@ -31,11 +31,14 @@ for my $pgn ( sort @files ) {
     my $i = 0;
 
     for my $move ( @moves ) {
+        $i++;
+
         my $moved_piece = move_piece( $move, $rep, $positions );
+
         generate_board( $board, $rep, $positions, $moved_piece );
 
 #        use Data::Dumper; print Dumper $positions;
-#        print ++$i, ". $move => $moved_piece\n";
+#        print "$i. $move => $moved_piece\n";
 #        print $rep->get_fen, "\n";
 #        print_board($board);
 
@@ -50,8 +53,8 @@ for my $pgn ( sort @files ) {
 
 my $csv_file = "$0.csv";
 my $csv = Text::CSV_XS->new( { binary => 1, auto_diag => 1 } );
-open my $fh, '>:encoding(utf8)', $csv_file or die "Can't read $csv_file: $!";
-$csv->say($fh, $_) for @$board;
+open my $fh, '>:encoding(utf8)', $csv_file or die "Can't write $csv_file: $!";
+$csv->say( $fh, $_ ) for @$board;
 close $fh or die "Can't close $csv_file: $!";
 
 sub parse_pgn {
