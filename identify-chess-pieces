@@ -37,7 +37,7 @@ for my $pgn ( sort @files ) {
         #use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$positions);
 #        print ++$i, ". $move => $moved_piece\n";
         #print $rep->get_fen, "\n";
-#        print_board($board);
+        print_board($board);
 
         if ( $prompt ) {
             my $response = prompt 'Enter=next q=quit: ';
@@ -87,6 +87,7 @@ sub print_board {
     my $i = 0;
     for my $s ( @{ $b->[-1] } ) {
         $i++;
+        last if $i == 65;
         print $s;
         print $i % ( SIZE + 1 ) ? ',' : "\n";
     }
