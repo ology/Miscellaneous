@@ -18,8 +18,9 @@ my @files = File::Find::Rule->file()->name('*.pgn')->in($dir);
 
 my $board = [];
 
+GAME:
 for my $pgn ( sort @files ) {
-warn(__PACKAGE__,' ',__LINE__," MARK: ",$pgn,"\n");
+    print "$pgn\n";
     my $cpgn = Chess::Pgn->new($pgn);
     $cpgn->ReadGame;
     my $game = $cpgn->game;
@@ -42,7 +43,6 @@ warn(__PACKAGE__,' ',__LINE__," MARK: ",$pgn,"\n");
 
     my $i = 0;
 
-    MOVE:
     for my $move ( @moves ) {
         my $moved_piece = move_piece( $move, $rep, $positions );
         generate_board( $board, $rep, $positions );
@@ -55,7 +55,7 @@ warn(__PACKAGE__,' ',__LINE__," MARK: ",$pgn,"\n");
         if ( $prompt ) {
             my $response = prompt 'Enter=next q=quit: ';
             if ($response eq 'q') {
-                last MOVE;
+                last GAME;
             }
         }
     }
