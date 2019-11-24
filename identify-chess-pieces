@@ -44,21 +44,23 @@ warn(__PACKAGE__,' ',__LINE__," MARK: ",$pgn,"\n");
 
     MOVE:
     for my $move ( @moves ) {
-        my $m = move_piece( $move, $rep, $positions );
+        my $moved_piece = move_piece( $move, $rep, $positions );
         generate_board( $board, $rep, $positions );
-#use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$positions);
-print ++$i, ". $move => $m\n";
-#print $rep->get_fen, "\n";
-#print join(',', @{$board->[-1]}), "\n";
-print_board($board);
-if ( $prompt ) {
-    my $response = prompt 'Enter=next q=quit: ';
-    if ($response eq 'q') {
-        last MOVE;
+
+        #use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$positions);
+        print ++$i, ". $move => $moved_piece\n";
+        #print $rep->get_fen, "\n";
+        #print join(',', @{$board->[-1]}), "\n";
+        print_board($board);
+        if ( $prompt ) {
+            my $response = prompt 'Enter=next q=quit: ';
+            if ($response eq 'q') {
+                last MOVE;
+            }
+        }
     }
-}
-    }
-#last;
+
+#    last;
 }
 
 my $csv_file = "$0.csv";
@@ -181,7 +183,7 @@ sub move_piece {
             }
         }
     }
-    # Is normal movement
+    # Normal movement
     else {
         my $row_col;
 
