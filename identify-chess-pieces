@@ -35,7 +35,7 @@ for my $pgn ( sort @files ) {
         generate_board( $board, $rep, $positions, $moved_piece );
 
 #        use Data::Dumper; print Dumper $positions;
-        print ++$i, ". $move => $moved_piece (", ( $color ? 'black' : 'white' ), ")\n";
+#        print ++$i, ". $move => $moved_piece\n";
 #        print $rep->get_fen, "\n";
 #        print_board($board);
 
