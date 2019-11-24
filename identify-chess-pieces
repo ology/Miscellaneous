@@ -34,7 +34,7 @@ for my $pgn ( sort @files ) {
         my $moved_piece = move_piece( $move, $rep, $positions );
         generate_board( $board, $rep, $positions, $moved_piece );
 
-#        use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$positions);
+#        use Data::Dumper; print Dumper $positions;
 #        print ++$i, ". $move => $moved_piece\n";
 #        print $rep->get_fen, "\n";
 #        print_board($board);
