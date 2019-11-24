@@ -20,7 +20,7 @@ my $board = [];
 
 GAME:
 for my $pgn ( sort @files ) {
-    my @moves = parse_pgn($pgn);
+    my ( $color, @moves ) = parse_pgn($pgn);
 
     my $rep = Chess::Rep->new;
 
@@ -35,7 +35,7 @@ for my $pgn ( sort @files ) {
         generate_board( $board, $rep, $positions, $moved_piece );
 
 #        use Data::Dumper; print Dumper $positions;
-#        print ++$i, ". $move => $moved_piece\n";
+        print ++$i, ". $move => $moved_piece (", ( $color ? 'black' : 'white' ), ")\n";
 #        print $rep->get_fen, "\n";
 #        print_board($board);
 
@@ -61,6 +61,8 @@ sub parse_pgn {
     my $cpgn = Chess::Pgn->new($pgn);
     $cpgn->ReadGame;
 
+    my $color = $cpgn->{White} =~ /Kasparov/ ? 0 : 1;
+
     my $game = $cpgn->game;
     $game =~ s/\n/ /g; # De-wrap.
 
@@ -78,7 +80,7 @@ sub parse_pgn {
         push @moves, split /\s+/, $pair;
     }
 
-    return @moves;
+    return $color, @moves;
 }
 
 sub print_board {
