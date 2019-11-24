@@ -218,7 +218,7 @@ sub move_piece {
         }
 
         for my $i ( values %rc ) {
-            $moved_piece ||= $i;
+            $moved_piece ||= $i; # NOTE: Honor castling moved piece = king
             $by_pos->{$i} = $row_col;
         }
     }
