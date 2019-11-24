@@ -88,7 +88,7 @@ sub print_board {
     for my $s ( @{ $b->[-1] } ) {
         $i++;
         print $s;
-        print $i % 8 ? ',' : "\n";
+        print $i % ( SIZE + 1 ) ? ',' : "\n";
     }
 }
 
