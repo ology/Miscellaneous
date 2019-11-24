@@ -32,12 +32,12 @@ for my $pgn ( sort @files ) {
 
     for my $move ( @moves ) {
         my $moved_piece = move_piece( $move, $rep, $positions );
-        generate_board( $board, $rep, $positions );
+        generate_board( $board, $rep, $positions, $moved_piece );
 
         #use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper$positions);
-        print ++$i, ". $move => $moved_piece\n";
+#        print ++$i, ". $move => $moved_piece\n";
         #print $rep->get_fen, "\n";
-        print_board($board);
+#        print_board($board);
 
         if ( $prompt ) {
             my $response = prompt 'Enter=next q=quit: ';
@@ -227,7 +227,7 @@ sub move_piece {
 }
 
 sub generate_board {
-    my ( $board, $rep, $by_pos ) = @_;
+    my ( $board, $rep, $by_pos, $moved_piece ) = @_;
 
     my %rc = map { defined $by_pos->{$_} ? ( $_ => $by_pos->{$_} ) : () } keys %$by_pos;
     %rc = reverse %rc;
@@ -241,5 +241,6 @@ sub generate_board {
         }
     }
 
+    push @row, $moved_piece ? $moved_piece : '--';
     push @$board, \@row;
 }
