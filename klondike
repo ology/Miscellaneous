@@ -7,6 +7,7 @@ use warnings;
 
 use Games::Cards;
 use IO::Prompt::Tiny 'prompt';
+use Term::ANSIColor;
 
 srand();
 
@@ -570,10 +571,40 @@ sub print_columns
             my $p = defined $x ? $x->print('short') : '    ';
             $to_print .= "$p  ";
         }    # end loop over one row of each column
-        print "$to_print\n";
+
+        _recurse_colorize($to_print);
+
     }    # end loop over all rows
     print "\n";
 }    # end sub print_columns
+
+
+sub _recurse_colorize {
+    my ($str) = @_;
+
+    my ( $top, $head, $tail );
+
+    if ( $str =~ /^(.*?)(\w+[DH])(.*)$/ ) {
+        $top  = $1;
+        $head = $2;
+        $tail = $3;
+
+        print $top;
+        print color('bold red');
+        print $head;
+        print color('reset');
+
+        if ( $tail =~ /[DH]/ ) {
+            _recurse_colorize($tail);
+        }
+        else {
+            print $tail, "\n";
+        }
+    }
+    else {
+        print "$str\n";
+    }
+}
 
 
 sub print_game
