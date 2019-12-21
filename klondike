@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 # Copyright 1999 Amir Karger (karger@post.harvard.edu)
-# Modified Jun-2019 Gene Boggs
+# Modified Jun-Dec 2019 Gene Boggs
 
 use Games::Cards;
 use IO::Prompt::Tiny 'prompt';
