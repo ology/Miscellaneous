@@ -598,11 +598,38 @@ sub _recurse_colorize {
             _recurse_colorize($tail);
         }
         else {
-            print $tail, "\n";
+            print "$tail\n";
         }
     }
     else {
         print "$str\n";
+    }
+}
+
+sub _recurse_colorize_F {
+    my ($str) = @_;
+
+    my ( $top, $head, $tail );
+
+    if ( $str =~ /^(.*?)(\w+[DH])(.*)$/sm ) {
+        $top  = $1;
+        $head = $2;
+        $tail = $3;
+
+        print $top;
+        print color('bold red');
+        print $head;
+        print color('reset');
+
+        if ( $tail =~ /[DH]/ ) {
+            _recurse_colorize($tail);
+        }
+        else {
+            print $tail;
+        }
+    }
+    else {
+        print $str;
     }
 }
 
@@ -621,7 +648,7 @@ sub print_game
         my $to_print = $set->size
             ? $set->top_card->print('short')
             : '(none)';
-        print "$to_print   ";
+        _recurse_colorize_F("$to_print   ");
     }
     print "\n\n";
 
