@@ -572,7 +572,7 @@ sub print_columns
             $to_print .= "$p  ";
         }    # end loop over one row of each column
 
-        _recurse_colorize($to_print);
+        _recurse_colorize( $to_print, 1 );
 
     }    # end loop over all rows
     print "\n";
@@ -580,7 +580,7 @@ sub print_columns
 
 
 sub _recurse_colorize {
-    my ($str) = @_;
+    my ( $str, $nl ) = @_;
 
     my ( $top, $head, $tail );
 
@@ -595,41 +595,16 @@ sub _recurse_colorize {
         print color('reset');
 
         if ( $tail =~ /[DH]/ ) {
-            _recurse_colorize($tail);
-        }
-        else {
-            print "$tail\n";
-        }
-    }
-    else {
-        print "$str\n";
-    }
-}
-
-sub _recurse_colorize_F {
-    my ($str) = @_;
-
-    my ( $top, $head, $tail );
-
-    if ( $str =~ /^(.*?)(\w+[DH])(.*)$/sm ) {
-        $top  = $1;
-        $head = $2;
-        $tail = $3;
-
-        print $top;
-        print color('bold red');
-        print $head;
-        print color('reset');
-
-        if ( $tail =~ /[DH]/ ) {
-            _recurse_colorize($tail);
+            _recurse_colorize( $tail, $nl );
         }
         else {
             print $tail;
+            print "\n" if $nl;
         }
     }
     else {
         print $str;
+        print "\n" if $nl;
     }
 }
 
@@ -640,7 +615,7 @@ sub print_game
     print '~' x 55, "\n\n";
     print 'Stock: ', '*' x $Stock->size, "\n";
     my $waste = $Waste->print('short');
-    _recurse_colorize($waste);
+    _recurse_colorize( $waste, 1 );
     print 'Foundations:   ';
     foreach ( keys %Foundations )
     {
@@ -648,7 +623,7 @@ sub print_game
         my $to_print = $set->size
             ? $set->top_card->print('short')
             : '(none)';
-        _recurse_colorize_F("$to_print   ");
+        _recurse_colorize( "$to_print   ", 0 );
     }
     print "\n\n";
 
