@@ -619,7 +619,7 @@ sub print_game
     print 'Foundations:   ';
     foreach ( keys %Foundations )
     {
-        my $set = $Foundations{ $_ };
+        my $set = $Foundations{$_};
         my $to_print = $set->size
             ? $set->top_card->print('short')
             : '(none)';
