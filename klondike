@@ -584,7 +584,7 @@ sub _recurse_colorize {
 
     my ( $top, $head, $tail );
 
-    if ( $str =~ /^(.*?)(\w+[DH])(.*)$/ ) {
+    if ( $str =~ /^(.*?)(\w+[DH])(.*)$/sm ) {
         $top  = $1;
         $head = $2;
         $tail = $3;
@@ -612,7 +612,8 @@ sub print_game
     # print out the current status in solitaire
     print '~' x 55, "\n\n";
     print 'Stock: ', '*' x $Stock->size, "\n";
-    print $Waste->print('short'), "\n";
+    my $waste = $Waste->print('short');
+    _recurse_colorize($waste);
     print 'Foundations:   ';
     foreach ( keys %Foundations )
     {
