@@ -83,7 +83,7 @@ sub setup_game
     # Deal out the Tableau
     my $s = $class_prefix . 'Stack';
     @Tableau = ();    # erase Tableau from last game, if any
-    foreach my $i ( 1 .. $Tableau_Size )
+    for my $i ( 1 .. $Tableau_Size )
     {
         my $column = $s->new( $Klondike, "Column $i", $i );
         $Deck->give_cards( $column, $i );
@@ -95,7 +95,7 @@ sub setup_game
     }
 
     # Create the empty Foundations
-    foreach ( @{ $Klondike->{ 'suits' } } )
+    for ( @{ $Klondike->{ 'suits' } } )
     {
         $Foundations{ $_ } = $s->new( $Klondike, ucfirst($_) . ' Pile', lc $_ );
     }
@@ -255,7 +255,7 @@ sub move_to_column
     my $allowed       = 0;                     # are we allowed to transfer?
     my $transferred   = 0;                     # number of cards to transfer
     my $receiver_card = $receiver->top_card;
-    foreach my $card (@cards)
+    for my $card (@cards)
     {
         $transferred++;
 
@@ -364,7 +364,7 @@ sub Finish
         $Error = 'ERROR: Stock must be empty to finish';
         return;
     }
-    foreach my $col (@Tableau)
+    for my $col (@Tableau)
     {
         if ( grep { $_->is_face_down } @{ $col->cards } )
         {
@@ -377,7 +377,7 @@ sub Finish
     do
     {
         $did_move = 0;
-        foreach my $j ( 1 .. @Tableau, 'w' )
+        for my $j ( 1 .. @Tableau, 'w' )
         {
             if ( move_to_foundation($j) )
             {
@@ -562,10 +562,10 @@ sub print_columns
     my $index = ( sort { $a <=> $b } ( map { $_->size } @columns ) )[-1] - 1;
     print ' ', join( '     ', ( 1 .. @columns ) ), "\n";
     print join( '   ', ('---') x @columns ), "\n";
-    foreach ( 0 .. $index )
+    for ( 0 .. $index )
     {
         my $to_print = '';
-        foreach my $column (@columns)
+        for my $column (@columns)
         {
             my $x = ${ $column->cards }[$_];
             my $p = defined $x ? $x->print('short') : '    ';
@@ -617,7 +617,7 @@ sub print_game
     my $waste = $Waste->print('short');
     _recurse_colorize( $waste, 1 );
     print 'Foundations:   ';
-    foreach ( keys %Foundations )
+    for ( keys %Foundations )
     {
         my $set = $Foundations{$_};
         my $to_print = $set->size
