@@ -4,6 +4,7 @@ use warnings;
 
 use File::Touch;
 use File::Which qw(which);
+use File::Find::Rule;
 
 sub usage { return "Usage: perl $0 [flavor] [path]\n"; }
 
@@ -14,10 +15,8 @@ die "ERROR: Path does not exist: $path" unless -d $path;
 
 # Unless given a flavor, show the available fish
 unless ($flavor) {
-    opendir(my $dir, $path) || die "Can't opendir $path: $!";
-    my @fish = grep { /^fish-.+?\.txt$/ } readdir($dir);
-    closedir $dir;
-    die usage(), join("\n\t", "Fish in $path:", map { /^fish-(.+?)\.txt$/ } sort @fish), "\n";
+    my @fish = File::Find::Rule->file()->name('fish-*.txt')->in($path);
+    die usage(), join("\n\t", "Fish in $path:", map { /fish-(.+?)\.txt$/ } sort @fish), "\n";
 }
 
 my $fish = "$path/fish-$flavor.txt";
