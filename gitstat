@@ -9,7 +9,7 @@ use IO::Prompt;
 
 my $path = shift || $ENV{HOME} . '/sandbox';
 
-my @repos = File::Find::Rule->maxdepth(1)->directory->in($path);
+my @repos = File::Find::Rule->maxdepth(1)->directory->not( File::Find::Rule->new->name( qr/^\./ ) )->in($path);
 
 my $i = 0;
 
