@@ -7,7 +7,6 @@ use warnings;
 
 use Games::Cards;
 use IO::Prompt::Tiny 'prompt';
-use Term::Clear ();
 use Term::ANSIColor;
 
 srand();
@@ -38,21 +37,13 @@ $Klondike = $class->new;
 $class     = $class_prefix . 'Deck';
 $Save_Deck = $class->new( $Klondike, 'Save Deck' );
 
-Term::Clear::clear();
-
 New_Game();
 
 ######################################################################
 # Now play
 
-my $count = 0;
-
 while (1)
 {
-    $count++;
-
-    Term::Clear::clear() if $count > 1;
-
     # If we got an error on the last turn, print the game status *first*,
     # then print the error right before the prompt (so that the reader will
     # see it)
