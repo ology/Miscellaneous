@@ -6,6 +6,7 @@ use warnings;
 
 use File::Find::Rule;
 use IO::Prompt;
+use List::Util 'any';
 
 my $path = shift || $ENV{HOME} . '/sandbox';
 
@@ -20,9 +21,12 @@ my $i = 0;
 REPO: for my $repo ( sort @repos ) {
   chdir($repo) or die "Can't chdir $repo: $!";
 
+  my @subdirs = File::Find::Rule->maxdepth(1)->directory->in('.');
+  my $bool = any { $_ eq '.git' } @subdirs;
+  next unless $bool;
+
   my $branch = qx{ git rev-parse --abbrev-ref HEAD };
   chomp $branch;
-  next unless $branch;
 
   $i++;
 
