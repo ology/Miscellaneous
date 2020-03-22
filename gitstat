@@ -43,7 +43,7 @@ REPO: for my $repo ( sort @repos ) {
     elsif ($response eq 's') {
       my $git = qx{ git status --untracked-files=no };
       $git =~ s/^On branch [\w\-\/]+//;
-      $git =~ s/ *\(.+?\) *//gm;
+      $git =~ s/\s*\(.+?\)\s*//gm;
       $git =~ s/\n+/\n/gm;
       print $git;
     }
