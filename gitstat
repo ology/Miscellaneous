@@ -4,13 +4,12 @@ use warnings;
 
 # Loop over git repos and perform various operations on them.
 
+use File::Find::Rule;
 use IO::Prompt;
 
 my $path = shift || $ENV{HOME} . '/sandbox';
 
-opendir( my $dh, $path ) || die "Can't opendir $path: $!";
-my @repos = map { "$path/$_" } grep { !/^\./ && -d "$path/$_" } readdir($dh);
-closedir $dh;
+my @repos = File::Find::Rule->maxdepth(1)->directory->in($path);
 
 my $i = 0;
 
