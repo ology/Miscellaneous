@@ -21,6 +21,8 @@ my $i = 0;
 REPO: for my $repo ( sort @repos ) {
   chdir($repo) or die "Can't chdir $repo: $!";
 
+  $repo =~ s/^$path\///;
+
   my @subdirs = File::Find::Rule->maxdepth(1)->directory->in('.');
   my $bool = any { $_ eq '.git' } @subdirs;
   next unless $bool;
@@ -29,8 +31,6 @@ REPO: for my $repo ( sort @repos ) {
   chomp $branch;
 
   $i++;
-
-  $repo =~ s/^$path\///;
 
   while (1) {
     print "\n$i. $repo $branch\n";
