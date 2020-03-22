@@ -16,7 +16,7 @@ my $i = 0;
 REPO: for my $repo ( sort @repos ) {
   chdir($repo) or die "Can't chdir $repo: $!";
 
-  my $branch = qx{ git branch 2> /dev/null | grep -e '\* ' | sed 's/^..\(.*\)/ \1/' };
+  my $branch = qx{ git rev-parse --abbrev-ref HEAD };
   chomp $branch;
   next unless $branch;
 
@@ -45,12 +45,12 @@ REPO: for my $repo ( sort @repos ) {
     }
     elsif ($response eq 'm') {
       my $git = qx{ git checkout master };
-      $branch = '* master';
+      $branch = 'master';
       print "\n$git";
     }
     elsif ($response eq 'd') {
       my $git = qx{ git checkout develop };
-      $branch = '* develop';
+      $branch = 'develop';
       print "\n$git";
     }
     elsif ($response eq 'b') {
