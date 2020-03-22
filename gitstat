@@ -2,6 +2,8 @@
 use strict;
 use warnings;
 
+# Loop over git repos and perform various operations on them.
+
 use IO::Prompt;
 
 my $path = shift || $ENV{HOME} . '/sandbox';
