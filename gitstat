@@ -28,7 +28,7 @@ REPO: for my $repo ( sort @repos ) {
   while (1) {
     print "\n$i. $repo $branch\n";
 
-    my $response = prompt 'Enter=next q=quit s=status p=pull m=master d=develop b=branches f=prune: ';
+    my $response = prompt 'Enter=next q=quit s=status b=branches p=pull f=prune m=master d=develop:';
 
     if ($response eq 'q') {
       last REPO;
