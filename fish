@@ -5,9 +5,7 @@ use warnings;
 use File::Touch;
 use File::Which qw(which);
 
-sub usage {
-    return "Usage: perl $0 [flavor] [path]\n";
-}
+sub usage { return "Usage: perl $0 [flavor] [path]\n"; }
 
 my $flavor = shift || '';
 
