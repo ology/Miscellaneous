@@ -8,6 +8,7 @@ use warnings;
 use Games::Cards;
 use IO::Prompt::Tiny 'prompt';
 use Term::ANSIColor;
+use Term::Clear ();
 
 srand();
 
@@ -37,6 +38,8 @@ $Klondike = $class->new;
 $class     = $class_prefix . 'Deck';
 $Save_Deck = $class->new( $Klondike, 'Save Deck' );
 
+my $flag = 0;
+
 New_Game();
 
 ######################################################################
@@ -48,8 +51,17 @@ while (1)
     # then print the error right before the prompt (so that the reader will
     # see it)
     if ($Error) {
+        Term::Clear::clear();
         print '~' x 55, "\n\n";
         print "$Error\n\n";
+        $flag = 1;
+    }
+
+    if ($flag) {
+        $flag = 0;
+    }
+    else {
+        Term::Clear::clear();
     }
 
     print_game();
@@ -466,6 +478,8 @@ sub New_Game
         $lose_score += $status eq 'lose' ? $score : 0;
     }
     close $fh or die "Can't close $stats: $!";
+    Term::Clear::clear();
+    $flag = 1;
     print '~' x 55, "\n\n";
     printf "Win/Lose: %d/%d = %.4f, Avg scores: %.2f/%.2f\n\n",
         $stats{win},
