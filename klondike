@@ -38,7 +38,7 @@ $Klondike = $class->new;
 $class     = $class_prefix . 'Deck';
 $Save_Deck = $class->new( $Klondike, 'Save Deck' );
 
-my $flag = 0;
+my $cleared = 0;
 
 New_Game();
 
@@ -54,11 +54,11 @@ while (1)
         Term::Clear::clear();
         print '~' x 55, "\n\n";
         print "$Error\n\n";
-        $flag = 1;
+        $cleared = 1;
     }
 
-    if ($flag) {
-        $flag = 0;
+    if ($cleared) {
+        $cleared = 0;
     }
     else {
         Term::Clear::clear();
@@ -479,7 +479,7 @@ sub New_Game
     }
     close $fh or die "Can't close $stats: $!";
     Term::Clear::clear();
-    $flag = 1;
+    $cleared = 1;
     print '~' x 55, "\n\n";
     printf "Win/Lose: %d/%d = %.4f, Avg scores: %.2f/%.2f\n\n",
         $stats{win},
