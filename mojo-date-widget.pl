@@ -1,10 +1,7 @@
 #!/usr/bin/env perl
 use Mojolicious::Lite;
 
-get '/' => sub {
-  my $c = shift;
-  $c->render(template => 'index');
-};
+get '/' => sub { shift->render(template => 'index') };
 
 app->start;
 __DATA__
@@ -24,6 +21,7 @@ __DATA__
 @@ index.html.ep
 % layout 'default';
 % title 'Dynamic Date Widgets';
+
 <label for="year">Year:</label>
 <select name="year" id="year">
 % my $y = (localtime)[5] + 1900;
@@ -35,6 +33,7 @@ __DATA__
     ><%= $year %></option>
 % }
 </select>
+
 <label for="month">Month:</label>
 <select name="month" id="month">
 % my $m = (localtime)[4] + 1;
@@ -46,9 +45,11 @@ __DATA__
     ><%= $month %></option>
 % }
 </select>
+
 <label for="day">Day:</label>
 <select name="day" id="day">
 </select>
+
 <script>
 jQuery(function($) {
     function leapyear(year) {
