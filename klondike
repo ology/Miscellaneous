@@ -67,7 +67,7 @@ while (1)
     print_game();
 
     # Ask player what to do
-    my $input = prompt('Command (q: quit, n: new, h: help):');
+    my $input = prompt('Command (h: help, n: new, q: quit):');
     $input =~ s/\s*//g;
 
     do_command($input);
