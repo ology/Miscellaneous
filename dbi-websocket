@@ -6,16 +6,13 @@
 
 use Mojolicious::Lite;
 use Mojo::JSON qw(decode_json encode_json);
+use DBI;
 
 # Connected websocket clients
 my $clients = {};
 
-# connect to database
-use DBI;
-my $dbh = DBI->connect("dbi:SQLite:database.db","","") or die "Could not connect";
-
 # add helper methods for interacting with database
-helper db => sub { $dbh };
+helper db => sub { state $dbh = DBI->connect('dbi:SQLite:database.db', '', '') };
 
 helper create_table => sub {
   my $self = shift;
