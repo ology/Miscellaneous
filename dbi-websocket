@@ -11,7 +11,7 @@ use DBI;
 # Connected websocket clients
 my $clients = {};
 
-# add helper methods for interacting with database
+# add helper methods for interacting with the database
 my $dbfile = 'database.db';
 helper db => sub { state $dbh = DBI->connect("dbi:SQLite:$dbfile", '', '') };
 
@@ -36,7 +36,7 @@ helper insert => sub {
   return 1;
 };
 
-# if statement didn't prepare, assume its because the table doesn't exist
+# create the people table if the database doesn't exist
 app->create_table unless -e $dbfile;
 
 # setup base route
