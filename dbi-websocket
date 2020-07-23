@@ -18,7 +18,7 @@ helper db => sub { state $dbh = DBI->connect("dbi:SQLite:$dbfile", '', '') };
 helper create_table => sub {
   my $self = shift;
   warn "Creating table 'people'\n";
-  $self->db->do('CREATE TABLE people (name varchar(255), age int);');
+  $self->db->do('CREATE TABLE people (name text, age int);');
 };
 
 helper select => sub {
