@@ -1,0 +1,137 @@
+#!/usr/bin/env perl
+
+# https://github.com/mojolicious/mojo/wiki/Writing-websocket-chat-using-Mojolicious-Lite
+# +
+# http://blogs.perl.org/users/joel_berger/2012/10/a-websocket-mojoliciousdbi-example.html
+
+use Mojolicious::Lite;
+use Mojo::JSON qw(decode_json encode_json);
+
+# Connected websocket clients
+my $clients = {};
+
+# connect to database
+use DBI;
+my $dbh = DBI->connect("dbi:SQLite:database.db","","") or die "Could not connect";
+
+# add helper methods for interacting with database
+helper db => sub { $dbh };
+
+helper create_table => sub {
+  my $self = shift;
+  warn "Creating table 'people'\n";
+  $self->db->do('CREATE TABLE people (name varchar(255), age int);');
+};
+
+helper select => sub {
+  my $self = shift;
+  my $sth = eval { $self->db->prepare('SELECT * FROM people') } || return undef;
+  $sth->execute;
+  return $sth->fetchall_arrayref;
+};
+
+helper insert => sub {
+  my $self = shift;
+  my ($name, $age) = @_;
+  my $sth = eval { $self->db->prepare('INSERT INTO people VALUES (?,?)') } || return undef;
+  $sth->execute($name, $age);
+  return 1;
+};
+
+# if statement didn't prepare, assume its because the table doesn't exist
+app->select || app->create_table;
+
+# setup base route
+any '/' => sub {
+  my $self = shift;
+
+  my $rows = $self->select;
+  $self->render('index', rows => $rows);
+};
+
+# setup websocket message handler
+websocket '/insert' => sub {
+  my $self = shift;
+
+  # Get this client id
+  app->log->debug(sprintf 'Client connected: %s', $self->tx);
+  my $id = sprintf '%s', $self->tx;
+  $clients->{$id} = $self->tx;
+
+  $self->on(message => sub {
+    my ($ws, $message) = @_;
+
+    my $row = decode_json($message);
+    $self->insert(@$row);
+
+    my $html = $ws->render_to_string('table', rows => [$row]);
+
+    # Send the message to the connected clients
+    for (keys %$clients) {
+      $clients->{$_}->send(encode_json({row => $html}));
+    }
+  });
+};
+
+app->start;
+
+__DATA__
+
+@@ index.html.ep
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>People</title>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+</head>
+<body>
+  <div>
+    Name: <input type="text" id="name"> 
+    Age: <input type="text" id="age" > 
+    <input type="submit" value="Add" onclick="insert()">
+  </div>
+  <br>
+  Data: <br>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+      </tr>
+    </thead>
+    <tbody id="table">
+      %= include 'table'
+    </tbody>
+  </table>
+  %= javascript begin
+    var ws = new WebSocket("<%= url_for('insert')->to_abs %>");
+    ws.onopen = function () {
+      console.log('Connection opened!');
+    };
+    ws.onmessage = function (evt) {
+      var data = JSON.parse(evt.data);
+      $('#table').append(data.row);
+    };
+    function insert (w) {
+      var name = $('#name');
+      var age = $('#age');
+      if (name.val() && age.val()) {
+        ws.send(JSON.stringify([name.val(),age.val()]));
+        name.val('');
+        age.val('');
+      }
+    }
+  %= end
+</body>
+</html>
+
+@@ table.html.ep
+
+% foreach my $row (@$rows) {
+  <tr>
+    % foreach my $text (@$row) {
+      <td><%= $text %></td>
+    % }
+  </tr>
+% }
