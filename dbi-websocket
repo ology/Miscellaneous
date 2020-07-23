@@ -12,7 +12,8 @@ use DBI;
 my $clients = {};
 
 # add helper methods for interacting with database
-helper db => sub { state $dbh = DBI->connect('dbi:SQLite:database.db', '', '') };
+my $dbfile = 'database.db';
+helper db => sub { state $dbh = DBI->connect("dbi:SQLite:$dbfile", '', '') };
 
 helper create_table => sub {
   my $self = shift;
@@ -36,7 +37,7 @@ helper insert => sub {
 };
 
 # if statement didn't prepare, assume its because the table doesn't exist
-app->select || app->create_table;
+app->create_table unless -e $dbfile;
 
 # setup base route
 any '/' => sub {
