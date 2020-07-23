@@ -89,7 +89,7 @@ __DATA__
   <div>
     Name: <input type="text" id="name"> 
     Age: <input type="text" id="age" > 
-    <input type="submit" value="Add" onclick="insert()">
+    <input type="submit" value="Add" id="insert">
   </div>
   <br>
   Data: <br>
@@ -105,6 +105,7 @@ __DATA__
     </tbody>
   </table>
   %= javascript begin
+$(document).ready(function() {
     var ws = new WebSocket("<%= url_for('insert')->to_abs %>");
     ws.onopen = function () {
       console.log('Connection opened!');
@@ -113,7 +114,7 @@ __DATA__
       var data = JSON.parse(evt.data);
       $('#table').append(data.row);
     };
-    function insert (w) {
+    $("#insert").click(function (w) {
       var name = $('#name');
       var age = $('#age');
       if (name.val() && age.val()) {
@@ -121,7 +122,8 @@ __DATA__
         name.val('');
         age.val('');
       }
-    }
+    });
+});
   %= end
 </body>
 </html>
