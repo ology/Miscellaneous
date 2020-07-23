@@ -36,9 +36,6 @@ helper insert => sub {
   return 1;
 };
 
-# create the people table if the database doesn't exist
-app->create_table unless -e $dbfile;
-
 # setup base route
 any '/' => sub {
   my $self = shift;
@@ -70,6 +67,9 @@ websocket '/insert' => sub {
     }
   });
 };
+
+# create the people table if the database doesn't exist
+app->create_table unless -e $dbfile;
 
 app->start;
 
