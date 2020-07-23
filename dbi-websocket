@@ -112,7 +112,7 @@ $(document).ready(function() {
       var data = JSON.parse(evt.data);
       $('#table').append(data.row);
     };
-    $("#insert").click(function (w) {
+    $("#insert").click(function () {
       var name = $('#name');
       var age = $('#age');
       if (name.val() && age.val()) {
