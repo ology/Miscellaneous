@@ -18,7 +18,7 @@ helper db => sub { state $dbh = DBI->connect("dbi:SQLite:$dbfile", '', '') };
 helper create_table => sub {
   my $self = shift;
   $self->app->log->info("Creating table 'people'");
-  $self->db->do('CREATE TABLE people (name text, age int);');
+  $self->db->do('CREATE TABLE people (id integer primary key autoincrement, name text, age int);');
 };
 
 helper select => sub {
@@ -31,9 +31,9 @@ helper select => sub {
 helper insert => sub {
   my $self = shift;
   my ($name, $age) = @_;
-  my $sth = eval { $self->db->prepare('INSERT INTO people VALUES (?,?)') } || return undef;
+  my $sth = eval { $self->db->prepare('INSERT INTO people (name, age) VALUES (?,?)') } || return undef;
   $sth->execute($name, $age);
-  return 1;
+  return $self->db->last_insert_id;
 };
 
 # setup base route
@@ -57,7 +57,8 @@ websocket '/insert' => sub {
     my ($ws, $message) = @_;
 
     my $row = decode_json($message);
-    $self->insert(@$row);
+    my $inserted = $self->insert(@$row);
+    $row = [$inserted, @$row];
 
     my $html = $ws->render_to_string('table', rows => [$row]);
 
@@ -94,6 +95,7 @@ __DATA__
   <table border="1">
     <thead>
       <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Age</th>
       </tr>
