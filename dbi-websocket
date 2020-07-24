@@ -126,7 +126,7 @@ __DATA__
     </tbody>
   </table>
   %= javascript begin
-$(document).ready(function() {
+  $(document).ready(function() {
     var ws = new WebSocket("<%= url_for('insert')->to_abs %>");
     ws.onopen = function () {
       console.log('Connection opened!');
@@ -144,7 +144,7 @@ $(document).ready(function() {
         age.val('');
       }
     });
-});
+  });
   %= end
 </body>
 </html>
