@@ -88,6 +88,11 @@ websocket '/insert' => sub {
       $clients->{$_}->send(encode_json({row => $html}));
     }
   });
+
+  $self->on(finish => sub {
+    app->log->debug('Client disconnected');
+    delete $clients->{$id};
+  });
 };
 
 # create the people table if the database doesn't exist
