@@ -67,6 +67,8 @@ post '/' => sub {
 websocket '/insert' => sub {
   my $self = shift;
 
+  $self->inactivity_timeout(86400);
+
   # Get this client id
   app->log->debug(sprintf 'Client connected: %s', $self->tx);
   my $id = sprintf '%s', $self->tx;
