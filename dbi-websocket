@@ -36,9 +36,22 @@ helper insert => sub {
   return $self->db->last_insert_id;
 };
 
+helper delete => sub {
+  my $self = shift;
+  my ($id) = @_;
+  $self->app->log->info("Deleting $id from 'people'");
+  my $sth = eval { $self->db->prepare('DELETE FROM people WHERE id=?') } || return undef;
+  $sth->execute($id);
+};
+
 # setup base route
 any '/' => sub {
   my $self = shift;
+  my $id = $self->param('delete');
+
+  if ($id) {
+    $self->delete($id);
+  }
 
   my $rows = $self->select;
   $self->render('index', rows => $rows);
@@ -130,10 +143,16 @@ $(document).ready(function() {
 
 @@ table.html.ep
 
-% foreach my $row (@$rows) {
+% for my $row (@$rows) {
+  % my $counter = 0;
+  % my $id = $row->[0];
   <tr>
-    % foreach my $text (@$row) {
-      <td><%= $text %></td>
-    % }
+  % for my $text (@$row) {
+    % $counter++;
+    <td><%= $text %></td>
+  % }
+  % if ($counter >= @$row) {
+    <td><form method="post"><input type="hidden" name="delete" value="<%= $id %>"/><input type="submit" value="X"/></form></td>
+  % }
   </tr>
 % }
