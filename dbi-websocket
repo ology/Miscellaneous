@@ -152,15 +152,11 @@ $(document).ready(function() {
 @@ table.html.ep
 
 % for my $row (@$rows) {
-  % my $counter = 0;
   % my $id = $row->[0];
   <tr>
   % for my $text (@$row) {
-    % $counter++;
     <td><%= $text %></td>
   % }
-  % if ($counter >= @$row) {
     <td><form method="post"><input type="hidden" name="delete" value="<%= $id %>"/><input type="submit" value="X"/></form></td>
-  % }
   </tr>
 % }
