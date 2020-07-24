@@ -45,7 +45,14 @@ helper delete => sub {
 };
 
 # setup base route
-any '/' => sub {
+get '/' => sub {
+  my $self = shift;
+
+  my $rows = $self->select;
+  $self->render('index', rows => $rows);
+} => 'index';
+
+post '/' => sub {
   my $self = shift;
   my $id = $self->param('delete');
 
@@ -53,9 +60,8 @@ any '/' => sub {
     $self->delete($id);
   }
 
-  my $rows = $self->select;
-  $self->render('index', rows => $rows);
-};
+  $self->redirect_to('index');
+} => 'action';
 
 # setup websocket message handler
 websocket '/insert' => sub {
