@@ -49,7 +49,7 @@ my $DateTime1 = $Window->AddDateTime(
 );
 
 $Window->AddLabel(
-	-text => 'Time:',
+    -text => 'Time:',
     -pos  => [10, 45],
 );
 
@@ -176,7 +176,7 @@ warn 'T: ', scalar(localtime $t), "\n";
         my $str = defined $line[1] ? $line[1] : '';
 warn 'I: ', scalar(localtime $line[0]), "\n";
         if ($line[0] <= $t && $str !~ / \(\d+ \w+\)$/) {
-	        warn "\t$str : Timer went off!\n";
+            warn "\t$str : Timer went off!\n";
 warn "\tN: $n\n";
             remove_item($ListBox, $n);
 
@@ -218,7 +218,7 @@ warn 'REP: ', scalar(localtime $line[0]), "\n";
     }
     @repeats = @new_repeats;
 
-	return 0;
+    return 0;
 }
 
 sub Button1_Click {
