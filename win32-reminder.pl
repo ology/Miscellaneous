@@ -34,7 +34,7 @@ my $window = Win32::GUI::Window->new(
     -size  => [340, 400],
 ) or die "Can't create new window";
 
-my $timer = $window->AddTimer('Event', 60000);
+$window->AddTimer('Event', 60000);
 
 $window->AddLabel(
     -text => 'Date:',
