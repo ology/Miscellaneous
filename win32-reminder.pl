@@ -127,44 +127,6 @@ exit(0);
 # Main window event handler
 sub Window_Terminate { return -1 }
 
-sub list_populate {
-    my @list_items;
-
-    open my $fh, '<', $filename
-        or die "Can't read $filename: $!";
-
-    while (my $line = readline($fh)) {
-        chomp $line;
-        next unless $line;
-
-        push @list_items, $line;
-
-        my @line = split / /, $line, 2;
-
-        my ($second, $minute, $hour, $day, $month, $year) = localtime $line[0];
-        my $stamp = sprintf '%d-%02d-%02d %02d:%02d:%02d',
-            $year + 1900, $month + 1, $day, $hour, $minute, $second;
-
-        $ListBox->AddString("$stamp $line[1]");
-
-        if ($line[1] =~ / \((\d+) (\w+)\)$/) {
-            my $x = $1;
-            my $span = $2;
-            my $epoch = $line[0];
-            my $t = time();
-            while ($epoch < $t) {
-                $epoch += ($x * $in_seconds{$span});
-            }
-warn 'R: ', scalar(localtime $epoch), " $line[1]\n";
-            push @repeats, "$epoch $line[1]";
-        }
-    }
-
-    close $fh;
-
-    return sort @list_items;
-}
-
 sub Event_Timer {
     my $t = time();
 warn 'T: ', scalar(localtime $t), "\n";
@@ -268,6 +230,44 @@ sub Button2_Click {
     if (defined $item) {
         remove_item($ListBox, $item);
     }
+}
+
+sub list_populate {
+    my @list_items;
+
+    open my $fh, '<', $filename
+        or die "Can't read $filename: $!";
+
+    while (my $line = readline($fh)) {
+        chomp $line;
+        next unless $line;
+
+        push @list_items, $line;
+
+        my @line = split / /, $line, 2;
+
+        my ($second, $minute, $hour, $day, $month, $year) = localtime $line[0];
+        my $stamp = sprintf '%d-%02d-%02d %02d:%02d:%02d',
+            $year + 1900, $month + 1, $day, $hour, $minute, $second;
+
+        $ListBox->AddString("$stamp $line[1]");
+
+        if ($line[1] =~ / \((\d+) (\w+)\)$/) {
+            my $x = $1;
+            my $span = $2;
+            my $epoch = $line[0];
+            my $t = time();
+            while ($epoch < $t) {
+                $epoch += ($x * $in_seconds{$span});
+            }
+warn 'R: ', scalar(localtime $epoch), " $line[1]\n";
+            push @repeats, "$epoch $line[1]";
+        }
+    }
+
+    close $fh;
+
+    return sort @list_items;
 }
 
 sub remove_item {
