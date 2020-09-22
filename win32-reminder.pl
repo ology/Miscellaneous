@@ -27,62 +27,62 @@ unless (DEBUG) {
 }
 
 # main Window
-my $Window = Win32::GUI::Window->new(
+my $window = Win32::GUI::Window->new(
     -name  => 'Window',
     -title => 'Reminder App',
     -pos   => [100, 100],
     -size  => [340, 400],
 ) or die "Can't create new window";
 
-my $timer = $Window->AddTimer('Event', 60000);
+my $timer = $window->AddTimer('Event', 60000);
 
-$Window->AddLabel(
+$window->AddLabel(
     -text => 'Date:',
     -pos  => [10, 14],
 );
 
-my $DateTime1 = $Window->AddDateTime(
+my $DateTime1 = $window->AddDateTime(
     -name   => 'DateTime1',
     -pos    => [40, 10],
     -size   => [180, 20],
     -format => 'longdate',
 );
 
-$Window->AddLabel(
+$window->AddLabel(
     -text => 'Time:',
     -pos  => [10, 45],
 );
 
-my $DateTime2 = $Window->AddDateTime(
+my $DateTime2 = $window->AddDateTime(
     -name     => 'DateTime2',
     -pos      => [40, 42],
     -size     => [180, 20],
     -format   => 'time',
 );
 
-$Window->AddLabel(
+$window->AddLabel(
     -text => 'Text:',
     -pos  => [10, 73],
 );
 
-my $TextField1 = $Window->AddTextfield(
+my $TextField1 = $window->AddTextfield(
     -name => 'TextField1',
     -pos => [40, 70],
     -size=> [180, 20],
 ) or die "Failed to create TextField";
 
-$Window->AddLabel(
+$window->AddLabel(
     -text => 'Rep:',
     -pos  => [10, 105],
 );
 
-my $TextField2 = $Window->AddTextfield(
+my $TextField2 = $window->AddTextfield(
     -name => 'TextField2',
     -pos => [40, 100],
     -size=> [30, 20],
 ) or die "Failed to create TextField";
 
-my $ComboBox1 = $Window->AddCombobox(
+my $ComboBox1 = $window->AddCombobox(
     -name         => 'ComboBox1',
     -pos          => [80, 100],
     -size         => [140, 20],
@@ -94,19 +94,19 @@ for my $span (qw(minutes hours days)) {
     $ComboBox1->AddString($span);
 }
 
-my $ListBox = $Window->AddListbox(
+my $ListBox = $window->AddListbox(
     -sort => 1,
     -pos  => [10, 135],
     -size => [304, 185],
 );
 
-my $Button1 = $Window->AddButton(
+my $Button1 = $window->AddButton(
     -name => 'Button1',
     -text => 'Add Reminder',
     -pos  => [230, 100],
 );
 
-my $Button2 = $Window->AddButton(
+my $Button2 = $window->AddButton(
     -name => 'Button2',
     -text => 'Del Reminder',
     -pos  => [230, 325],
@@ -115,7 +115,7 @@ my $Button2 = $Window->AddButton(
 my @items = list_populate();
 
 # Event loop
-$Window->Show();
+$window->Show();
 Win32::GUI::Dialog();
 
 unless (DEBUG) {
@@ -180,7 +180,7 @@ warn 'I: ', scalar(localtime $line[0]), "\n";
 warn "\tN: $n\n";
             remove_item($ListBox, $n);
 
-            my $NotifyIcon = $Window->AddNotifyIcon(
+            my $NotifyIcon = $window->AddNotifyIcon(
                 -name          => 'NotifyIcon',
                 -balloon       => 1,
                 -balloon_tip   => $str ? $str : '?',
@@ -203,7 +203,7 @@ warn 'REP: ', scalar(localtime $line[0]), "\n";
             my $epoch = $line[0] + ($x * $in_seconds{$span});
             push @new_repeats, "$epoch $line[1]";
 
-            my $NotifyIcon = $Window->AddNotifyIcon(
+            my $NotifyIcon = $window->AddNotifyIcon(
                 -name          => 'NotifyIcon',
                 -balloon       => 1,
                 -balloon_tip   => $line[1],
