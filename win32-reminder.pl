@@ -41,8 +41,8 @@ $window->AddLabel(
     -pos  => [10, 14],
 );
 
-my $DateTime1 = $window->AddDateTime(
-    -name   => 'DateTime1',
+my $datetime1 = $window->AddDateTime(
+    -name   => 'datetime1',
     -pos    => [40, 10],
     -size   => [180, 20],
     -format => 'longdate',
@@ -53,8 +53,8 @@ $window->AddLabel(
     -pos  => [10, 45],
 );
 
-my $DateTime2 = $window->AddDateTime(
-    -name     => 'DateTime2',
+my $datetime2 = $window->AddDateTime(
+    -name     => 'datetime2',
     -pos      => [40, 42],
     -size     => [180, 20],
     -format   => 'time',
@@ -224,8 +224,8 @@ warn 'REP: ', scalar(localtime $line[0]), "\n";
 sub Button1_Click {
     my @days = qw(sunday monday tuesday wednesday thursday friday);
 
-    my ($year, $month, $day) = $DateTime1->GetDateTime();
-    my ($hour, $minute, $second) = $DateTime2->GetTime();
+    my ($year, $month, $day) = $datetime1->GetDateTime();
+    my ($hour, $minute, $second) = $datetime2->GetTime();
 
     my $epoch = timelocal($second, $minute, $hour, $day, $month - 1, $year);
 
