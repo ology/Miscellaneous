@@ -28,8 +28,8 @@ unless (DEBUG) {
 
 # main Window
 my $Window = Win32::GUI::Window->new(
-    -name  => "Window",
-    -title => "Reminder App",
+    -name  => 'Window',
+    -title => 'Reminder App',
     -pos   => [100, 100],
     -size  => [340, 400],
 ) or die "Can't create new window";
@@ -37,53 +37,53 @@ my $Window = Win32::GUI::Window->new(
 my $timer = $Window->AddTimer('Event', 60000);
 
 $Window->AddLabel(
-    -text => "Date:",
+    -text => 'Date:',
     -pos  => [10, 14],
 );
 
 my $DateTime1 = $Window->AddDateTime(
-    -name   => "DateTime1",
+    -name   => 'DateTime1',
     -pos    => [40, 10],
     -size   => [180, 20],
-    -format => "longdate",
+    -format => 'longdate',
 );
 
 $Window->AddLabel(
-	-text => "Time:",
+	-text => 'Time:',
     -pos  => [10, 45],
 );
 
 my $DateTime2 = $Window->AddDateTime(
-    -name     => "DateTime2",
+    -name     => 'DateTime2',
     -pos      => [40, 42],
     -size     => [180, 20],
-    -format   => "time",
+    -format   => 'time',
 );
 
 $Window->AddLabel(
-    -text => "Text:",
+    -text => 'Text:',
     -pos  => [10, 73],
 );
 
 my $TextField1 = $Window->AddTextfield(
-    -name => "TextField1",
+    -name => 'TextField1',
     -pos => [40, 70],
     -size=> [180, 20],
 ) or die "Failed to create TextField";
 
 $Window->AddLabel(
-    -text => "Rep:",
+    -text => 'Rep:',
     -pos  => [10, 105],
 );
 
 my $TextField2 = $Window->AddTextfield(
-    -name => "TextField2",
+    -name => 'TextField2',
     -pos => [40, 100],
     -size=> [30, 20],
 ) or die "Failed to create TextField";
 
 my $ComboBox1 = $Window->AddCombobox(
-    -name         => "ComboBox1",
+    -name         => 'ComboBox1',
     -pos          => [80, 100],
     -size         => [140, 20],
     -vscroll      => 1,
@@ -101,14 +101,14 @@ my $ListBox = $Window->AddListbox(
 );
 
 my $Button1 = $Window->AddButton(
-    -name => "Button1",
-    -text => "Add Reminder",
+    -name => 'Button1',
+    -text => 'Add Reminder',
     -pos  => [230, 100],
 );
 
 my $Button2 = $Window->AddButton(
-    -name => "Button2",
-    -text => "Del Reminder",
+    -name => 'Button2',
+    -text => 'Del Reminder',
     -pos  => [230, 325],
 );
 
@@ -155,7 +155,7 @@ sub list_populate {
             while ($epoch < $t) {
                 $epoch += ($x * $in_seconds{$span});
             }
-warn "R: ", scalar(localtime $epoch), " $line[1]\n";
+warn 'R: ', scalar(localtime $epoch), " $line[1]\n";
             push @repeats, "$epoch $line[1]";
         }
     }
