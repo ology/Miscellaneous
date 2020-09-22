@@ -65,22 +65,22 @@ $window->AddLabel(
     -pos  => [10, 73],
 );
 
-my $TextField1 = $window->AddTextfield(
-    -name => 'TextField1',
+my $textfield1 = $window->AddTextfield(
+    -name => 'textfield1',
     -pos => [40, 70],
     -size=> [180, 20],
-) or die "Failed to create TextField";
+) or die "Failed to create textfield";
 
 $window->AddLabel(
     -text => 'Rep:',
     -pos  => [10, 105],
 );
 
-my $TextField2 = $window->AddTextfield(
-    -name => 'TextField2',
+my $textfield2 = $window->AddTextfield(
+    -name => 'textfield2',
     -pos => [40, 100],
     -size=> [30, 20],
-) or die "Failed to create TextField";
+) or die "Failed to create textfield";
 
 my $ComboBox1 = $window->AddCombobox(
     -name         => 'ComboBox1',
@@ -232,8 +232,8 @@ sub Button1_Click {
     my $stamp = sprintf '%d-%02d-%02d %02d:%02d:%02d',
         $year, $month, $day, $hour, $minute, $second;
 
-    my $text = $TextField1->GetLine(0);
-    my $nreps = $TextField2->GetLine(0);
+    my $text = $textfield1->GetLine(0);
+    my $nreps = $textfield2->GetLine(0);
     if ($nreps) {
         my $sel = $ComboBox1->GetString($ComboBox1->GetCurSel()) || 'minutes';
         $nreps .= ' ' . $sel;
