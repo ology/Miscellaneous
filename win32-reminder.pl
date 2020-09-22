@@ -27,7 +27,7 @@ unless (DEBUG) {
 }
 
 # main Window
-my $Window = new Win32::GUI::Window(
+my $Window = Win32::GUI::Window->new(
     -name  => "Window",
     -title => "Reminder App",
     -pos   => [100, 100],
