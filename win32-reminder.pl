@@ -196,6 +196,12 @@ sub Button1_Click {
 
     my $text = $textfield1->GetLine(0);
     my $nreps = $textfield2->GetLine(0);
+
+    $textfield1->SelectAll();
+    $textfield1->ReplaceSel('');
+    $textfield2->SelectAll();
+    $textfield2->ReplaceSel('');
+
     if ($nreps) {
         my $sel = $ComboBox1->GetString($ComboBox1->GetCurSel()) || 'minutes';
         $nreps .= ' ' . $sel;
