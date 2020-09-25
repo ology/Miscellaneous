@@ -82,32 +82,32 @@ my $textfield2 = $window->AddTextfield(
     -size=> [30, 20],
 ) or die "Failed to create textfield";
 
-my $ComboBox1 = $window->AddCombobox(
-    -name         => 'ComboBox1',
+my $combobox1 = $window->AddCombobox(
+    -name         => 'combobox1',
     -pos          => [80, 100],
     -size         => [140, 20],
     -vscroll      => 1,
     -dropdownlist => 1,
-) or die "Failed to create Combobox";
+) or die "Failed to create combobox";
 
 for my $span (qw(minutes hours days)) {
-    $ComboBox1->AddString($span);
+    $combobox1->AddString($span);
 }
 
-my $ListBox = $window->AddListbox(
+my $listbox = $window->AddListbox(
     -sort => 1,
     -pos  => [10, 135],
     -size => [304, 185],
 );
 
-my $Button1 = $window->AddButton(
-    -name => 'Button1',
+my $button1 = $window->AddButton(
+    -name => 'button1',
     -text => 'Add Reminder',
     -pos  => [230, 100],
 );
 
-my $Button2 = $window->AddButton(
-    -name => 'Button2',
+my $button2 = $window->AddButton(
+    -name => 'button2',
     -text => 'Del Reminder',
     -pos  => [230, 325],
 );
@@ -140,16 +140,16 @@ warn 'I: ', scalar(localtime $line[0]), "\n";
         if ($line[0] <= $t && $str !~ / \(\d+ \w+\)$/) {
             warn "\t$str : Timer went off!\n";
 warn "\tN: $n\n";
-            remove_item($ListBox, $n);
+            remove_item($listbox, $n);
 
-            my $NotifyIcon = $window->AddNotifyIcon(
+            my $notifyicon = $window->AddNotifyIcon(
                 -name          => 'NotifyIcon',
                 -balloon       => 1,
                 -balloon_tip   => $str ? $str : '?',
                 -balloon_title => 'Reminder',
                 -balloon_icon  => 'warning',
             );
-            $NotifyIcon->ShowBalloon();
+            $notifyicon->ShowBalloon();
         }
     }
 
@@ -165,14 +165,14 @@ warn 'REP: ', scalar(localtime $line[0]), "\n";
             my $epoch = $line[0] + ($x * $in_seconds{$span});
             push @new_repeats, "$epoch $line[1]";
 
-            my $NotifyIcon = $window->AddNotifyIcon(
+            my $notifyicon = $window->AddNotifyIcon(
                 -name          => 'NotifyIcon',
                 -balloon       => 1,
                 -balloon_tip   => $line[1],
                 -balloon_title => 'Reminder',
                 -balloon_icon  => 'warning',
             );
-            $NotifyIcon->ShowBalloon();
+            $notifyicon->ShowBalloon();
         }
         else {
             push @new_repeats, $i;
@@ -203,7 +203,7 @@ sub Button1_Click {
     $textfield2->ReplaceSel('');
 
     if ($nreps) {
-        my $sel = $ComboBox1->GetString($ComboBox1->GetCurSel()) || 'minutes';
+        my $sel = $combobox1->GetString($combobox1->GetCurSel()) || 'minutes';
         $nreps .= ' ' . $sel;
         $text .= " ($nreps)";
 
@@ -223,7 +223,7 @@ sub Button1_Click {
 
     push @items, "$epoch $text";
 
-    $ListBox->AddString("$stamp $text");
+    $listbox->AddString("$stamp $text");
 
     open my $fh, '>>', $filename
         or die "Can't append to $filename: $!";
@@ -232,9 +232,9 @@ sub Button1_Click {
 }
 
 sub Button2_Click {
-    my $item = $ListBox->SelectedItem();
+    my $item = $listbox->SelectedItem();
     if (defined $item) {
-        remove_item($ListBox, $item);
+        remove_item($listbox, $item);
     }
 }
 
@@ -256,7 +256,7 @@ sub list_populate {
         my $stamp = sprintf '%d-%02d-%02d %02d:%02d:%02d',
             $year + 1900, $month + 1, $day, $hour, $minute, $second;
 
-        $ListBox->AddString("$stamp $line[1]");
+        $listbox->AddString("$stamp $line[1]");
 
         if ($line[1] =~ / \((\d+) (\w+)\)$/) {
             my $x = $1;
