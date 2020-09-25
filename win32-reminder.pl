@@ -31,7 +31,7 @@ my $window = Win32::GUI::Window->new(
     -name  => 'Window',
     -title => 'Reminder App',
     -pos   => [100, 100],
-    -size  => [340, 400],
+    -size  => [340, 390],
 ) or die "Can't create new window";
 
 $window->AddTimer('Event', 60000);
@@ -54,10 +54,10 @@ $window->AddLabel(
 );
 
 my $datetime2 = $window->AddDateTime(
-    -name     => 'datetime2',
-    -pos      => [40, 42],
-    -size     => [180, 20],
-    -format   => 'time',
+    -name   => 'datetime2',
+    -pos    => [40, 42],
+    -size   => [180, 20],
+    -format => 'time',
 );
 
 $window->AddLabel(
@@ -108,8 +108,14 @@ my $button1 = $window->AddButton(
 
 my $button2 = $window->AddButton(
     -name => 'button2',
-    -text => 'Del Reminder',
-    -pos  => [230, 325],
+    -text => 'Delete Reminder',
+    -pos  => [220, 320],
+);
+
+my $button3 = $window->AddButton(
+    -name => 'button3',
+    -text => 'Reset',
+    -pos  => [230, 10],
 );
 
 my @items = list_populate();
@@ -183,7 +189,7 @@ warn 'REP: ', scalar(localtime $line[0]), "\n";
     return 0;
 }
 
-sub Button1_Click {
+sub button1_Click {
     my @days = qw(sunday monday tuesday wednesday thursday friday);
 
     my ($year, $month, $day) = $datetime1->GetDateTime();
@@ -231,11 +237,17 @@ sub Button1_Click {
     close $fh;
 }
 
-sub Button2_Click {
+sub button2_Click {
     my $item = $listbox->SelectedItem();
     if (defined $item) {
         remove_item($listbox, $item);
     }
+}
+
+sub button3_Click {
+    my ($second, $minute, $hour, $day, $month, $year) = localtime;
+    $datetime1->SetDate($day, $month + 1, $year + 1900);
+    $datetime2->SetTime($hour, $minute, $second);
 }
 
 sub list_populate {
