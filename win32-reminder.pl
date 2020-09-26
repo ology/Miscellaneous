@@ -36,14 +36,6 @@ my $window = Win32::GUI::Window->new(
 
 $window->AddTimer('Event', 60000);
 
-my $icon = Win32::GUI::Icon->new('GUIPERL.ICO');
-
-my $notifyicon = $window->AddNotifyIcon(
-    -name => 'notifyicon',
-    -icon => $icon,
-    -tip => 'Reminder App',
-);
-
 $window->AddLabel(
     -text => 'Date:',
     -pos  => [10, 14],
@@ -257,18 +249,6 @@ sub button2_Click {
 #    $datetime1->SetDate($day, $month + 1, $year + 1900);
 #    $datetime2->SetTime($hour, $minute, $second);
 #}
-
-sub Main_Minimize {
-    $window->Disable();
-    $window->Hide();
-    return 1;
-}
-
-sub notifyicon_Click {
-    $window->Enable();
-    $window->Show();
-    return 1;
-}
 
 sub list_populate {
     my @list_items;
