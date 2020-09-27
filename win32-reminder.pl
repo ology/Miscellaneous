@@ -7,7 +7,7 @@ use Win32::GUI ();
 
 use constant DEBUG => 1;
 
-my $filename = 'reminder-app.txt';
+my $filename = 'win32-reminder.txt';
 unless (-e $filename) {
     open my $fh, '>', $filename
         or die "Can't create $filename: $!";
