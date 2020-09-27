@@ -82,8 +82,8 @@ my $textfield2 = $window->AddTextfield(
     -size=> [30, 20],
 ) or die "Failed to create textfield";
 
-my $combobox1 = $window->AddCombobox(
-    -name         => 'combobox1',
+my $combobox = $window->AddCombobox(
+    -name         => 'combobox',
     -pos          => [80, 100],
     -size         => [140, 20],
     -vscroll      => 1,
@@ -91,7 +91,7 @@ my $combobox1 = $window->AddCombobox(
 ) or die "Failed to create combobox";
 
 for my $span (qw(minutes hours days)) {
-    $combobox1->AddString($span);
+    $combobox->AddString($span);
 }
 
 my $listbox = $window->AddListbox(
@@ -207,7 +207,7 @@ sub button1_Click {
     $textfield2->ReplaceSel('');
 
     if ($nreps) {
-        my $sel = $combobox1->GetString($combobox1->GetCurSel) || 'minutes';
+        my $sel = $combobox->GetString($combobox->GetCurSel) || 'minutes';
         $nreps .= ' ' . $sel;
         $text .= " ($nreps)";
 
