@@ -50,12 +50,12 @@ my $datetime1 = $window->AddDateTime(
 
 $window->AddLabel(
     -text => 'Time:',
-    -pos  => [10, 45],
+    -pos  => [10, 43],
 );
 
 my $datetime2 = $window->AddDateTime(
     -name   => 'datetime2',
-    -pos    => [40, 42],
+    -pos    => [40, 40],
     -size   => [180, 20],
     -format => 'time',
 );
