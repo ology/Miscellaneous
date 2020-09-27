@@ -135,17 +135,17 @@ sub Window_Terminate { return -1 }
 
 sub Event_Timer {
     my $t = time();
-warn 'T: ', scalar(localtime $t), "\n";
+warn 'T: ', scalar(localtime $t), "\n" if DEBUG;
     @items = sort @items;
     for my $n (0 .. $#items) {
         my $i = $items[$n];
         next unless $i;
         my @line = split / /, $i, 2;
         my $str = defined $line[1] ? $line[1] : '';
-warn 'I: ', scalar(localtime $line[0]), "\n";
+warn 'I: ', scalar(localtime $line[0]), "\n" if DEBUG;
         if ($line[0] <= $t && $str !~ / \(\d+ \w+\)$/) {
-            warn "\t$str : Timer went off!\n";
-warn "\tN: $n\n";
+            warn "\t$str : Timer went off!\n" if DEBUG;
+warn "\tN: $n\n" if DEBUG;
             remove_item($listbox, $n);
 
             $window->AddNotifyIcon(
@@ -162,9 +162,9 @@ warn "\tN: $n\n";
     for my $n (0 .. $#repeats) {
         my $i = $repeats[$n];
         my @line = split / /, $i, 2;
-warn 'REP: ', scalar(localtime $line[0]), "\n";
+warn 'REP: ', scalar(localtime $line[0]), "\n" if DEBUG;
         if ($line[0] <= $t && $line[1] =~ / \((\d+) (\w+)\)$/) {
-            warn "\t$line[1] : Recurring timer went off!\n";
+            warn "\t$line[1] : Recurring timer went off!\n" if DEBUG;
             my $x = $1;
             my $span = $2;
             my $epoch = $line[0] + ($x * $in_seconds{$span});
@@ -245,7 +245,7 @@ sub button2_Click {
 #sub button3_Click {
 #    my ($second, $minute, $hour, $day, $month, $year) = localtime;
 #    $datetime1->SetDate($day, $month + 1, $year + 1900);
-#    $datetime2->SetTime($hour, $minute, $second);
+#    $datetime2->SetTime($hour, $minute, $second); # XXX Broken?
 #}
 
 sub list_populate {
@@ -276,7 +276,7 @@ sub list_populate {
             while ($epoch < $t) {
                 $epoch += ($x * $in_seconds{$span});
             }
-warn 'R: ', scalar(localtime $epoch), " $line[1]\n";
+warn 'R: ', scalar(localtime $epoch), " $line[1]\n" if DEBUG;
             push @repeats, "$epoch $line[1]";
         }
     }
