@@ -121,7 +121,7 @@ my $button2 = $window->AddButton(
 my @items = list_populate();
 
 # Event loop
-$window->Show();
+$window->Show;
 Win32::GUI::Dialog();
 
 unless (DEBUG) {
@@ -148,14 +148,13 @@ warn 'I: ', scalar(localtime $line[0]), "\n";
 warn "\tN: $n\n";
             remove_item($listbox, $n);
 
-            my $notifyicon = $window->AddNotifyIcon(
+            $window->AddNotifyIcon(
                 -name          => 'NotifyIcon',
                 -balloon       => 1,
                 -balloon_tip   => $str ? $str : '?',
                 -balloon_title => 'Reminder',
                 -balloon_icon  => 'warning',
-            );
-            $notifyicon->ShowBalloon();
+            )->ShowBalloon;
         }
     }
 
@@ -171,14 +170,13 @@ warn 'REP: ', scalar(localtime $line[0]), "\n";
             my $epoch = $line[0] + ($x * $in_seconds{$span});
             push @new_repeats, "$epoch $line[1]";
 
-            my $notifyicon = $window->AddNotifyIcon(
+            $window->AddNotifyIcon(
                 -name          => 'NotifyIcon',
                 -balloon       => 1,
                 -balloon_tip   => $line[1],
                 -balloon_title => 'Reminder',
                 -balloon_icon  => 'warning',
-            );
-            $notifyicon->ShowBalloon();
+            )->ShowBalloon;
         }
         else {
             push @new_repeats, $i;
@@ -192,8 +190,8 @@ warn 'REP: ', scalar(localtime $line[0]), "\n";
 sub button1_Click {
     my @days = qw(sunday monday tuesday wednesday thursday friday);
 
-    my ($year, $month, $day) = $datetime1->GetDateTime();
-    my ($hour, $minute, $second) = $datetime2->GetTime();
+    my ($year, $month, $day) = $datetime1->GetDateTime;
+    my ($hour, $minute, $second) = $datetime2->GetTime;
 
     my $epoch = timelocal($second, $minute, $hour, $day, $month - 1, $year);
 
@@ -203,13 +201,13 @@ sub button1_Click {
     my $text = $textfield1->GetLine(0);
     my $nreps = $textfield2->GetLine(0);
 
-    $textfield1->SelectAll();
+    $textfield1->SelectAll;
     $textfield1->ReplaceSel('');
-    $textfield2->SelectAll();
+    $textfield2->SelectAll;
     $textfield2->ReplaceSel('');
 
     if ($nreps) {
-        my $sel = $combobox1->GetString($combobox1->GetCurSel()) || 'minutes';
+        my $sel = $combobox1->GetString($combobox1->GetCurSel) || 'minutes';
         $nreps .= ' ' . $sel;
         $text .= " ($nreps)";
 
@@ -238,7 +236,7 @@ sub button1_Click {
 }
 
 sub button2_Click {
-    my $item = $listbox->SelectedItem();
+    my $item = $listbox->SelectedItem;
     if (defined $item) {
         remove_item($listbox, $item);
     }
