@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-# <- Leading comments are only for documentation only
+# <- Leading comments are for documentation only
 #
 # #===================#
 # Project: Foo
