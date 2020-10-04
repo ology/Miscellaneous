@@ -12,10 +12,12 @@ use warnings;
 #   - What was done
 #   - Another task
 # End-date1
+#   = 123 min
 #
 # Start-date2
 #   - Yet another task
 # End-date2
+#   = 42 min
 #
 # ...
 
