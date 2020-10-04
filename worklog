@@ -54,7 +54,7 @@ while (my $line = readline($fh)) {
         }
     }
 }
-warn(__PACKAGE__,' ',__LINE__," MARK: ",ddc(\%projects));
+#warn(__PACKAGE__,' ',__LINE__," MARK: ",ddc(\%projects));
 
 close $fh or die "Can't close $file: $!";
 
