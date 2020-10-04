@@ -2,56 +2,50 @@
 use strict;
 use warnings;
 
-# Newline divided, tab-separated work-log format.
-# Lines that don't start with a digit are ignored.
-# <- These comments are only for documentation here.
+# <- Leading comments are only for documentation only
 #
-# Date				What
-# ----------------------------------------------------------------
-# YYYY-MM-DD hh:mm:ss	Description of what is to be, or was done.
-# YYYY-MM-DD hh:mm:ss
+# #===================#
+# Project: Foo
+# #===================#
 #
-# YYYY-MM-DD hh:mm:ss	Another item!
-# YYYY-MM-DD hh:mm:ss
+# Start-date1
+#   - What was done
+#   - Another task
+# End-date1
+#
+# Start-date2
+#   - Yet another task
+# End-date2
+#
+# ...
 
-use DateTime::Format::DateParse;
+use Data::Dumper::Compact 'ddc';
+#use DateTime::Format::Natural;
 
 my $file = shift || die "Usage: perl $0 /some/work/log.txt\n";
 
+my %projects;
+my $project;
+
 open my $fh, '<', $file or die "Can't read $file: $!";
 
-# Build the events that have start and end times and a description.
-my %events;
-while ( my $line = readline($fh) ) {
-    # Skip all lines that don't start with a digit.
-    next unless $line =~ /^\d/;
+while (my $line = readline($fh)) {
+    next if $line =~ /^#/;
     chomp $line;
-
-    my @line = split /\t/, $line;
-
-    # Skip entries with no end time, otherwise capture it and proceed.
-    my $end;
-    $end = readline($fh) if @line;
-    chomp $end;
-    next unless defined $end;
-
-    $events{$line[0]} = {
-        end  => $end,
-        what => $line[1],
-    };
+    next unless $line;
+    if ($line =~ /^Project: (.+)$/) {
+        $project = $1;
+    }
+#    elsif ($line =~ /^([A-Z].+)$/) {
+#    }
+    elsif ($line =~ /^\s+= (\d+) min/) {
+        $projects{$project} += $1;
+    }
 }
-#use Data::Dumper;warn(__PACKAGE__,' ',__LINE__," MARK: ",Dumper\%events);
+#warn(__PACKAGE__,' ',__LINE__," MARK: ",ddc(\%projects));
 
 close $fh or die "Can't close $file: $!";
 
-# Sum the total number of seconds taken for each event.
-my $total = 0;
-for my $event ( sort keys %events ) {
-    my $start_dt = DateTime::Format::DateParse->parse_datetime($event);
-    my $end_dt   = DateTime::Format::DateParse->parse_datetime($events{$event}->{end});
-    my $duration = $end_dt->subtract_datetime_absolute($start_dt);
-    $total += $duration->seconds();
+for my $proj (sort keys %projects) {
+    printf "%s: %.2f\n", $proj, $projects{$proj} / 60;
 }
-
-my $hours = $total / 60 / 60; # Seconds / Minutes
-print "Total = $hours hours\n";
