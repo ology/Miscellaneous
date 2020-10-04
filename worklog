@@ -22,14 +22,15 @@ use warnings;
 # ...
 
 use Data::Dumper::Compact 'ddc';
-#use DateTime::Format::Natural;
+use DateTime::Format::Natural;
 
 my $file = shift || die "Usage: perl $0 /some/work/log.txt\n";
 
 my %projects;
 my $project;
+my $datetime;
 
-#my $parser = DateTime::Format::Natural->new;
+my $parser = DateTime::Format::Natural->new;
 
 open my $fh, '<', $file or die "Can't read $file: $!";
 
@@ -40,15 +41,20 @@ while (my $line = readline($fh)) {
     if ($line =~ /^Project: (.+)$/) {
         $project = $1;
     }
-#    elsif ($line =~ /^([A-Z].+)$/) {
-#        my @parts = split /\s+/, $line;
-#        my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[5] $parts[3]");
-#    }
-    elsif ($line =~ /^\s+= (\d+) min/) {
-        $projects{$project} += $1;
+    elsif ($line =~ /^([A-Z].+)$/) {
+        my @parts = split /\s+/, $line;
+        my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[5] $parts[3]");
+        if ($datetime) {
+            my $minutes = ($dt->epoch - $datetime->epoch) / 60;
+            $projects{$project} += $minutes;
+            $datetime = '';
+        }
+        else {
+            $datetime = $dt;
+        }
     }
 }
-#warn(__PACKAGE__,' ',__LINE__," MARK: ",ddc(\%projects));
+warn(__PACKAGE__,' ',__LINE__," MARK: ",ddc(\%projects));
 
 close $fh or die "Can't close $file: $!";
 
