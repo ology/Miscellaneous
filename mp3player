@@ -1,0 +1,51 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Data::Dumper::Compact 'ddc';
+use Audio::Play::MPlayer;
+use File::Find::Rule;
+use List::Util qw(shuffle);
+use MP3::Info;
+use IO::Prompt::Tiny 'prompt';
+
+my $dir = shift || die "Usage: perl $0 /some/mp3/directory\n";
+
+my $rule = File::Find::Rule->new;
+my @files = $rule->or(
+  $rule->new
+    ->directory
+    ->name(qr/(?:People|Spoken|Student)/)
+    ->prune
+    ->discard,
+  $rule->new
+    ->file()
+    ->name('*.mp3'),
+)->in($dir);
+print "Files found under $dir: ", scalar(@files), "\n";
+
+my $player = Audio::Play::MPlayer->new;
+
+my $i = 0;
+for my $file (shuffle @files) {
+  $i++;
+
+  my $mp3 = MP3::Info->new($file);
+  print "$i. $file (", $mp3->time, ') ', $mp3->genre, "\n";
+
+  my $input = prompt('[n-next q-quit]');
+  if ($input eq 'q') {
+    last;
+  }
+  elsif ($input eq 'n') {
+    next;
+  }
+  else {
+    $player->load($file);
+    while ($player->state) {
+      $player->poll(1);
+    }
+  }
+
+  sleep 4;
+}
