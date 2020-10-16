@@ -41,6 +41,7 @@ for my $file (shuffle @files) {
     next;
   }
   else {
+    print "... Now Playing ...\n";
     $player->load($file);
     while ($player->state) {
       $player->poll(1);
