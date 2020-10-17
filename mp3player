@@ -22,12 +22,13 @@ my @files = $rule->or(
     ->file()
     ->name('*.mp3'),
 )->in($dir);
+@files = shuffle @files;
 print "Files found under $dir: ", scalar(@files), "\n";
 
 my $player = Audio::Play::MPlayer->new;
 
 my $i = 0;
-for my $file (shuffle @files) {
+for my $file (@files) {
   $i++;
 
   my $mp3 = MP3::Info->new($file);
