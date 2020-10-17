@@ -8,6 +8,7 @@ use File::Find::Rule;
 use List::Util qw(shuffle);
 use MP3::Info;
 use IO::Prompt::Tiny 'prompt';
+use DateTime;
 
 my $dir = shift || die "Usage: perl $0 /some/mp3/directory\n";
 
@@ -42,10 +43,14 @@ for my $file (@files) {
     next;
   }
   else {
-    print "... Now Playing ...\n";
+    my @time = reverse split /:/, $mp3->time;
+    my $dt = DateTime->now(time_zone => 'local')->add(seconds => $time[0]);
+    $dt->add(minutes => $time[1]) if defined $time[1];
+    $dt->add(hours => $time[2]) if defined $time[2];
+    print '... Now playing until ', $dt->hms, " ...\n";
     $player->load($file);
-    $player->poll(1) until $player->state == 0;
+    while ($player->state || time() < $dt->epoch) {
+      $player->poll(1);
+    }
   }
-
-  sleep 4;
 }
