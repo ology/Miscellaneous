@@ -481,12 +481,9 @@ sub New_Game
     Term::Clear::clear();
     $cleared = 1;
     print '~' x 55, "\n\n";
-    printf "Win/Lose: %d/%d = %.4f, Avg scores: %.2f/%.2f\n\n",
-        $stats{win},
-        $stats{lose},
-        $stats{lose} == 0 ? 0 : $stats{win} / $stats{lose},
-        $stats{win}  == 0 ? 0 : $win_score / $stats{win},
-        $stats{lose} == 0 ? 0 : $lose_score / $stats{lose};
+    my $total = $stats{win} + $stats{lose};
+    printf "Win/(Win+Lose): %d/%d = %.4f\n\n",
+        $stats{win}, $total, $stats{lose} == 0 ? 0 : $stats{win} / $total;
 
     $score = 0;
 }
