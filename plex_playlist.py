@@ -21,11 +21,11 @@ episode_list = []
 for show in tv_shows.all():
     match = re.search(r'Simpsons', show.title)
     if match is not None:
-        print(show.title + ':')
+        print('{}:'.format(show.title))
         for episode in show.episodes():
             match = re.search(r'Treehouse', episode.title)
             if match is not None:
-                print("\t", episode.title)
+                print('\t{}'.format(episode.title))
                 episode_list += episode
 
 print('Adding {} to playlist {}.'.format(len(episode_list), playlist_title))
