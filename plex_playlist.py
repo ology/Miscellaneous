@@ -31,12 +31,9 @@ for show in tv_shows.all():
 print('Adding {} to playlist {}.'.format(len(episode_list), playlist_title))
 playlist = plex.createPlaylist(playlist_title, episode_list)
 
-# XXX No worky?
 #xplex = plex.myPlexAccount()
 #u = xplex.users()
 #for i in u:
 #    print(i)
 
-# XXX No worky?
-#playlist.copyToUser('john@example.com')
-#playlist.copyToUser('UserName')
+playlist.copyToUser('john@example.com')
