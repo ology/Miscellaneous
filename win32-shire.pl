@@ -18,18 +18,18 @@ my ($width, $height) = $image->Info;
 my $main = Win32::GUI::Window->new(
     -name   => 'Shire Time',
     -text   => 'Shire Time',
-    -height => $height, 
-    -width  => $width,
     -left   => 0,
     -top    => 0,
+    -height => $height, 
+    -width  => $width,
 );
 
 my $bitmap = $main->AddLabel(
     -name   => 'Bitmap',
     -left   => 0,
     -top    => 0,
-    -width  => $width,
     -height => $height,
+    -width  => $width,
     -bitmap => $image,
 );  
  
