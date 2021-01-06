@@ -1,5 +1,7 @@
 #!perl
 
+# http://ology.net/tmp/shire.bmp
+
 use strict;
 use warnings;
 
