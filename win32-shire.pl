@@ -10,6 +10,13 @@ use Date::Tolkien::Shire ();
 #use Time::Local qw(timelocal);
 #use Test::Time time => timelocal(0,0,0,5,0,2021);
 
+use constant DEBUG => 0;
+
+my $DOS = Win32::GUI::GetPerlWindow();
+unless (DEBUG) {
+    Win32::GUI::Hide($DOS);
+}
+
 my $image = Win32::GUI::Bitmap->new('shire.bmp');
 die 'Could not find shire bitmap' unless $image;
 
@@ -52,3 +59,9 @@ my $text = $main->AddTextfield(
 );
 
 Win32::GUI::Dialog();
+
+unless (DEBUG) {
+    Win32::GUI::Show($DOS);
+}
+
+exit(0);
