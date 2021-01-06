@@ -40,7 +40,7 @@ my $dts = Date::Tolkien::Shire->new(time());
 my $on_date = $dts->on_date;
 $on_date =~ s/\n/\r\n/g;
 
-my $label = $main->AddTextfield(
+my $text = $main->AddTextfield(
     -text      => $on_date,
     -left      => 200,
     -top       => 50,
