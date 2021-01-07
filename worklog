@@ -4,20 +4,18 @@ use warnings;
 
 # <- Leading comments are for documentation only
 #
-# #===================#
+# #===================
 # Project: Foo
-# #===================#
+# #===================
 #
 # Start-date1
 #   - What was done
 #   - Another task
 # End-date1
-#   = 123 min
 #
-# Start-date2
+# Thu Jan  7 15:00:00 PST 2021
 #   - Yet another task
-# End-date2
-#   = 42 min
+# Thu Jan  7 15:51:23 PST 2021
 #
 # ...
 
