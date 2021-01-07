@@ -56,6 +56,9 @@ while (my $line = readline($fh)) {
 
 close $fh or die "Can't close $file: $!";
 
+my $i = 0;
+
 for $project (sort keys %projects) {
-    printf "%s: %.2f hours\n", $project, $projects{$project} / 60;
+    $i++;
+    printf "%d. %s: %.2f hours\n", $i, $project, $projects{$project} / 60;
 }
