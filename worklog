@@ -59,11 +59,13 @@ while (my $line = readline($fh)) {
     next if $line =~ /^#/;
     chomp $line;
     next unless $line;
+
     if ($line =~ /^Project: (.+)$/) {
         $project = $1;
     }
     elsif ($line =~ /^([A-Z].+)$/) {
         my @parts = split /\s+/, $line;
+
         my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[5] $parts[3]");
         if ($datetime) {
             my $minutes = ($dt->epoch - $datetime->epoch) / 60;
@@ -85,3 +87,17 @@ for $project (sort keys %projects) {
     $i++;
     printf "%d. %s: %.2f hours\n", $i, $project, $projects{$project} / 60;
 }
+
+__END__
+
+=head1 NAME worklog
+
+=head1 SYNOPSIS
+
+  perl worklog --log=~/client/work-log-202101.txt
+
+=head1 DESCRIPTION
+
+Log your work!
+
+=cut
