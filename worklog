@@ -33,7 +33,6 @@ GetOptions(
     'man',
     'verbose!',
 ) or pod2usage(2);
-#use Data::Dumper::Concise;warn Dumper\%opts;exit;
 
 pod2usage(1) if $opts{help};
 pod2usage(-exitval => 0, -verbose => 2) if $opts{man};
@@ -71,7 +70,6 @@ if ($opts{summary}) {
             }
         }
     }
-    #warn(__PACKAGE__,' ',__LINE__," MARK: ",ddc(\%projects));
 
     close $fh or die "Can't close $opts{log}: $!";
 
