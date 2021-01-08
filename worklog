@@ -18,6 +18,7 @@ my %opts = (
     project => undef,
     start   => 0,
     stop    => 0,
+    tast    => undef,
     summary => 0,
 );
 GetOptions(
@@ -26,6 +27,7 @@ GetOptions(
     'project=s',
     'start',
     'stop',
+    'task=s',
     'summary',
     'help|?',
     'man',
