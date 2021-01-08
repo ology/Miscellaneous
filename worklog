@@ -31,11 +31,19 @@ pod2usage(1) unless @ARGV;
 my $t = localtime;
 
 my %opts = (
-    log => './work-log-' . $t->year . sprintf('%02d', $t->mon) . '.txt',
+    log     => './work-log-' . $t->year . sprintf('%02d', $t->mon) . '.txt',
+    project => undef,
+    start   => 0,
+    stop    => 0,
+    summary => 0,
 );
 GetOptions(
     \%opts, 
     'log=s',
+    'project=s',
+    'start',
+    'stop',
+    'summary',
     'help|?',
     'man',
     'verbose!',
@@ -53,39 +61,41 @@ my $parser = DateTime::Format::Natural->new;
 
 $opts{log} = path($opts{log});
 
-open my $fh, '<', $opts{log} or die "Can't read $opts{log}: $!";
+if ($opts{summary}) {
+    open my $fh, '<', $opts{log} or die "Can't read $opts{log}: $!";
 
-while (my $line = readline($fh)) {
-    next if $line =~ /^#/;
-    chomp $line;
-    next unless $line;
+    while (my $line = readline($fh)) {
+        next if $line =~ /^#/;
+        chomp $line;
+        next unless $line;
 
-    if ($line =~ /^Project: (.+)$/) {
-        $project = $1;
-    }
-    elsif ($line =~ /^([A-Z].+)$/) {
-        my @parts = split /\s+/, $line;
-
-        my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[5] $parts[3]");
-        if ($datetime) {
-            my $minutes = ($dt->epoch - $datetime->epoch) / 60;
-            $projects{$project} += $minutes;
-            $datetime = '';
+        if ($line =~ /^Project: (.+)$/) {
+            $project = $1;
         }
-        else {
-            $datetime = $dt;
+        elsif ($line =~ /^([A-Z].+)$/) {
+            my @parts = split /\s+/, $line;
+
+            my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[5] $parts[3]");
+            if ($datetime) {
+                my $minutes = ($dt->epoch - $datetime->epoch) / 60;
+                $projects{$project} += $minutes;
+                $datetime = '';
+            }
+            else {
+                $datetime = $dt;
+            }
         }
     }
-}
-#warn(__PACKAGE__,' ',__LINE__," MARK: ",ddc(\%projects));
+    #warn(__PACKAGE__,' ',__LINE__," MARK: ",ddc(\%projects));
 
-close $fh or die "Can't close $opts{log}: $!";
+    close $fh or die "Can't close $opts{log}: $!";
 
-my $i = 0;
+    my $i = 0;
 
-for $project (sort keys %projects) {
-    $i++;
-    printf "%d. %s: %.2f hours\n", $i, $project, $projects{$project} / 60;
+    for $project (sort keys %projects) {
+        $i++;
+        printf "%d. %s: %.2f hours\n", $i, $project, $projects{$project} / 60;
+    }
 }
 
 __END__
