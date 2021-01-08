@@ -41,12 +41,12 @@ my %projects;
 my $project;
 my $datetime;
 
-my $parser = DateTime::Format::Natural->new;
-
 $opts{log} = path($opts{log});
 
 if ($opts{summary}) {
     open my $fh, '<', $opts{log} or die "Can't read $opts{log}: $!";
+
+    my $parser = DateTime::Format::Natural->new;
 
     while (my $line = readline($fh)) {
         next if $line =~ /^#/;
