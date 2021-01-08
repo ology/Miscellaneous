@@ -98,6 +98,8 @@ elsif ($opts{project} || $opts{start} || $opts{stop} || $opts{task}) {
         print $fh "  - $opts{task}\n";
     }
 
+    print "Work-log updated.\n";
+
     close $fh or die "Can't close $opts{log}: $!";
 }
 else {
