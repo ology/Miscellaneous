@@ -18,7 +18,7 @@ my %opts = (
     project => undef,
     start   => 0,
     stop    => 0,
-    tast    => undef,
+    task    => undef,
     summary => 0,
 );
 GetOptions(
