@@ -91,6 +91,7 @@ elsif ($opts{project} || $opts{start} || $opts{stop} || $opts{task}) {
 
     if ($opts{start} || $opts{stop}) {
         print $fh scalar(localtime), "\n";
+        print $fh "\n" if $opts{stop};
     }
 
     if ($opts{task}) {
@@ -109,7 +110,14 @@ __END__
 
 =head1 SYNOPSIS
 
-  perl worklog --log=~/client/work-log-202101.txt
+  # Workflow:
+  perl worklog --log=~/project/work-log-202101.txt --project=Foo --start --task='Fix things'
+  perl worklog --log=~/project/work-log-202101.txt --task='Fix more stuff'
+  perl worklog --log=~/project/work-log-202101.txt --stop
+
+  # In the client project directory:
+  perl worklog --project=Foo --start --task='Fix things'
+  ...
 
 =head1 DESCRIPTION
 
