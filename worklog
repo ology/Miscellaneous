@@ -1,22 +1,5 @@
 #!/usr/bin/env perl
 
-# <- Leading comments are for documentation only
-#
-# #===================
-# Project: Foo
-# #===================
-#
-# Start date
-#   - What was done
-#   - Another task
-# End date
-#
-# Thu Jan  7 15:00:00 PST 2021
-#   - Yet another task
-# Thu Jan  7 15:51:23 PST 2021
-#
-# ...
-
 use strict;
 use warnings;
 use Data::Dumper::Compact qw(ddc);
@@ -110,4 +93,17 @@ __END__
 
 Log your work!
 
+  #===================
+  Project: Foo
+  #===================
+ 
+  Start date
+    - What was done
+    - Another task
+  End date
+ 
+  Thu Jan  7 15:00:00 PST 2021
+    - Yet another task
+  Thu Jan  7 15:51:23 PST 2021
+ 
 =cut
