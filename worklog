@@ -58,7 +58,7 @@ if ($opts{summary}) {
         elsif ($line =~ /^([A-Z].+)$/) {
             my @parts = split /\s+/, $line;
 
-            my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[5] $parts[3]");
+            my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[4] $parts[3]");
             if ($datetime) {
                 my $minutes = ($dt->epoch - $datetime->epoch) / 60;
                 $projects{$project} += $minutes;
@@ -81,9 +81,22 @@ if ($opts{summary}) {
     }
 }
 elsif ($opts{project} || $opts{start} || $opts{stop}) {
+    open my $fh, '>>', $opts{log} or die "Can't append to $opts{log}: $!";
+
+    if ($opts{project}) {
+        print $fh '#' . '=' x 69, "\n";
+        print $fh "Project: $opts{project}\n";
+        print $fh '#' . '=' x 69, "\n\n";
+    }
+
+    if ($opts{start} || $opts{stop}) {
+        print $fh scalar(localtime), "\n";
+    }
+
+    close $fh or die "Can't close $opts{log}: $!";
 }
 else {
-    warn "No arguments to process.\n";
+    warn "Nothing to process.\n";
 }
 
 __END__
