@@ -114,6 +114,7 @@ __END__
   perl worklog --log=~/project/work-log-202101.txt --project=Foo --start --task='Fix things'
   perl worklog --log=~/project/work-log-202101.txt --task='Fix more stuff'
   perl worklog --log=~/project/work-log-202101.txt --stop
+  perl worklog --log=~/project/work-log-202101.txt --summary
 
   # In the client project directory:
   perl worklog --project=Foo --start --task='Fix things'
@@ -132,8 +133,8 @@ Log your work!
     - Another task
   End date
  
-  Thu Jan  7 15:00:00 PST 2021
+  Thu Jan  7 15:00:00 2021
     - Yet another task
-  Thu Jan  7 15:51:23 PST 2021
+  Thu Jan  7 15:59:59 2021
  
 =cut
