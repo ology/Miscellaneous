@@ -82,7 +82,7 @@ if ($opts{summary}) {
         printf "%d. %s: %.2f hours\n", $i, $project, $projects{$project} / 60;
     }
 }
-elsif ($opts{project} || $opts{start} || $opts{stop}) {
+elsif ($opts{project} || $opts{start} || $opts{stop} || $opts{task}) {
     open my $fh, '>>', $opts{log} or die "Can't append to $opts{log}: $!";
 
     if ($opts{project}) {
@@ -93,6 +93,10 @@ elsif ($opts{project} || $opts{start} || $opts{stop}) {
 
     if ($opts{start} || $opts{stop}) {
         print $fh scalar(localtime), "\n";
+    }
+
+    if ($opts{task}) {
+        print $fh "  - $opts{task}\n";
     }
 
     close $fh or die "Can't close $opts{log}: $!";
