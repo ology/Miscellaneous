@@ -8,10 +8,10 @@ use warnings;
 # Project: Foo
 # #===================
 #
-# Start-date1
+# Start date
 #   - What was done
 #   - Another task
-# End-date1
+# End date
 #
 # Thu Jan  7 15:00:00 PST 2021
 #   - Yet another task
