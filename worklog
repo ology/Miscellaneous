@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
-
 use strict;
 use warnings;
+
 use Data::Dumper::Compact qw(ddc);
 use DateTime::Format::Natural;
 use Getopt::Long qw(GetOptions);
@@ -79,6 +79,11 @@ if ($opts{summary}) {
         $i++;
         printf "%d. %s: %.2f hours\n", $i, $project, $projects{$project} / 60;
     }
+}
+elsif ($opts{project} || $opts{start} || $opts{stop}) {
+}
+else {
+    warn "No arguments to process.\n";
 }
 
 __END__
