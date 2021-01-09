@@ -5,7 +5,6 @@ use warnings;
 use Data::Dumper::Compact qw(ddc);
 use DateTime::Format::Natural;
 use Getopt::Long qw(GetOptions);
-use File::Touch qw(touch);
 use Path::Tiny qw(path);
 use Pod::Usage qw(pod2usage);
 use Time::Piece;
@@ -45,7 +44,10 @@ my $datetime;
 $opts{log} = path($opts{log});
 
 # Create the worklog file
-touch($opts{log}) unless -e $opts{log};
+unless (-e $opts{log}) {
+    open my $fh, '>', $opts{log} or die "Can't create $opts{log}: $!";
+    close $fh or die "Can't close $opts{log}: $!";
+}
 
 if ($opts{summary}) {
     open my $fh, '<', $opts{log} or die "Can't read $opts{log}: $!";
