@@ -42,6 +42,7 @@ my %projects;
 my $project;
 my $datetime;
 
+# Convert ~
 $opts{log} = path($opts{log});
 
 # Create the worklog file if it doesn't exist
@@ -53,6 +54,7 @@ unless (-e $opts{log}) {
     close $fh or die "Can't close $opts{log}: $!";
 }
 
+# Summarize project time
 if ($opts{summary}) {
     open my $fh, '<', $opts{log} or die "Can't read $opts{log}: $!";
 
@@ -90,6 +92,7 @@ if ($opts{summary}) {
         printf "%d. %s: %.2f hours\n", $i, $project, $projects{$project} / 60;
     }
 }
+# Update log
 elsif ($opts{project} || $opts{start} || $opts{stop} || $opts{task}) {
     open my $fh, '>>', $opts{log} or die "Can't append to $opts{log}: $!";
 
