@@ -43,7 +43,7 @@ my $datetime;
 
 $opts{log} = path($opts{log});
 
-# Create the worklog file
+# Create the worklog file if it doesn't exist
 unless (-e $opts{log}) {
     open my $fh, '>', $opts{log} or die "Can't create $opts{log}: $!";
     close $fh or die "Can't close $opts{log}: $!";
