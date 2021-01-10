@@ -49,7 +49,7 @@ $opts{log} = path($opts{log});
 unless (-e $opts{log}) {
     open my $fh, '>', $opts{log} or die "Can't create $opts{log}: $!";
     my $dir = path(dirname($opts{log}))->absolute;
-    $dir =~ s/^.*?\b(\w+)$/$1/;
+    $dir =~ s/^.*?\/(\w+)$/$1/;
     print $fh "# Gene Boggs' $dir worklog\n\n";
     close $fh or die "Can't close $opts{log}: $!";
 }
@@ -111,7 +111,7 @@ elsif ($opts{project} || $opts{start} || $opts{stop} || $opts{task}) {
         print $fh "  - $opts{task}\n";
     }
 
-    print "Work-log $opts{log} updated.\n";
+    print "$opts{log} updated.\n";
 
     close $fh or die "Can't close $opts{log}: $!";
 }
