@@ -136,7 +136,7 @@ worklog
   > perl worklog --log=~/project/work-log-202101.txt --stop
   > perl worklog --log=~/project/work-log-202101.txt --summary
 
-  # Or in the client project directory:
+  # Or in the project directory:
   > perl worklog --project=Foo --start --task='Fix things'
   ...
 
