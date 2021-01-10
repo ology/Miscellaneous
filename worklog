@@ -124,7 +124,9 @@ else {
 
 __END__
 
-=head1 NAME worklog
+=head1 NAME
+
+worklog
 
 =head1 SYNOPSIS
 
