@@ -131,13 +131,13 @@ worklog
 =head1 SYNOPSIS
 
   # Workflow:
-  perl worklog --log=~/project/work-log-202101.txt --project=Foo --start --task='Fix things'
-  perl worklog --log=~/project/work-log-202101.txt --task='Fix more stuff'
-  perl worklog --log=~/project/work-log-202101.txt --stop
-  perl worklog --log=~/project/work-log-202101.txt --summary
+  > perl worklog --log=~/project/work-log-202101.txt --project=Foo --start --task='Fix things'
+  > perl worklog --log=~/project/work-log-202101.txt --task='Fix more stuff'
+  > perl worklog --log=~/project/work-log-202101.txt --stop
+  > perl worklog --log=~/project/work-log-202101.txt --summary
 
   # Or in the client project directory:
-  perl worklog --project=Foo --start --task='Fix things'
+  > perl worklog --project=Foo --start --task='Fix things'
   ...
 
 =head1 DESCRIPTION
