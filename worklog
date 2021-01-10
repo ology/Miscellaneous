@@ -48,7 +48,7 @@ $opts{log} = path($opts{log});
 # Create the worklog file if it doesn't exist
 unless (-e $opts{log}) {
     open my $fh, '>', $opts{log} or die "Can't create $opts{log}: $!";
-    my $dir = path(dirname($opts{log}))->absolute;
+    my $dir = path(dirname($opts{log}));
     print $fh "# Gene Boggs' $dir worklog\n\n";
     close $fh or die "Can't close $opts{log}: $!";
 }
