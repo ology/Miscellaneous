@@ -164,7 +164,7 @@ Log your work!
 The work B<log> text file
 
 If no such file exists, one is created, and named
-C<work-log-YYYY-MM.txt>.  If no B<log> file is given, the program
+C<work-log-YYYYMM.txt>.  If no B<log> file is given, the program
 assumes it is in the current directory.
 
 =head2 project
