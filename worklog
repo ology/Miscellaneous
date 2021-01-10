@@ -137,7 +137,7 @@ worklog
   > perl worklog --log=~/project/work-log-202101.txt --summary
 
   # Or in the project directory with abbreviations:
-  > perl worklog --pr=Foo --sta --ta='Fix things'
+  > perl worklog --p=Foo --sta --t='Fix things'
   ...
 
 =head1 DESCRIPTION
