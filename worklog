@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 
-use Data::Dumper::Compact qw(ddc);
 use DateTime::Format::Natural;
 use File::Basename qw(dirname);
 use Getopt::Long qw(GetOptions);
