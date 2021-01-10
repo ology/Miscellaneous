@@ -138,7 +138,9 @@ worklog
 
   # Or in the project directory with abbreviations:
   > perl worklog --p=Foo --sta --t='Fix things'
-  ...
+  > perl worklog --t='Fix more stuff'
+  > perl worklog --sto
+  > perl worklog --sum
 
 =head1 DESCRIPTION
 
@@ -147,7 +149,7 @@ Log your work!
   #===================
   Project: Foo
   #===================
- 
+
   Start date
     - Fix things
     - Fix more stuff
