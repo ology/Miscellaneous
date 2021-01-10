@@ -59,6 +59,8 @@ if ($opts{summary}) {
 
     my $parser = DateTime::Format::Natural->new;
 
+    my $total = 0;
+
     while (my $line = readline($fh)) {
         next if $line =~ /^#/;
         chomp $line;
@@ -74,6 +76,7 @@ if ($opts{summary}) {
             if ($datetime) {
                 my $minutes = ($dt->epoch - $datetime->epoch) / 60;
                 $projects{$project} += $minutes;
+                $total += $minutes;
                 $datetime = '';
             }
             else {
@@ -90,6 +93,8 @@ if ($opts{summary}) {
         $i++;
         printf "%d. %s: %.2f hours\n", $i, $project, $projects{$project} / 60;
     }
+
+    printf "Total: %.2f hours\n", $total / 60;
 }
 # Update log
 elsif ($opts{project} || $opts{start} || $opts{stop} || $opts{task}) {
