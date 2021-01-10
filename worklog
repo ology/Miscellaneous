@@ -156,5 +156,35 @@ Log your work!
   Thu Jan  7 15:00:00 2021
     - Yet another task
   Thu Jan  7 15:59:59 2021
- 
+
+=head1 OPTIONS
+
+=head2 log
+
+The work B<log> text file
+
+If no such file exists, one is created, and named
+C<work-log-YYYY-MM.txt>.  If no B<log> file is given, the program
+assumes it is in the current directory.
+
+=head2 project
+
+The B<project> to be worked
+
+=head2 task
+
+A B<task> within a B<project>'s B<start> and B<stop> times
+
+=head2 start
+
+The B<project> B<start> time
+
+=head2 stop
+
+The B<project> B<stop> time
+
+=head2 summary
+
+Summarization of each B<project>'s hourly total and a grand total
+
 =cut
