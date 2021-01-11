@@ -11,6 +11,8 @@ use Time::Piece;
 
 pod2usage(1) unless @ARGV;
 
+my $who = 'Gene Boggs';
+
 my $t = localtime;
 
 my %opts = (
@@ -44,7 +46,7 @@ $opts{log} = path($opts{log});
 unless (-e $opts{log}) {
     open my $fh, '>', $opts{log} or die "Can't create $opts{log}: $!";
     my $dir = path(dirname($opts{log}))->absolute;
-    print $fh "# Gene Boggs' $dir worklog\n\n";
+    print $fh "# $who $dir worklog\n\n";
     close $fh or die "Can't close $opts{log}: $!";
 }
 
