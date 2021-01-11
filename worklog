@@ -141,7 +141,7 @@ worklog
   > perl worklog --l=~/project/work-log-202101.txt --p=Foo --start --t='Fix things'
   > perl worklog --l=~/project/work-log-202101.txt --t='Fix more stuff'
   > perl worklog --l=~/project/work-log-202101.txt --stop
-  > perl worklog --l=~/project/work-log-202101.txt --start --t='Experiment'
+  > perl worklog --l=~/project/work-log-202101.txt --start --t='Test'
   > perl worklog --l=~/project/work-log-202101.txt --stop
   > perl worklog --l=~/project/work-log-202101.txt --sum
 
