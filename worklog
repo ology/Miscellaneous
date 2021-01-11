@@ -22,6 +22,7 @@ my %opts = (
     stop    => 0,
     task    => undef,
     summary => 0,
+    current => 0,
 );
 GetOptions(
     \%opts, 
@@ -31,6 +32,7 @@ GetOptions(
     'stop',
     'task=s',
     'summary',
+    'current',
     'help|?',
     'man',
     'verbose!',
@@ -50,8 +52,47 @@ unless (-e $opts{log}) {
     close $fh or die "Can't close $opts{log}: $!";
 }
 
+if ($opts{current}) {
+    my $project;
+    my $task;
+    my $datetime;
+    my $dt_num = 0;
+
+    open my $fh, '<', $opts{log} or die "Can't read $opts{log}: $!";
+
+    while (my $line = readline($fh)) {
+        next if $line =~ /^#/;
+        chomp $line;
+        next unless $line;
+
+        if ($line =~ /^Project: (.+)$/) {
+            $project = $1;
+        }
+        elsif ($line =~ /^([A-Z].+)$/) { # Date-time line
+            $datetime = $1;
+            if ($dt_num) {
+                $dt_num = 0;
+                $datetime = '';
+            }
+            else {
+                $dt_num++;
+            }
+        }
+        else {
+            $task = $line;
+        }
+    }
+
+    close $fh or die "Can't close $opts{log}: $!";
+
+    $task =~ s/^\s+-\s+(.*)$/$1/;
+
+    print "Project: $project\n";
+    print "Date-time: $datetime\n" if $datetime;
+    print "Task: $task\n" if $datetime;
+}
 # Summarize project time
-if ($opts{summary}) {
+elsif ($opts{summary}) {
     my %projects;
     my $project;
     my $datetime;
@@ -140,6 +181,7 @@ worklog
   > perl worklog --task='Fix more stuff'
   > perl worklog --stop
   > perl worklog --start --task='Test'
+  > perl worklog --current
   > perl worklog --stop
   > perl worklog --summmary
 
@@ -148,6 +190,7 @@ worklog
   > perl worklog --l=~/project/work-log-202101.txt --t='Fix more stuff'
   > perl worklog --l=~/project/work-log-202101.txt --stop
   > perl worklog --l=~/project/work-log-202101.txt --start --t='Test'
+  > perl worklog --l=~/project/work-log-202101.txt --c
   > perl worklog --l=~/project/work-log-202101.txt --stop
   > perl worklog --l=~/project/work-log-202101.txt --sum
 
@@ -197,5 +240,10 @@ The B<project> B<stop> time
 =head2 summary
 
 Summarization of each B<project>'s hourly total and a grand total
+
+=head2 current
+
+Show the latest B<project>, and if it is in the middle of tasks, show
+the date-time string and the latest B<task> being worked.
 
 =cut
