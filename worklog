@@ -11,7 +11,7 @@ use Time::Piece;
 
 pod2usage(1) unless @ARGV;
 
-my $who = 'Gene Boggs';
+my $who = "Gene Boggs'";
 
 my $t = localtime;
 
