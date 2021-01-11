@@ -70,7 +70,8 @@ if ($opts{summary}) {
 
         if ($line =~ /^Project: (.+)$/) {
             $project = $1;
-            $projects{$project}->{order} = ++$n;
+            $projects{$project}->{order} = ++$n
+                unless exists $projects{$project};
         }
         elsif ($line =~ /^([A-Z].+)$/) { # Date-time line
             my @parts = split /\s+/, $line;
