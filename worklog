@@ -92,7 +92,9 @@ if ($opts{summary}) {
 
     for $project (sort { $projects{$a}->{order} <=> $projects{$b}->{order} } keys %projects) {
         printf "%d. %s: %.2f hours\n",
-            $projects{$project}->{order}, $project, $projects{$project}->{time} / 60;
+            $projects{$project}->{order},
+            $project,
+            $projects{$project}->{time} / 60;
     }
 
     printf "Total: %.2f hours\n", $total / 60;
