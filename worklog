@@ -133,7 +133,7 @@ worklog
   > perl worklog --project=Foo --start --task='Fix things'
   > perl worklog --task='Fix more stuff'
   > perl worklog --stop
-  > perl worklog --start --task='Experiment'
+  > perl worklog --start --task='Test'
   > perl worklog --stop
   > perl worklog --summmary
 
@@ -159,7 +159,7 @@ Log your work!
   End date 1
 
   Start date 2
-    - Experiment
+    - Test
   End date 2
 
 =head1 OPTIONS
