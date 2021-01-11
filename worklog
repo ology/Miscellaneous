@@ -129,17 +129,21 @@ worklog
 
 =head1 SYNOPSIS
 
-  # Workflow:
-  > perl worklog --log=~/project/work-log-202101.txt --project=Foo --start --task='Fix things'
-  > perl worklog --log=~/project/work-log-202101.txt --task='Fix more stuff'
-  > perl worklog --log=~/project/work-log-202101.txt --stop
-  > perl worklog --log=~/project/work-log-202101.txt --summary
+  # Workflow in the project directory:
+  > perl worklog --project=Foo --start --task='Fix things'
+  > perl worklog --task='Fix more stuff'
+  > perl worklog --stop
+  > perl worklog --start --task='Experiment'
+  > perl worklog --stop
+  > perl worklog --summmary
 
-  # Or in the project directory with abbreviations:
-  > perl worklog --p=Foo --sta --t='Fix things'
-  > perl worklog --t='Fix more stuff'
-  > perl worklog --sto
-  > perl worklog --sum
+  # Or given a log file and using option abbreviations:
+  > perl worklog --l=~/project/work-log-202101.txt --p=Foo --start --t='Fix things'
+  > perl worklog --l=~/project/work-log-202101.txt --t='Fix more stuff'
+  > perl worklog --l=~/project/work-log-202101.txt --stop
+  > perl worklog --l=~/project/work-log-202101.txt --start --t='Experiment'
+  > perl worklog --l=~/project/work-log-202101.txt --stop
+  > perl worklog --l=~/project/work-log-202101.txt --sum
 
 =head1 DESCRIPTION
 
@@ -149,10 +153,14 @@ Log your work!
   Project: Foo
   #===================
 
-  Start date
+  Start date 1
     - Fix things
     - Fix more stuff
-  End date
+  End date 1
+
+  Start date 2
+    - Experiment
+  End date 2
 
 =head1 OPTIONS
 
