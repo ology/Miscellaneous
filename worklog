@@ -61,6 +61,7 @@ if ($opts{summary}) {
     my $parser = DateTime::Format::Natural->new;
 
     my $total = 0;
+    my $n = 0;
 
     while (my $line = readline($fh)) {
         next if $line =~ /^#/;
@@ -69,6 +70,7 @@ if ($opts{summary}) {
 
         if ($line =~ /^Project: (.+)$/) {
             $project = $1;
+            $projects{$project}->{order} = ++$n;
         }
         elsif ($line =~ /^([A-Z].+)$/) { # Date-time line
             my @parts = split /\s+/, $line;
@@ -76,7 +78,7 @@ if ($opts{summary}) {
             my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[4] $parts[3]");
             if ($datetime) {
                 my $minutes = ($dt->epoch - $datetime->epoch) / 60;
-                $projects{$project} += $minutes;
+                $projects{$project}->{time} += $minutes;
                 $total += $minutes;
                 $datetime = '';
             }
@@ -88,10 +90,9 @@ if ($opts{summary}) {
 
     close $fh or die "Can't close $opts{log}: $!";
 
-    my $i = 0;
-
-    for $project (sort keys %projects) {
-        printf "%d. %s: %.2f hours\n", ++$i, $project, $projects{$project} / 60;
+    for $project (sort { $projects{$a}->{order} <=> $projects{$b}->{order} } keys %projects) {
+        printf "%d. %s: %.2f hours\n",
+            $projects{$project}->{order}, $project, $projects{$project}->{time} / 60;
     }
 
     printf "Total: %.2f hours\n", $total / 60;
