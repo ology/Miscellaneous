@@ -18,8 +18,8 @@ my $t = localtime;
 my %opts = (
     log     => './work-log-' . $t->year . sprintf('%02d', $t->mon) . '.txt',
     project => undef,
-    start   => 0,
-    stop    => 0,
+    begin   => 0,
+    end     => 0,
     task    => undef,
     summary => 0,
     current => 0,
@@ -28,8 +28,8 @@ GetOptions(
     \%opts, 
     'log=s',
     'project=s',
-    'start',
-    'stop',
+    'begin',
+    'end',
     'task=s',
     'summary',
     'current',
@@ -142,7 +142,7 @@ elsif ($opts{summary}) {
     printf "Total: %.2f hours\n", $total / 60;
 }
 # Update log
-elsif ($opts{project} || $opts{start} || $opts{stop} || $opts{task}) {
+elsif ($opts{project} || $opts{begin} || $opts{end} || $opts{task}) {
     open my $fh, '>>', $opts{log} or die "Can't append to $opts{log}: $!";
 
     if ($opts{project}) {
@@ -151,9 +151,9 @@ elsif ($opts{project} || $opts{start} || $opts{stop} || $opts{task}) {
         print $fh '#' . '=' x 69, "\n\n";
     }
 
-    if ($opts{start} || $opts{stop}) {
+    if ($opts{begin} || $opts{end}) {
         print $fh scalar(localtime), "\n";
-        print $fh "\n" if $opts{stop};
+        print $fh "\n" if $opts{end};
     }
 
     if ($opts{task}) {
@@ -177,22 +177,22 @@ worklog
 =head1 SYNOPSIS
 
   # Workflow in the project directory:
-  > perl worklog --project=Foo --start --task='Fix things'
+  > perl worklog --project=Foo --begin --task='Fix things'
   > perl worklog --task='Fix more stuff'
-  > perl worklog --stop
-  > perl worklog --start --task='Test'
+  > perl worklog --end
+  > perl worklog --begin --task='Test'
   > perl worklog --current
-  > perl worklog --stop
+  > perl worklog --end
   > perl worklog --summmary
 
   # Or given a log file and using option abbreviations:
-  > perl worklog --l=~/project/work-log-202101.txt --p=Foo --start --t='Fix things'
+  > perl worklog --l=~/project/work-log-202101.txt --p=Foo --b --t='Fix things'
   > perl worklog --l=~/project/work-log-202101.txt --t='Fix more stuff'
-  > perl worklog --l=~/project/work-log-202101.txt --stop
-  > perl worklog --l=~/project/work-log-202101.txt --start --t='Test'
-  > perl worklog --l=~/project/work-log-202101.txt --cur
-  > perl worklog --l=~/project/work-log-202101.txt --stop
-  > perl worklog --l=~/project/work-log-202101.txt --sum
+  > perl worklog --l=~/project/work-log-202101.txt --e
+  > perl worklog --l=~/project/work-log-202101.txt --b --t='Test'
+  > perl worklog --l=~/project/work-log-202101.txt --c
+  > perl worklog --l=~/project/work-log-202101.txt --e
+  > perl worklog --l=~/project/work-log-202101.txt --s
 
 =head1 DESCRIPTION
 
@@ -202,12 +202,12 @@ Log your work!
   Project: Foo
   #===================
 
-  Start date 1
+  Begin date 1
     - Fix things
     - Fix more stuff
   End date 1
 
-  Start date 2
+  Begin date 2
     - Test
   End date 2
 
@@ -227,15 +227,15 @@ The B<project> to be worked
 
 =head2 task
 
-A B<task> within a B<project>'s B<start> and B<stop> times
+A B<task> within a B<project>'s B<begin> and B<end> times
 
-=head2 start
+=head2 begin
 
-The B<project> B<start> time
+The B<project> B<begin> time
 
-=head2 stop
+=head2 end
 
-The B<project> B<stop> time
+The B<project> B<end> time
 
 =head2 summary
 
