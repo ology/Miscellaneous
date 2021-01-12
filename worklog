@@ -186,13 +186,13 @@ worklog
   > perl worklog --summmary
 
   # Or given a log file and using option abbreviations:
-  > perl worklog --l=~/project/work-log-202101.txt --p=Foo --b --t='Fix things'
-  > perl worklog --l=~/project/work-log-202101.txt --t='Fix more stuff'
-  > perl worklog --l=~/project/work-log-202101.txt --e
-  > perl worklog --l=~/project/work-log-202101.txt --b --t='Test'
-  > perl worklog --l=~/project/work-log-202101.txt --c
-  > perl worklog --l=~/project/work-log-202101.txt --e
-  > perl worklog --l=~/project/work-log-202101.txt --s
+  > perl worklog -l=~/project/work-log-202101.txt -p=Foo -b -t='Fix things'
+  > perl worklog -l=~/project/work-log-202101.txt -t='Fix more stuff'
+  > perl worklog -l=~/project/work-log-202101.txt -e
+  > perl worklog -l=~/project/work-log-202101.txt -b -t='Test'
+  > perl worklog -l=~/project/work-log-202101.txt -c
+  > perl worklog -l=~/project/work-log-202101.txt -e
+  > perl worklog -l=~/project/work-log-202101.txt -s
 
 =head1 DESCRIPTION
 
