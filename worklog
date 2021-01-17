@@ -171,7 +171,7 @@ elsif ($opts{project} || $opts{begin} || $opts{end} || $opts{task}) {
         print $fh '#' . '=' x 69, "\n\n";
     }
 
-    if ($opts{begin} || $opts{end}) {
+    if (($opts{begin} && $opts{task}) || $opts{end}) {
         print $fh scalar(localtime), "\n";
         print $fh "\n" if $opts{end};
     }
@@ -253,7 +253,7 @@ A B<task> within a B<project>'s B<begin> and B<end> times
 
 =head2 begin
 
-The B<project> B<begin> time
+The B<project> B<begin> time, which must be accompanied by a B<task>
 
 =head2 end
 
