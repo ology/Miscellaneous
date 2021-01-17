@@ -162,7 +162,7 @@ elsif ($opts{summary}) {
     printf "End:   %s\n", $end_date;
 }
 # Update log
-elsif ($opts{project} || $opts{begin} || $opts{end} || $opts{task}) {
+elsif ($opts{project} || ($opts{begin} && $opts{task}) || $opts{end} || $opts{task}) {
     open my $fh, '>>', $opts{log} or die "Can't append to $opts{log}: $!";
 
     if ($opts{project}) {
