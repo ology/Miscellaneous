@@ -23,6 +23,7 @@ my %opts = (
     task    => undef,
     summary => 0,
     current => 0,
+    open    => 0,
 );
 GetOptions(
     \%opts, 
@@ -33,6 +34,7 @@ GetOptions(
     'task=s',
     'summary',
     'current',
+    'open',
     'help|?',
     'man',
     'verbose!',
@@ -52,7 +54,12 @@ unless (-e $opts{log}) {
     close $fh or die "Can't close $opts{log}: $!";
 }
 
-if ($opts{current}) {
+if ($opts{open}) {
+    my $editor = $ENV{EDITOR} || 'vim';
+    system($editor => $opts{log}) == 0
+        or die "Failed to open $opts{log}: $?";
+}
+elsif ($opts{current}) {
     my $project;
     my $task;
     my $datetime;
