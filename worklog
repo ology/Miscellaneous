@@ -50,6 +50,8 @@ $opts{log} = path($opts{log});
 unless (-e $opts{log}) {
     open my $fh, '>', $opts{log} or die "Can't create $opts{log}: $!";
     my $dir = path(dirname($opts{log}))->absolute;
+    my @parts = split /\//, $dir;
+    $dir = $parts[-1];
     print $fh "# $who $dir worklog\n\n";
     close $fh or die "Can't close $opts{log}: $!";
 }
