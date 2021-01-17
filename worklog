@@ -203,7 +203,7 @@ worklog
   > perl worklog --summmary
   > perl worklog --open
 
-  # Or given a log file and using option abbreviations:
+  # Or given a --log file but using option abbreviations:
   > perl worklog -l=~/project/work-log-202101.txt -p=Foo -b -t='Fix things'
   > perl worklog -l=~/project/work-log-202101.txt -t='Fix more stuff'
   > perl worklog -l=~/project/work-log-202101.txt -e
