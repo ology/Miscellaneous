@@ -130,17 +130,18 @@ elsif ($opts{summary}) {
             my @parts = split /\s+/, $line;
 
             my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[4] $parts[3]");
-            if ($datetime) {
+            if ($datetime) { # end date time
                 $end_date = $datetime;
                 my $minutes = ($dt->epoch - $datetime->epoch) / 60;
                 $projects{$project}->{time} += $minutes;
                 $total += $minutes;
                 $datetime = '';
             }
-            else {
+            else { # begin date time
                 $datetime = $dt;
             }
 
+            # Capture the first timestamp
             $start_date = $datetime unless $start_date;
         }
     }
