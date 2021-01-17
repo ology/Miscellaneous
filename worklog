@@ -98,7 +98,7 @@ elsif ($opts{current}) {
     print "Date-time: $datetime\n" if $datetime;
     print "Task: $task\n" if $datetime;
 }
-# Summarize project time
+# Summarize projects
 elsif ($opts{summary}) {
     my %projects;
     my $project;
