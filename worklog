@@ -59,6 +59,7 @@ if ($opts{open}) {
     system($editor => $opts{log}) == 0
         or die "Failed to open $opts{log}: $?";
 }
+# Display the current project, time and task
 elsif ($opts{current}) {
     my $project;
     my $task;
