@@ -145,10 +145,10 @@ elsif ($opts{summary}) {
     close $fh or die "Can't close $opts{log}: $!";
 
     for $project (sort { $projects{$a}->{order} <=> $projects{$b}->{order} } keys %projects) {
-        printf "%d. %s: %.2f hours\n",
+        printf "%d. %.2f hrs - %s\n",
             $projects{$project}->{order},
-            $project,
-            $projects{$project}->{time} / 60;
+            $projects{$project}->{time} / 60,
+            $project;
     }
 
     printf "Total: %.2f hours\n", $total / 60;
