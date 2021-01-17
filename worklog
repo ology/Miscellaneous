@@ -191,6 +191,7 @@ worklog
   > perl worklog --current
   > perl worklog --end
   > perl worklog --summmary
+  > perl worklog --open
 
   # Or given a log file and using option abbreviations:
   > perl worklog -l=~/project/work-log-202101.txt -p=Foo -b -t='Fix things'
@@ -200,6 +201,7 @@ worklog
   > perl worklog -l=~/project/work-log-202101.txt -c
   > perl worklog -l=~/project/work-log-202101.txt -e
   > perl worklog -l=~/project/work-log-202101.txt -s
+  > perl worklog -l=~/project/work-log-202101.txt -o
 
 =head1 DESCRIPTION
 
@@ -252,5 +254,11 @@ Summarization of each B<project>'s hourly total and a grand total
 
 Show the latest B<project>, and if it is in the middle of tasks, show
 the date-time string and the latest B<task> being worked.
+
+=head2 open
+
+Open the worklog in the defined "EDITOR".
+
+Default: C<vim>
 
 =cut
