@@ -144,8 +144,11 @@ elsif ($opts{summary}) {
 
     close $fh or die "Can't close $opts{log}: $!";
 
+    my $width = length keys %projects;
+
     for $project (sort { $projects{$a}->{order} <=> $projects{$b}->{order} } keys %projects) {
-        printf "%d. %.2f hrs - %s\n",
+        printf "%*d. %.2f hrs - %s\n",
+            $width,
             $projects{$project}->{order},
             $projects{$project}->{time} / 60,
             $project;
@@ -174,7 +177,7 @@ elsif ($opts{project} || $opts{begin} || $opts{end} || $opts{task}) {
         print $fh "  - $opts{task}\n";
     }
 
-    print "$opts{log} updated.\n";
+    print "$opts{log} updated\n";
 
     close $fh or die "Can't close $opts{log}: $!";
 }
