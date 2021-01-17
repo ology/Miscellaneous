@@ -103,6 +103,8 @@ elsif ($opts{summary}) {
     my %projects;
     my $project;
     my $datetime;
+    my $start_date;
+    my $end_date;
 
     open my $fh, '<', $opts{log} or die "Can't read $opts{log}: $!";
 
@@ -126,6 +128,7 @@ elsif ($opts{summary}) {
 
             my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[4] $parts[3]");
             if ($datetime) {
+                $end_date = $datetime;
                 my $minutes = ($dt->epoch - $datetime->epoch) / 60;
                 $projects{$project}->{time} += $minutes;
                 $total += $minutes;
@@ -134,6 +137,8 @@ elsif ($opts{summary}) {
             else {
                 $datetime = $dt;
             }
+
+            $start_date = $datetime unless $start_date;
         }
     }
 
@@ -147,6 +152,8 @@ elsif ($opts{summary}) {
     }
 
     printf "Total: %.2f hours\n", $total / 60;
+    printf "Start: %s\n", $start_date;
+    printf "End:   %s\n", $end_date;
 }
 # Update log
 elsif ($opts{project} || $opts{begin} || $opts{end} || $opts{task}) {
