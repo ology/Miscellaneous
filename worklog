@@ -181,9 +181,9 @@ elsif ($opts{project} || ($opts{begin} && $opts{task}) || $opts{task} || $opts{e
         print $fh "  - $opts{task}\n";
     }
 
-    print "$opts{log} updated\n";
-
     close $fh or die "Can't close $opts{log}: $!";
+
+    print "$opts{log} updated\n";
 }
 else {
     warn "Nothing to process.\n";
