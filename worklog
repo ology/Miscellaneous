@@ -62,8 +62,8 @@ if ($opts{open}) {
 }
 # Display the current project, time and task
 elsif ($opts{current}) {
-    my $project;
-    my $task;
+    my $project = '';
+    my $task = '';
     my $datetime;
     my $dt_num = 0;
 
