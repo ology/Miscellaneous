@@ -168,8 +168,7 @@ elsif ($opts{project} || ($opts{begin} && $opts{task}) || $opts{task} || $opts{e
 
     if ($opts{project}) {
         print $fh '#' . '=' x 69, "\n";
-        print $fh "Project: $opts{project}\n";
-        print $fh '#' . '=' x 69, "\n\n";
+        print $fh "Project: $opts{project}\n\n";
     }
 
     if ($opts{begin} || $opts{end}) {
@@ -223,7 +222,6 @@ Log your work!
 
   #===================
   Project: Foo
-  #===================
 
   Begin date 1
     - Fix things
