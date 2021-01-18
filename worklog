@@ -37,7 +37,6 @@ GetOptions(
     'open',
     'help|?',
     'man',
-    'verbose!',
 ) or pod2usage(2);
 
 pod2usage(1) if $opts{help};
