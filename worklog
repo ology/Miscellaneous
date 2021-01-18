@@ -53,6 +53,7 @@ unless (-e $opts{log}) {
     $dir = $parts[-1];
     print $fh "# $who $dir worklog\n\n";
     close $fh or die "Can't close $opts{log}: $!";
+    print "$opts{log} created\n";
 }
 
 if ($opts{open}) {
