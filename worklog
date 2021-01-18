@@ -186,7 +186,7 @@ elsif ($opts{project} || ($opts{begin} && $opts{task}) || $opts{task} || $opts{e
     print "$opts{log} updated\n";
 }
 else {
-    warn "Nothing to process.\n";
+    print "Nothing to process.\n";
 }
 
 __END__
