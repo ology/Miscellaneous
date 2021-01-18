@@ -172,7 +172,7 @@ elsif ($opts{project} || ($opts{begin} && $opts{task}) || $opts{task} || $opts{e
         print $fh '#' . '=' x 69, "\n\n";
     }
 
-    if (($opts{begin} && $opts{task}) || $opts{end}) {
+    if ($opts{begin} || $opts{end}) {
         print $fh scalar(localtime), "\n";
         print $fh "\n" if $opts{end};
     }
