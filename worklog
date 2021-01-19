@@ -131,8 +131,9 @@ elsif ($opts{summary}) {
 
             my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[4] $parts[3]");
 
+            $end_date = $dt;
+
             if ($datetime) { # end date time
-                $end_date = $datetime;
                 my $minutes = ($dt->epoch - $datetime->epoch) / 60;
                 $projects{$project}->{time} += $minutes;
                 $total += $minutes;
