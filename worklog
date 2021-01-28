@@ -153,7 +153,7 @@ elsif ($opts{summary}) {
     my $width = length keys %projects;
 
     for $project (sort { $projects{$a}->{order} <=> $projects{$b}->{order} } keys %projects) {
-        printf "%*d. %.2f hrs - %s\n",
+        printf "%*d. %5.2f hrs - %s\n",
             $width,
             $projects{$project}->{order},
             $projects{$project}->{time} / 60,
