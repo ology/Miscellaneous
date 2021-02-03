@@ -46,7 +46,7 @@ pod2usage(-exitval => 0, -verbose => 2) if $opts{man};
 $opts{log} = path($opts{log});
 
 # Create the worklog file if it doesn't exist
-unless (-e $opts{log}) {
+unless (-e $opts{log} || ($opts{open} || $opts{current} || $opts{summary})) {
     open my $fh, '>', $opts{log} or die "Can't create $opts{log}: $!";
     my $dir = path(dirname($opts{log}))->absolute;
     my @parts = split /\//, $dir;
@@ -56,7 +56,7 @@ unless (-e $opts{log}) {
     print "$opts{log} created\n";
 }
 
-if ($opts{open}) {
+if (-e $opts{log} && $opts{open}) {
     my $editor = $ENV{EDITOR} || 'vim';
     system($editor => $opts{log}) == 0
         or die "Failed to open $opts{log}: $?";
