@@ -101,7 +101,7 @@ __DATA__
 % layout 'default';
 % title 'Statocles UI Posts';
 % if (flash('message')) {
-%= tag h4 => (style => 'color:green') => flash('message')
+%= tag h1 => (style => 'color:green') => flash('message')
 % }
 <p>
 <b><a href="<%= $site %>">Visit Site</a></b>
