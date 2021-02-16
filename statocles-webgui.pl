@@ -81,8 +81,14 @@ post '/new' => sub ($c) {
 ---                                                                                                                                                                          
 status: published
 title: $title
+tags:
+  - foo
 ---
-Markdown content goes here.
+
+Markdown content goes here...
+
+---
+
 CONTENT
   my $path = "blog/$date/$slug";
   make_path($path) unless -d $path;
