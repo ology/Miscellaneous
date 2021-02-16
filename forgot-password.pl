@@ -3,12 +3,14 @@
 use Mojolicious::Lite;
 use Mojo::JWT;
 
+# Get the user_id from a database instead of hardcoding gene!
+my $user = 'gene';
+
 get '/' => sub {
   my $c = shift;
 
   my $expires = time() + 60 * 60; # 1 hour from now
-  # Get the user_id from a database instead of hardcoding 'gene'
-  my $jwt = $c->jwt->claims({ user_id => 'gene' })->expires($expires)->encode;
+  my $jwt = $c->jwt->claims({ user_id => $user })->expires($expires)->encode;
   my $url = $c->url_for('reset')->to_abs->query(token => $jwt);
 
   # Email the url instead of rendering it
@@ -20,8 +22,7 @@ get '/reset' => sub {
   my $token = $c->param('token');
   my $claims = eval { $c->jwt->decode($token) };
   if ($claims && $claims->{user_id} && $claims->{exp}) {
-    # Make sure that the user_id exists instead of hardcoding 'gene'
-    if ($claims->{user_id} eq 'gene' && $claims->{exp} >= time()) {
+    if ($claims->{user_id} eq $user && $claims->{exp} >= time()) {
       $c->render(template => 'reset');
     }
     else {
