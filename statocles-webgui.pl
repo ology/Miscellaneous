@@ -44,17 +44,36 @@ get '/edit' => sub ($c) {
 } => 'view';
 
 post '/edit' => sub ($c) {
-  my $date = $c->param('date');
-  my $slug = $c->param('slug');
-  my $content = $c->param('content');
+  my $v = $c->validation;
+  $v->required('date')->size(10)->like(qr|^\d{4}/\d\d/\d\d$|);
+  $v->required('slug')->size(1, undef);
+  $v->required('content')->size(1, undef);
+  my $date = $v->param('date');
+  my $slug = $v->param('slug');
+  my $content = $v->param('content');
+  if ($v->has_error) {
+    $c->flash(error => 'Invalid submission!');
+    if ($date && $slug) {
+      return $c->redirect_to($c->url_for('view')->query(date => $date, slug => $slug));
+    }
+    else {
+      return $c->redirect_to($c->url_for('index'));
+    }
+  }
   $content =~ s/\r\n/\n/g;
   my $file = Mojo::File->new(sprintf FORMAT, $date, $slug);
   $file->spurt($content);
-  $c->redirect_to($c->url_for('view')->query(date => $date, slug => $slug));
+  return $c->redirect_to($c->url_for('view')->query(date => $date, slug => $slug));
 } => 'edit';
 
 post '/new' => sub ($c) {
-  my $title = $c->param('title');
+  my $v = $c->validation;
+  $v->required('title', 'trim')->size(1, undef);
+  if ($v->has_error) {
+    $c->flash(error => 'Invalid submission!');
+    return $c->redirect_to($c->url_for('index'));
+  }
+  my $title = $v->param('title');
   my $slug = slugize($title);
   my $t = localtime;
   my $date = $t->ymd('/');
@@ -69,14 +88,14 @@ CONTENT
   make_path($path) unless -d $path;
   my $file = Mojo::File->new(sprintf FORMAT, $date, $slug);
   $file->spurt($content);
-  $c->redirect_to($c->url_for('edit')->query(date => $date, slug => $slug));
+  return $c->redirect_to($c->url_for('edit')->query(date => $date, slug => $slug));
 } => 'new';
 
 get '/deploy' => sub ($c) {
   system('statocles', 'deploy') == 0
     or die "Can't deploy: $!";
   $c->flash(message => 'Deployed site!');
-  $c->redirect_to($c->url_for('index'));
+  return $c->redirect_to($c->url_for('index'));
 } => 'deploy';
 
 sub titleize {
@@ -103,6 +122,9 @@ __DATA__
 % if (flash('message')) {
 %= tag h1 => (style => 'color:green') => flash('message')
 % }
+% elsif (flash('error')) {
+%= tag h1 => (style => 'color:red') => flash('error')
+% }
 <p>
 <b><a href="<%= $site %>">Visit Site</a></b>
 | <b><a href="<%= url_for('deploy') %>">Deploy</a></b>
@@ -120,6 +142,12 @@ __DATA__
 @@ edit.html.ep
 % layout 'default';
 % title 'Statocles UI Post';
+% if (flash('message')) {
+%= tag h1 => (style => 'color:green') => flash('message')
+% }
+% elsif (flash('error')) {
+%= tag h1 => (style => 'color:red') => flash('error')
+% }
 <h1><%= $title %></h1>
 <h4><%= $date %></h4>
 <p></p>
