@@ -3,7 +3,7 @@
 use Mojolicious::Lite;
 use Mojo::JWT;
 
-# Get the user_id from a database instead of hardcoding gene!
+# XXX Get the user_id from a database instead of hardcoding gene!
 my $user = 'gene';
 
 get '/' => sub {
