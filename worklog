@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 
+use Data::Dumper::Compact qw(ddc);
 use DateTime::Format::Natural;
 use File::Basename qw(dirname);
 use Getopt::Long qw(GetOptions);
@@ -24,6 +25,7 @@ my %opts = (
     summary => 0,
     current => 0,
     open    => 0,
+    day     => 0,
 );
 GetOptions(
     \%opts, 
@@ -35,6 +37,7 @@ GetOptions(
     'summary',
     'current',
     'open',
+    'day',
     'help|?',
     'man',
 ) or pod2usage(2);
@@ -60,6 +63,45 @@ if (-e $opts{log} && $opts{open}) {
     my $editor = $ENV{EDITOR} || 'vim';
     system($editor => $opts{log}) == 0
         or die "Failed to open $opts{log}: $?";
+}
+# Summarize projects
+elsif ($opts{day}) {
+    my %byday;
+    my $datetime;
+
+    open my $fh, '<', $opts{log} or die "Can't read $opts{log}: $!";
+
+    my $parser = DateTime::Format::Natural->new;
+
+    while (my $line = readline($fh)) {
+        next if $line =~ /^#/;
+        chomp $line;
+        next unless $line;
+
+        if ($line =~ /^Project: (.+)$/) {
+            next;
+        }
+        elsif ($line =~ /^([A-Z].+)$/) { # Date-time line
+            my @parts = split /\s+/, $line;
+
+            my $dt = $parser->parse_datetime("$parts[1] $parts[2], $parts[4] $parts[3]");
+
+            if ($datetime) { # end date time
+                my $minutes = ($dt->epoch - $datetime->epoch) / 60;
+                (my $date_only = $datetime) =~ s/^([\d-]+)T.*$/$1/;
+                $byday{$date_only} += $minutes;
+#                printf "%s: %d minutes\n", $datetime, $minutes;
+                $datetime = '';
+            }
+            else { # begin date time
+                $datetime = $dt;
+            }
+        }
+    }
+
+    close $fh or die "Can't close $opts{log}: $!";
+
+    print ddc(\%byday);
 }
 # Display the current project, time and task
 elsif ($opts{current}) {
