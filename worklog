@@ -79,7 +79,7 @@ elsif ($opts{day}) {
         chomp $line;
         next unless $line;
 
-        if ($line =~ /^Project: (.+)$/) {
+        if ($line =~ /^Project: .+$/) {
             next;
         }
         elsif ($line =~ /^([A-Z].+)$/) { # Date-time line
