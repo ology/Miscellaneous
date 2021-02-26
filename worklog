@@ -65,7 +65,7 @@ if (-e $opts{log} && $opts{open}) {
     system($editor => $opts{log}) == 0
         or die "Failed to open $opts{log}: $?";
 }
-# Show daily breakdown by minutes
+# Show daily breakdown in minutes
 elsif ($opts{daily}) {
     my %byday;
     my $datetime;
