@@ -9,6 +9,7 @@ use Getopt::Long qw(GetOptions);
 use Path::Tiny qw(path);
 use Pod::Usage qw(pod2usage);
 use Time::Piece;
+use Statistics::Basic qw(mean);
 
 pod2usage(1) unless @ARGV;
 
@@ -102,6 +103,7 @@ elsif ($opts{day}) {
     close $fh or die "Can't close $opts{log}: $!";
 
     print ddc(\%byday);
+    printf "Daily average = %.2f minutes\n", mean(values %byday);
 }
 # Display the current project, time and task
 elsif ($opts{current}) {
