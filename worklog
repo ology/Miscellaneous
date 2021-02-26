@@ -18,7 +18,7 @@ my $who = "Gene Boggs'";
 my $t = localtime;
 
 my %opts = (
-    log     => './work-log-' . $t->year . sprintf('%02d', $t->mon) . '.txt',
+    log     => sprintf('./work-log-%d%02d.txt', $t->year, $t->mon),
     project => undef,
     begin   => 0,
     end     => 0,
