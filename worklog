@@ -26,7 +26,7 @@ my %opts = (
     summary => 0,
     current => 0,
     open    => 0,
-    day     => 0,
+    daily   => 0,
 );
 GetOptions(
     \%opts, 
@@ -38,7 +38,7 @@ GetOptions(
     'summary',
     'current',
     'open',
-    'day',
+    'daily',
     'help|?',
     'man',
 ) or pod2usage(2);
@@ -66,7 +66,7 @@ if (-e $opts{log} && $opts{open}) {
         or die "Failed to open $opts{log}: $?";
 }
 # Show daily breakdown by minutes
-elsif ($opts{day}) {
+elsif ($opts{daily}) {
     my %byday;
     my $datetime;
 
@@ -250,7 +250,7 @@ worklog
   > perl worklog --current
   > perl worklog --end
   > perl worklog --summmary
-  > perl worklog --day
+  > perl worklog --daily
   > perl worklog --open
 
   # Or given a --log file but using option abbreviations:
@@ -310,7 +310,7 @@ The B<project> B<end> time
 
 Summarization of each B<project>'s hourly total and a grand total
 
-=head2 day
+=head2 daily
 
 Summary of daily minutes worked
 
