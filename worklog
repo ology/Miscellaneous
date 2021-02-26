@@ -250,6 +250,7 @@ worklog
   > perl worklog --current
   > perl worklog --end
   > perl worklog --summmary
+  > perl worklog --day
   > perl worklog --open
 
   # Or given a --log file but using option abbreviations:
@@ -260,6 +261,7 @@ worklog
   > perl worklog -l=~/project/work-log-202101.txt -c
   > perl worklog -l=~/project/work-log-202101.txt -e
   > perl worklog -l=~/project/work-log-202101.txt -s
+  > perl worklog -l=~/project/work-log-202101.txt -d
   > perl worklog -l=~/project/work-log-202101.txt -o
 
 =head1 DESCRIPTION
@@ -307,6 +309,10 @@ The B<project> B<end> time
 =head2 summary
 
 Summarization of each B<project>'s hourly total and a grand total
+
+=head2 day
+
+Summary of daily minutes worked
 
 =head2 current
 
