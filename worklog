@@ -62,7 +62,7 @@ unless (-e $opts{log} || ($opts{open} || $opts{current} || $opts{summary})) {
 
 if (-e $opts{log} && $opts{open}) {
     my $editor = $ENV{EDITOR} || 'vim';
-    system($editor => $opts{log}) == 0
+    system($editor, '+', $opts{log}) == 0
         or die "Failed to open $opts{log}: $?";
 }
 # Show daily breakdown in minutes
