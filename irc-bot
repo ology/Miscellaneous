@@ -57,8 +57,8 @@ $irc->on(irc_privmsg => sub {
           );
           my $motif = $mdp->motif;
           my @scale = get_scale_notes('C');
-          my $phrase = [ map { $scale[int rand @scale] . ' => ' . $_ } @$motif ];
-          $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase));
+          my $phrase = [ map { $scale[int rand @scale] . ' (' . $_ . ')' } @$motif ];
+          $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, { max_width => 120 }));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
