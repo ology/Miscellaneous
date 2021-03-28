@@ -4,6 +4,8 @@ use warnings;
 
 use Data::Dumper::Compact qw(ddc);
 use Mojo::IRC ();
+use DateTime;
+use DateTime::Format::Natural;
 
 use constant NICK => 'mojo-irc-bot';
 use constant CHAN => '#somechannel';
@@ -36,6 +38,9 @@ $irc->on(irc_privmsg => sub {
         }
         elsif ($msg eq 'source') {
           $irc->write(privmsg => CHAN, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
+        }
+        elsif ($msg eq 'now') {
+          $irc->write(privmsg => CHAN, ':' . DateTime->now(time_zone => 'local'));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
