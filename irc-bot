@@ -42,6 +42,9 @@ $irc->on(irc_privmsg => sub {
         elsif ($msg eq 'now') {
           $irc->write(privmsg => CHAN, ':' . DateTime->now(time_zone => 'local'));
         }
+        elsif ($msg =~ /^localtime (\d+)$/) {
+          $irc->write(privmsg => CHAN, ':' . scalar(localtime $1));
+        }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
           $irc->write(privmsg => CHAN, qq|:You said, "$msg" $you|);
