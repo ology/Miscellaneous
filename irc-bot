@@ -2,6 +2,13 @@
 use strict;
 use warnings;
 
+# Sample config (irc-bot.yml):
+#
+# nick: 'foobot'
+# user: 'Your Name Bot'
+# channel: '##somechan'
+# server: 'chat.host.net:6667'
+
 use Data::Dumper::Compact qw(ddc);
 use Mojo::IRC;
 use YAML::XS qw(LoadFile);
