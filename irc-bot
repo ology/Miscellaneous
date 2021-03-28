@@ -38,6 +38,7 @@ $irc->on(irc_privmsg => sub {
       if ($nick eq $conf->{nick}) {
         if ($msg eq 'leave') {
           $irc->write(QUIT => 'oof');
+          exit;
         }
         elsif ($msg eq 'source') {
           $irc->write(privmsg => $conf->{channel}, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
