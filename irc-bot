@@ -63,8 +63,8 @@ $irc->on(irc_privmsg => sub {
           $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, { max_width => 120 }));
         }
         elsif ($msg =~ /^vov (.*)$/) {
-            my @vov = qx{ vov $1 };
-            $irc->write(privmsg => $conf->{channel}, join('|', @vov));
+            my $vov = qx{ vov $1 };
+            $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
