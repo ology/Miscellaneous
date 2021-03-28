@@ -6,6 +6,7 @@ use Data::Dumper::Compact qw(ddc);
 use Mojo::IRC;
 use DateTime;
 use YAML::XS qw(LoadFile);
+use Music::Scales qw(get_scale_notes);
 
 # Use my local libraries
 use lib map { "$ENV{HOME}/sandbox/$_/lib" } qw(Music-Duration-Partition);
@@ -55,7 +56,9 @@ $irc->on(irc_privmsg => sub {
               pool => [qw(hn dqn qn den en sn)],
           );
           my $motif = $mdp->motif;
-          $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($motif));
+          my @scale = get_scale_notes('C');
+          my $phrase = [ map { $scale[int rand @scale] . ' => ' . $_ } @$motif ];
+          $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
