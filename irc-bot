@@ -13,6 +13,7 @@ use Data::Dumper::Compact qw(ddc);
 use Mojo::IRC;
 use YAML::XS qw(LoadFile);
 use Music::Scales qw(get_scale_notes);
+use App::MusicTools; # <- Needed for `vov`
 
 # Use my local libraries
 use lib map { "$ENV{HOME}/sandbox/$_/lib" } qw(Music-Duration-Partition);
@@ -60,6 +61,10 @@ $irc->on(irc_privmsg => sub {
           my @scale = get_scale_notes('C');
           my $phrase = [ map { $scale[int rand @scale] . '.' . $_ } @$motif ];
           $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, { max_width => 120 }));
+        }
+        elsif ($msg =~ /^vov (.*)$/) {
+            my @vov = qx{ vov $1 };
+            $irc->write(privmsg => $conf->{channel}, join('|', @vov));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
