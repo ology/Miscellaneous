@@ -52,7 +52,7 @@ $irc->on(irc_privmsg => sub {
           my $size = $1;
           my $mdp = Music::Duration::Partition->new(
               size => $size,
-              pool => [qw(dqn qn den en sn)],
+              pool => [qw(hn dqn qn den en sn)],
           );
           my $motif = $mdp->motif;
           $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($motif));
