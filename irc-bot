@@ -3,16 +3,15 @@ use strict;
 use warnings;
 
 use Data::Dumper::Compact qw(ddc);
-use Mojo::IRC ();
+use Mojo::IRC;
 use DateTime;
-use DateTime::Format::Natural;
 
-use constant NICK => 'mojo-irc-bot';
-use constant CHAN => '#somechannel';
+use constant NICK => 'somebot';
+use constant CHAN => '#somechan';
 
 my $irc = Mojo::IRC->new(
   nick => NICK,
-  user => 'Mojo::IRC Bot',
+  user => 'Some Name Bot',
   server => 'chat.host.net:6667',
   tls => {},
 );
