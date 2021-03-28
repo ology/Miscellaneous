@@ -1,0 +1,55 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Data::Dumper::Compact qw(ddc);
+use Mojo::IRC ();
+
+use constant NICK => 'mojo-irc-bot';
+use constant CHAN => '#somechannel';
+
+my $irc = Mojo::IRC->new(
+  nick => NICK,
+  user => 'Mojo::IRC Bot',
+  server => 'chat.host.net:6667',
+  tls => {},
+);
+
+$irc->on(irc_join => sub {
+  my($self, $message) = @_;
+  print "SUCCESS: $message->{params}[0] joined\n";
+});
+
+$irc->on(message => sub {
+  my($self, $message) = @_;
+});
+
+$irc->on(irc_privmsg => sub {
+  my($self, $message) = @_;
+  if ($message && $message->{params}) {
+    if ($message->{params}[1] =~ /^(\w+)[:,]\s*(.*)$/) {
+      my $nick = $1;
+      my $msg = $2;
+      if ($nick eq NICK) {
+        if ($msg eq 'leave') {
+          $irc->write(QUIT => 'oof');
+        }
+        elsif ($msg eq 'source') {
+          $irc->write(privmsg => CHAN, ':My guts are at ');
+        }
+        else {
+          (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
+          $irc->write(privmsg => CHAN, qq|:You said, "$msg" $you|);
+        }
+      }
+    }
+  }
+});
+
+$irc->connect(sub {
+  my($irc, $err) = @_;
+  return warn $err if $err;
+  $irc->write(join => CHAN);
+});
+
+Mojo::IOLoop->start;
