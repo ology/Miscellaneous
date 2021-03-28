@@ -7,6 +7,10 @@ use Mojo::IRC;
 use DateTime;
 use YAML::XS qw(LoadFile);
 
+# Use my local libraries
+use lib map { "$ENV{HOME}/sandbox/$_/lib" } qw(Music-Duration-Partition);
+use Music::Duration::Partition;
+
 my $conf = LoadFile("$0.yml");
 
 my $irc = Mojo::IRC->new(
@@ -43,6 +47,15 @@ $irc->on(irc_privmsg => sub {
         }
         elsif ($msg =~ /^localtime (\d+)$/) {
           $irc->write(privmsg => $conf->{channel}, ':' . scalar(localtime $1));
+        }
+        elsif ($msg =~ /^motif (\d+)$/) {
+          my $size = $1;
+          my $mdp = Music::Duration::Partition->new(
+              size => $size,
+              pool => [qw(dqn qn den en sn)],
+          );
+          my $motif = $mdp->motif;
+          $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($motif));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
