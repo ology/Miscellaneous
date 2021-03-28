@@ -5,14 +5,14 @@ use warnings;
 use Data::Dumper::Compact qw(ddc);
 use Mojo::IRC;
 use DateTime;
+use YAML::XS qw(LoadFile);
 
-use constant NICK => 'somebot';
-use constant CHAN => '#somechan';
+my $conf = LoadFile("$0.yml");
 
 my $irc = Mojo::IRC->new(
-  nick => NICK,
-  user => 'Some Name Bot',
-  server => 'chat.host.net:6667',
+  nick => $conf->{nick},
+  user => $conf->{user},
+  server => $conf->{server},
   tls => {},
 );
 
@@ -31,22 +31,22 @@ $irc->on(irc_privmsg => sub {
     if ($message->{params}[1] =~ /^(\w+)[:,]\s*(.*)$/) {
       my $nick = $1;
       my $msg = $2;
-      if ($nick eq NICK) {
+      if ($nick eq $conf->{nick}) {
         if ($msg eq 'leave') {
           $irc->write(QUIT => 'oof');
         }
         elsif ($msg eq 'source') {
-          $irc->write(privmsg => CHAN, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
+          $irc->write(privmsg => $conf->{channel}, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
         }
         elsif ($msg eq 'now') {
-          $irc->write(privmsg => CHAN, ':' . DateTime->now(time_zone => 'local'));
+          $irc->write(privmsg => $conf->{channel}, ':' . DateTime->now(time_zone => 'local'));
         }
         elsif ($msg =~ /^localtime (\d+)$/) {
-          $irc->write(privmsg => CHAN, ':' . scalar(localtime $1));
+          $irc->write(privmsg => $conf->{channel}, ':' . scalar(localtime $1));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
-          $irc->write(privmsg => CHAN, qq|:You said, "$msg" $you|);
+          $irc->write(privmsg => $conf->{channel}, qq|:You said, "$msg" $you|);
         }
       }
     }
@@ -56,7 +56,7 @@ $irc->on(irc_privmsg => sub {
 $irc->connect(sub {
   my($irc, $err) = @_;
   return warn $err if $err;
-  $irc->write(join => CHAN);
+  $irc->write(join => $conf->{channel});
 });
 
 Mojo::IOLoop->start;
