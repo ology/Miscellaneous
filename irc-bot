@@ -4,7 +4,6 @@ use warnings;
 
 use Data::Dumper::Compact qw(ddc);
 use Mojo::IRC;
-use DateTime;
 use YAML::XS qw(LoadFile);
 use Music::Scales qw(get_scale_notes);
 
@@ -42,12 +41,6 @@ $irc->on(irc_privmsg => sub {
         }
         elsif ($msg eq 'source') {
           $irc->write(privmsg => $conf->{channel}, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
-        }
-        elsif ($msg eq 'now') {
-          $irc->write(privmsg => $conf->{channel}, ':' . DateTime->now(time_zone => 'local'));
-        }
-        elsif ($msg =~ /^localtime (\d+)$/) {
-          $irc->write(privmsg => $conf->{channel}, ':' . scalar(localtime $1));
         }
         elsif ($msg =~ /^motif ([\d.]+)$/) {
           my $size = $1;
