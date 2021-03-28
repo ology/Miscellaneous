@@ -48,7 +48,7 @@ $irc->on(irc_privmsg => sub {
         elsif ($msg =~ /^localtime (\d+)$/) {
           $irc->write(privmsg => $conf->{channel}, ':' . scalar(localtime $1));
         }
-        elsif ($msg =~ /^motif (\d+)$/) {
+        elsif ($msg =~ /^motif ([\d.]+)$/) {
           my $size = $1;
           my $mdp = Music::Duration::Partition->new(
               size => $size,
