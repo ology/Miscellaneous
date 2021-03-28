@@ -35,7 +35,7 @@ $irc->on(irc_privmsg => sub {
           $irc->write(QUIT => 'oof');
         }
         elsif ($msg eq 'source') {
-          $irc->write(privmsg => CHAN, ':My guts are at ');
+          $irc->write(privmsg => CHAN, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
