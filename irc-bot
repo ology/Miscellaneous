@@ -48,6 +48,10 @@ $irc->on(irc_privmsg => sub {
           $irc->write(QUIT => 'oof');
           exit;
         }
+        elsif ($msg eq 'help') {
+          print "$message->{prefix} said: $message->{params}[1]\n";
+          $irc->write(privmsg => $conf->{channel}, ':Address me with one of: source|motif 4|vov I IV V| for example');
+        }
         elsif ($msg eq 'source') {
           print "$message->{prefix} said: $message->{params}[1]\n";
           $irc->write(privmsg => $conf->{channel}, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
