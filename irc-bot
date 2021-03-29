@@ -49,9 +49,11 @@ $irc->on(irc_privmsg => sub {
           exit;
         }
         elsif ($msg eq 'source') {
+          print "$nick said: $msg\n";
           $irc->write(privmsg => $conf->{channel}, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
         }
         elsif ($msg =~ /^motif ([\d.]+)$/) {
+          print "$nick said: $msg\n";
           my $size = $1;
           my $mdp = Music::Duration::Partition->new(
               size => $size,
@@ -63,8 +65,9 @@ $irc->on(irc_privmsg => sub {
           $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, { max_width => 120 }));
         }
         elsif ($msg =~ /^vov (.*)$/) {
-            my $vov = qx{ vov $1 };
-            $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
+          print "$nick said: $msg\n";
+          my $vov = qx{ vov $1 };
+          $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
