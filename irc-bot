@@ -71,13 +71,10 @@ $irc->on(irc_privmsg => sub {
           my $phrase = [ map { $scale[int rand @scale] . '.' . $_ } @$motif ];
           $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, { max_width => 120 }));
         }
-        elsif ($msg =~ /^vov\s+(.*)$/) {
+        elsif ($msg =~ /^vov\s+([\w ]+)$/) {
           print "$message->{prefix} said: $message->{params}[1]\n";
-          my $str = $1;
-          if ($str =~ /^[\w ]+$/) {
-            my $vov = qx{ vov $str };
-            $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
-          }
+          my $vov = qx{ vov $1 };
+          $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
         }
         elsif ($msg =~ /^notes\s+(.+)$/) {
           print "$message->{prefix} said: $message->{params}[1]\n";
