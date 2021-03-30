@@ -17,6 +17,7 @@ use Music::Scales qw(get_scale_notes);
 use App::MusicTools; # <- Needed for `vov`
 use Music::Chord::Namer qw(chordname);
 use Music::Chord::Note;
+use Music::Note::Frequency;
 
 # Use my local libraries
 use lib map { "$ENV{HOME}/sandbox/$_/lib" } qw(Music-Duration-Partition);
@@ -114,9 +115,13 @@ $irc->on(irc_privmsg => sub {
           }
           $irc->write(privmsg => $conf->{channel}, ":Notes: @notes");
         }
-        elsif ($msg =~ /^freq\s+([\d.]+)\s*(\d+)?$/) {
+        elsif ($msg =~ /^freq\s+([\w.]+)\s*(\d+)?$/) {
           my $freq = $1;
           my $num = $2 || 4;
+          if ($freq =~ /[A-G]/) {
+            my $note = Music::Note::Frequency->new($freq);
+            $freq = $note->frequency;
+          }
           my $freqs = [ map { sprintf '%.2f', $_ * $freq } 1 .. $num ];
           $irc->write(privmsg => $conf->{channel}, ":Harmonics: " . ddc($freqs, OPTIONS));
         }
