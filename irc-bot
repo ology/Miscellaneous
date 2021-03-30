@@ -53,6 +53,7 @@ $irc->on(irc_privmsg => sub {
       my $msg = $2;
       if ($nick eq $conf->{nick}) {
         if ($msg eq 'leave') {
+          $output->($message);
           $irc->write(QUIT => 'oof');
           exit;
         }
