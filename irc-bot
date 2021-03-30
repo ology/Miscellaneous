@@ -16,6 +16,7 @@ use YAML::XS qw(LoadFile);
 use Music::Scales qw(get_scale_notes);
 use App::MusicTools; # <- Needed for `vov`
 use Music::Chord::Namer qw(chordname);
+use Music::Chord::Note;
 
 # Use my local libraries
 use lib map { "$ENV{HOME}/sandbox/$_/lib" } qw(Music-Duration-Partition);
@@ -52,7 +53,7 @@ $irc->on(irc_privmsg => sub {
         }
         elsif ($msg eq 'help') {
           print "$message->{prefix} said: $message->{params}[1]\n";
-          $irc->write(privmsg => $conf->{channel}, ':Address me with one of: [source|motif 4|vov I IV V|name C E G] for example');
+          $irc->write(privmsg => $conf->{channel}, ':Address me with one of: [source|motif 4|vov I IV V|notes C E G|chord C7] for example');
         }
         elsif ($msg eq 'source') {
           print "$message->{prefix} said: $message->{params}[1]\n";
@@ -75,10 +76,16 @@ $irc->on(irc_privmsg => sub {
           my $vov = qx{ vov $1 };
           $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
         }
-        elsif ($msg =~ /^name\s+(.+)$/) {
+        elsif ($msg =~ /^notes\s+(.+)$/) {
           print "$message->{prefix} said: $message->{params}[1]\n";
           my @notes = split /\s+/, $1;
           $irc->write(privmsg => $conf->{channel}, ':Chord: ' . scalar(chordname(@notes)));
+        }
+        elsif ($msg =~ /^chord\s+(.+)$/) {
+          print "$message->{prefix} said: $message->{params}[1]\n";
+          my $cn = Music::Chord::Note->new;
+          my @notes = $cn->chord($1);
+          $irc->write(privmsg => $conf->{channel}, ":Notes: @notes");
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
