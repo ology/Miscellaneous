@@ -71,8 +71,8 @@ $irc->on(irc_privmsg => sub {
         }
         elsif ($msg =~ /^vov\s+([\w \/]+)$/) {
           my $vov = qx{ vov $1 };
-          $vov =~ s/is/#/mg;
           $vov = uc $vov;
+          $vov =~ s/IS/#/mg;
           $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
         }
         elsif ($msg =~ /^notes\s+(.+)$/) {
