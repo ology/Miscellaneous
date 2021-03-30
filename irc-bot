@@ -73,8 +73,11 @@ $irc->on(irc_privmsg => sub {
         }
         elsif ($msg =~ /^vov\s+(.*)$/) {
           print "$message->{prefix} said: $message->{params}[1]\n";
-          my $vov = qx{ vov $1 };
-          $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
+          my $str = $1;
+          if ($str =~ /^[\w ]+$/) {
+            my $vov = qx{ vov $str };
+            $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
+          }
         }
         elsif ($msg =~ /^notes\s+(.+)$/) {
           print "$message->{prefix} said: $message->{params}[1]\n";
