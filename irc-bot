@@ -115,7 +115,7 @@ $irc->on(irc_privmsg => sub {
         }
         elsif ($msg =~ /^freq\s+(\w[#b]?\d)\s*(\d)$/) {
           my $note = $1;
-          my $num = $2;
+          my $num = $2 || 4;
           my $mh = Music::Harmonics->new;
           my $freqs = [
             map { sprintf '%.2f', $_->{frequency} }
