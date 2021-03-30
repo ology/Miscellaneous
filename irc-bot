@@ -48,6 +48,15 @@ $irc->on(irc_privmsg => sub {
       my $msg = $2;
       if ($nick eq $conf->{nick}) {
         print "$message->{prefix} said: $message->{params}[1]\n";
+        my %enharmonic = (
+          'C#' => 'Db',
+          'D#' => 'Eb',
+          'E#' => 'F',
+          'F#' => 'Gb',
+          'G#' => 'Ab',
+          'A#' => 'Bb',
+          'B#' => 'C',
+        );
         if ($msg eq 'leave') {
           $irc->write(QUIT => 'oof');
           exit;
@@ -71,15 +80,6 @@ $irc->on(irc_privmsg => sub {
         }
         elsif ($msg =~ /^vov\s+([\w \/]+)$/) {
           my @args = split /\s+/, $1;
-          my %enharmonic = (
-            'C#' => 'Db',
-            'D#' => 'Eb',
-            'E#' => 'F',
-            'F#' => 'Gb',
-            'G#' => 'Ab',
-            'A#' => 'Bb',
-            'B#' => 'C',
-          );
           my @parts;
           for my $arg (@args) {
             my $vov = qx{ vov $arg };
@@ -94,8 +94,12 @@ $irc->on(irc_privmsg => sub {
           $irc->write(privmsg => $conf->{channel}, ":$flattened");
         }
         elsif ($msg =~ /^notes\s+(.+)$/) {
-          my @notes = split /\s+/, $1;
-          $irc->write(privmsg => $conf->{channel}, ':Chord: ' . scalar(chordname(@notes)));
+          my $arg = $1;
+          my @notes = split /\s+/, $arg;
+          my $chord = chordname(@notes);
+          $chord =~ s/([A-G])#(.*)$/$enharmonic{ $1 . '#' }$2/g
+            if $arg =~ /b/;
+          $irc->write(privmsg => $conf->{channel}, ":Chord: $chord");
         }
         elsif ($msg =~ /^chord\s+(.+)$/) {
           my $cn = Music::Chord::Note->new;
