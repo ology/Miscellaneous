@@ -45,8 +45,7 @@ $irc->on(message => sub {
 
 $irc->on(irc_privmsg => sub {
   my($self, $message) = @_;
-  if ($message && $message->{params}) {
-    if ($message->{params}[1] =~ /^(\w+)[:,]\s*(.*)$/) {
+  if ($message && $message->{params} && $message->{params}[1] =~ /^(\w+)[:,]\s*(.*)$/) {
       my $nick = $1;
       my $msg = $2;
       if ($nick eq $conf->{nick}) {
@@ -130,7 +129,6 @@ $irc->on(irc_privmsg => sub {
           $irc->write(privmsg => $conf->{channel}, qq|:You said, "$msg" $you|);
         }
       }
-    }
   }
 });
 
