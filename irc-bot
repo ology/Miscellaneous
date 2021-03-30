@@ -116,7 +116,7 @@ $irc->on(irc_privmsg => sub {
           my $freq = $1;
           my $num = $2 || 4;
           my $freqs = [ map { sprintf '%.2f', $_ * $freq } 1 .. $num ];
-          $irc->write(privmsg => $conf->{channel}, ":$num $freq harmonics: " . ddc($freqs, { max_width => 120 }));
+          $irc->write(privmsg => $conf->{channel}, ":Harmonics: " . ddc($freqs, { max_width => 120 }));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
