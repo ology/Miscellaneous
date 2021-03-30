@@ -27,6 +27,8 @@ use constant OPTIONS => { max_width => 120 };
 
 my $conf = LoadFile("$0.yml");
 
+my @to_chan = (privmsg => $conf->{channel});
+
 my $irc = Mojo::IRC->new(
   nick => $conf->{nick},
   user => $conf->{user},
@@ -64,10 +66,10 @@ $irc->on(irc_privmsg => sub {
         exit;
       }
       elsif ($msg eq 'help') {
-        $irc->write(privmsg => $conf->{channel}, ':Address me with one of: [source|motif 3|vov I bII V/IV|notes C D# G A#|chord Cm7|freq 440 4] for example');
+        $irc->write(@to_chan, ':Address me with one of: [source|motif 3|vov I bII V/IV|notes C D# G A#|chord Cm7|freq 440 4] for example');
       }
       elsif ($msg eq 'source') {
-        $irc->write(privmsg => $conf->{channel}, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
+        $irc->write(@to_chan, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
       }
       elsif ($msg =~ /^motif\s+([\d.]+)$/) {
         my $size = $1;
@@ -78,7 +80,7 @@ $irc->on(irc_privmsg => sub {
         my $motif = $mdp->motif;
         my @scale = get_scale_notes('C');
         my $phrase = [ map { $scale[int rand @scale] . '.' . $_ } @$motif ];
-        $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, OPTIONS));
+        $irc->write(@to_chan, ':' . "$size beats: " . ddc($phrase, OPTIONS));
       }
       elsif ($msg =~ /^vov\s+([\w \/]+)$/) {
         my @args = split /\s+/, $1;
@@ -93,7 +95,7 @@ $irc->on(irc_privmsg => sub {
           push @parts, $vov;
         }
         my $flattened = join '|', @parts;
-        $irc->write(privmsg => $conf->{channel}, ":$flattened");
+        $irc->write(@to_chan, ":$flattened");
       }
       elsif ($msg =~ /^notes\s+(.+)$/) {
         my $arg = $1;
@@ -101,7 +103,7 @@ $irc->on(irc_privmsg => sub {
         my $chord = chordname(@notes);
         $chord =~ s/([A-G]#)(.*)$/$enharmonic{$1}$2/g
           if $arg =~ /b/;
-        $irc->write(privmsg => $conf->{channel}, ":Chord: $chord");
+        $irc->write(@to_chan, ":Chord: $chord");
       }
       elsif ($msg =~ /^chord\s+(.+)$/) {
         my $arg = $1;
@@ -112,7 +114,7 @@ $irc->on(irc_privmsg => sub {
             s/^([A-G]#)$/$enharmonic{$1}/;
           }
         }
-        $irc->write(privmsg => $conf->{channel}, ":Notes: @notes");
+        $irc->write(@to_chan, ":Notes: @notes");
       }
       elsif ($msg =~ /^freq\s+([\w.]+)\s*(\d+)?$/) {
         my $freq = $1;
@@ -122,11 +124,11 @@ $irc->on(irc_privmsg => sub {
           $freq = $note->frequency;
         }
         my $freqs = [ map { sprintf '%.2f', $_ * $freq } 1 .. $num ];
-        $irc->write(privmsg => $conf->{channel}, ":Harmonics: " . ddc($freqs, OPTIONS));
+        $irc->write(@to_chan, ":Harmonics: " . ddc($freqs, OPTIONS));
       }
       else {
         (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
-        $irc->write(privmsg => $conf->{channel}, qq|:You said, "$msg" $you|);
+        $irc->write(@to_chan, qq|:You said, "$msg" $you|);
       }
     }
   }
