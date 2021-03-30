@@ -121,7 +121,7 @@ $irc->on(irc_privmsg => sub {
             map { sprintf '%.2f', $_->{frequency} }
               $mh->GetStringHarmonics(name => $note, minharmonic => 2, maxharmonic => $num)
           ];
-          $irc->write(privmsg => $conf->{channel}, ":$num harmonics above $note: " . ddc($freqs, { max_width => 120 }));
+          $irc->write(privmsg => $conf->{channel}, ':' . ($num - 1) . " harmonics above $note: " . ddc($freqs, { max_width => 120 }));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
