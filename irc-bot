@@ -53,7 +53,7 @@ $irc->on(irc_privmsg => sub {
           exit;
         }
         elsif ($msg eq 'help') {
-          $irc->write(privmsg => $conf->{channel}, ':Address me with one of: [source|motif 4|vov I IV V|notes C E G|chord C7] for example');
+          $irc->write(privmsg => $conf->{channel}, ':Address me with one of: [source|motif 3|vov I bII V/IV|notes C D# G A#|chord Cm7] for example');
         }
         elsif ($msg eq 'source') {
           $irc->write(privmsg => $conf->{channel}, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
