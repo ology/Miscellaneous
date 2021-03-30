@@ -22,7 +22,7 @@ use Music::Chord::Note;
 use lib map { "$ENV{HOME}/sandbox/$_/lib" } qw(Music-Duration-Partition);
 use Music::Duration::Partition;
 
-use constant MAX_WIDTH => 120;
+use constant OPTIONS => { max_width => 120 };
 
 my $conf = LoadFile("$0.yml");
 
@@ -78,7 +78,7 @@ $irc->on(irc_privmsg => sub {
           my $motif = $mdp->motif;
           my @scale = get_scale_notes('C');
           my $phrase = [ map { $scale[int rand @scale] . '.' . $_ } @$motif ];
-          $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, { max_width => MAX_WIDTH }));
+          $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, OPTIONS));
         }
         elsif ($msg =~ /^vov\s+([\w \/]+)$/) {
           my @args = split /\s+/, $1;
@@ -118,7 +118,7 @@ $irc->on(irc_privmsg => sub {
           my $freq = $1;
           my $num = $2 || 4;
           my $freqs = [ map { sprintf '%.2f', $_ * $freq } 1 .. $num ];
-          $irc->write(privmsg => $conf->{channel}, ":Harmonics: " . ddc($freqs, { max_width => MAX_WIDTH }));
+          $irc->write(privmsg => $conf->{channel}, ":Harmonics: " . ddc($freqs, OPTIONS));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
