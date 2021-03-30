@@ -70,10 +70,28 @@ $irc->on(irc_privmsg => sub {
           $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, { max_width => 120 }));
         }
         elsif ($msg =~ /^vov\s+([\w \/]+)$/) {
-          my $vov = qx{ vov $1 };
-          $vov = uc $vov;
-          $vov =~ s/IS/#/mg;
-          $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
+          my @args = split /\s+/, $1;
+          my %enharmonic = (
+            'C#' => 'Db',
+            'D#' => 'Eb',
+            'E#' => 'F',
+            'F#' => 'Gb',
+            'G#' => 'Ab',
+            'A#' => 'Bb',
+            'B#' => 'C',
+          );
+          my @parts;
+          for my $arg (@args) {
+            my $vov = qx{ vov $arg };
+            chomp $vov;
+            $vov = uc $vov;
+            $vov =~ s/([A-G])IS/$enharmonic{ $1 . '#' }/g
+              if $arg =~ /b/;
+            $vov =~ s/IS/#/g;
+            push @parts, $vov;
+          }
+          my $flattened = join '|', @parts;
+          $irc->write(privmsg => $conf->{channel}, ":$flattened");
         }
         elsif ($msg =~ /^notes\s+(.+)$/) {
           my @notes = split /\s+/, $1;
