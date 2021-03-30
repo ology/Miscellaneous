@@ -119,9 +119,9 @@ $irc->on(irc_privmsg => sub {
           my $mh = Music::Harmonics->new;
           my $freqs = [
             map { sprintf '%.2f', $_->{frequency} }
-              $mh->GetStringHarmonics(name => $note, minharmonic => 2, maxharmonic => $num)
+              $mh->GetStringHarmonics(name => $note, minharmonic => 1, maxharmonic => $num)
           ];
-          $irc->write(privmsg => $conf->{channel}, ':' . ($num - 1) . " harmonics above $note: " . ddc($freqs, { max_width => 120 }));
+          $irc->write(privmsg => $conf->{channel}, ":$num $note harmonics: " . ddc($freqs, { max_width => 120 }));
         }
         else {
           (my $you = $message->{prefix}) =~ s/^(.+?)!.*$/$1/;
