@@ -97,13 +97,17 @@ $irc->on(irc_privmsg => sub {
           my $arg = $1;
           my @notes = split /\s+/, $arg;
           my $chord = chordname(@notes);
-          $chord =~ s/([A-G])#(.*)$/$enharmonic{ $1 . '#' }$2/g
+          $chord =~ s/([A-G]#)(.*)$/$enharmonic{$1}$2/g
             if $arg =~ /b/;
           $irc->write(privmsg => $conf->{channel}, ":Chord: $chord");
         }
         elsif ($msg =~ /^chord\s+(.+)$/) {
+          my $arg = $1;
           my $cn = Music::Chord::Note->new;
-          my @notes = $cn->chord($1);
+          my @notes = $cn->chord($arg);
+          for (@notes) {
+            s/^([A-G]#)$/$enharmonic{$1}/;
+          }
           $irc->write(privmsg => $conf->{channel}, ":Notes: @notes");
         }
         else {
