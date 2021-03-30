@@ -1,6 +1,4 @@
 #!/usr/bin/env perl
-use strict;
-use warnings;
 
 # Sample config (irc-bot.yml):
 #
@@ -8,6 +6,9 @@ use warnings;
 # user: 'Your Name Bot'
 # channel: '##somechan'
 # server: 'chat.host.net:6667'
+
+use strict;
+use warnings;
 
 use Data::Dumper::Compact qw(ddc);
 use Mojo::IRC;
