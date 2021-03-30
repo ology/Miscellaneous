@@ -24,6 +24,11 @@ use Music::Duration::Partition;
 
 my $conf = LoadFile("$0.yml");
 
+my $output = sub {
+  my ($message) = @_;
+  print "$message->{prefix} said: $message->{params}[1]\n";
+};
+
 my $irc = Mojo::IRC->new(
   nick => $conf->{nick},
   user => $conf->{user},
@@ -52,15 +57,15 @@ $irc->on(irc_privmsg => sub {
           exit;
         }
         elsif ($msg eq 'help') {
-          print "$message->{prefix} said: $message->{params}[1]\n";
+          $output->($message);
           $irc->write(privmsg => $conf->{channel}, ':Address me with one of: [source|motif 4|vov I IV V|notes C E G|chord C7] for example');
         }
         elsif ($msg eq 'source') {
-          print "$message->{prefix} said: $message->{params}[1]\n";
+          $output->($message);
           $irc->write(privmsg => $conf->{channel}, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
         }
         elsif ($msg =~ /^motif\s+([\d.]+)$/) {
-          print "$message->{prefix} said: $message->{params}[1]\n";
+          $output->($message);
           my $size = $1;
           my $mdp = Music::Duration::Partition->new(
               size => $size,
@@ -72,17 +77,17 @@ $irc->on(irc_privmsg => sub {
           $irc->write(privmsg => $conf->{channel}, ':' . "$size beats: " . ddc($phrase, { max_width => 120 }));
         }
         elsif ($msg =~ /^vov\s+([\w ]+)$/) {
-          print "$message->{prefix} said: $message->{params}[1]\n";
+          $output->($message);
           my $vov = qx{ vov $1 };
           $irc->write(privmsg => $conf->{channel}, ':' . join('|', (split /\n/, $vov)));
         }
         elsif ($msg =~ /^notes\s+(.+)$/) {
-          print "$message->{prefix} said: $message->{params}[1]\n";
+          $output->($message);
           my @notes = split /\s+/, $1;
           $irc->write(privmsg => $conf->{channel}, ':Chord: ' . scalar(chordname(@notes)));
         }
         elsif ($msg =~ /^chord\s+(.+)$/) {
-          print "$message->{prefix} said: $message->{params}[1]\n";
+          $output->($message);
           my $cn = Music::Chord::Note->new;
           my @notes = $cn->chord($1);
           $irc->write(privmsg => $conf->{channel}, ":Notes: @notes");
