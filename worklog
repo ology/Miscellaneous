@@ -102,8 +102,11 @@ elsif ($opts{daily}) {
 
     close $fh or die "Can't close $opts{log}: $!";
 
+    my $minutes = mean(values %byday);
+    my $hours = $minutes / 60;
+
     print ddc(\%byday);
-    printf "Daily average = %.2f minutes\n", mean(values %byday);
+    printf "Daily average = %.2f minutes = %.2f hours\n", $minutes, $hours;
 }
 # Display the current project, time and task
 elsif ($opts{current}) {
