@@ -71,12 +71,10 @@ $irc->on(irc_privmsg => sub {
       elsif ($msg eq 'source') {
         $irc->write(@to_chan, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
       }
-      elsif ($msg =~ /^motif\s+([\d.]+)$/) {
+      elsif ($msg =~ /^motif\s+([\d.]+)\s*([a-z ]*)$/) {
         my $size = $1;
-        my $mdp = Music::Duration::Partition->new(
-            size => $size,
-            pool => [qw(hn dqn qn den en sn)],
-        );
+        my $pool = $2 ? [split / /, $2] : [qw(hn dqn qn den en sn)];
+        my $mdp = Music::Duration::Partition->new(size => $size, pool => $pool);
         my $motif = $mdp->motif;
         my @scale = get_scale_notes('C');
         my $phrase = [ map { $scale[int rand @scale] . '.' . $_ } @$motif ];
