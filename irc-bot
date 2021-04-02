@@ -66,7 +66,7 @@ $irc->on(irc_privmsg => sub {
         exit;
       }
       elsif ($msg eq 'help') {
-        $irc->write(@to_chan, ':Address me with one of: [source|motif 3|vov I bII V/IV|notes C D# G A#|chord Cm7|freq 440 4] for example');
+        $irc->write(@to_chan, ':Address me with one of: [source|motif 3|vov I bII V/IV|chord C D# G A#|notes Cm7|freq 440 4] for example');
       }
       elsif ($msg eq 'source') {
         $irc->write(@to_chan, ':My guts are at https://github.com/ology/Miscellaneous/blob/master/irc-bot');
@@ -97,7 +97,7 @@ $irc->on(irc_privmsg => sub {
         my $flattened = join '|', @parts;
         $irc->write(@to_chan, ":$flattened");
       }
-      elsif ($msg =~ /^notes\s+(.+)$/) {
+      elsif ($msg =~ /^chord\s+(.+)$/) {
         my $arg = $1;
         my @notes = split /\s+/, $arg;
         my $chord = chordname(@notes);
@@ -105,7 +105,7 @@ $irc->on(irc_privmsg => sub {
           if $arg =~ /b/;
         $irc->write(@to_chan, ":Chord: $chord");
       }
-      elsif ($msg =~ /^chord\s+(.+)$/) {
+      elsif ($msg =~ /^notes\s+(.+)$/) {
         my $arg = $1;
         my $cn = Music::Chord::Note->new;
         my @notes = $cn->chord($arg);
