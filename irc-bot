@@ -69,7 +69,7 @@ $irc->on(irc_privmsg => sub {
       }
       # COMMAND: help
       elsif ($msg eq 'help') {
-        $irc->write(@to_chan, ':Address me with one of: [source|motif 3|vov I bII V/IV|chord C D# G A#|notes Cm7|freq 440 4|interval C E G] for example');
+        $irc->write(@to_chan, ':Address me with one of: [source|motif 3|vov I bII V/IV|chord C Eb G Bb|notes Cm7|freq 440 4|interval C E G] for example');
       }
       # COMMAND: source
       elsif ($msg eq 'source') {
