@@ -20,8 +20,9 @@ use Music::Chord::Note;
 use Music::Note::Frequency;
 
 # Use my local libraries
-use lib map { "$ENV{HOME}/sandbox/$_/lib" } qw(Music-Duration-Partition);
+use lib map { "$ENV{HOME}/sandbox/$_/lib" } qw(Music-Duration-Partition Music-Intervals);
 use Music::Duration::Partition;
+use Music::Intervals;
 
 use constant OPTIONS => { max_width => 120 };
 
@@ -138,6 +139,31 @@ $irc->on(irc_privmsg => sub {
         }
         my $freqs = [ map { sprintf '%.2f', $_ * $freq } 1 .. $num ];
         $irc->write(@to_chan, ":Harmonics: " . ddc($freqs, OPTIONS));
+      }
+      # COMMAND: freq
+      elsif ($msg =~ /^interval\s+(.+)$/) {
+        my @notes = split / /, $1;
+        my $mi = Music::Intervals->new(
+            notes    => \@notes,
+            justin   => 1,
+#            equalt   => 1,
+#            chords   => 1,
+#            cents    => 1,
+            interval => 1,
+#            freqs    => 1,
+#            prime    => 1,
+#            integer  => 1,
+        );
+        $mi->process;
+        my $v = (values %{ $mi->natural_intervals })[0];
+        my $flat = ddc($v, OPTIONS);
+        $flat =~ s/\n//g;
+        $flat =~ s/\s+/ /g;
+        $flat =~ s/^{\s*//;
+        $flat =~ s/,}$//;
+        $flat =~ s/} }$/}/;
+        $flat =~ s/ =>/:/g;
+        $irc->write(@to_chan, ":Intervals: $flat");
       }
       # Fallthough
       else {
