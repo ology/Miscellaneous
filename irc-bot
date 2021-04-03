@@ -8,7 +8,7 @@
 #
 # nick: 'yourbot'
 # user: 'Your Name Bot'
-# channel: '##somechan'
+# channel: '#yourchan'
 # server: 'chat.host.net:6667'
 
 use strict;
