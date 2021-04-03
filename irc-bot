@@ -140,21 +140,16 @@ $irc->on(irc_privmsg => sub {
         my $freqs = [ map { sprintf '%.2f', $_ * $freq } 1 .. $num ];
         $irc->write(@to_chan, ":Harmonics: " . ddc($freqs, OPTIONS));
       }
-      # COMMAND: freq
+      # COMMAND: interval
       elsif ($msg =~ /^interval\s+(.+)$/) {
         my @notes = split / /, $1;
         my $mi = Music::Intervals->new(
-            notes    => \@notes,
-            justin   => 1,
-#            equalt   => 1,
-#            chords   => 1,
-#            cents    => 1,
-            interval => 1,
-#            freqs    => 1,
-#            prime    => 1,
-#            integer  => 1,
+          notes    => \@notes,
+          justin   => 1,
+          interval => 1,
         );
         $mi->process;
+        # Gymnastics :\
         my $v = (values %{ $mi->natural_intervals })[0];
         my $flat = ddc($v, OPTIONS);
         $flat =~ s/\n//g;
