@@ -107,9 +107,16 @@ $irc->on(irc_privmsg => sub {
         my $arg = $1;
         my $cn = Music::Chord::Note->new;
         my @notes = $cn->chord($arg);
+        # A flat request has sharp notes replaced
         if ($arg =~ /b/) {
           for (@notes) {
             s/^([A-G]#)$/$enharmonic{$1}/;
+          }
+        }
+        # A request that is not sharp, has A# & D# replaced
+        elsif ($arg !~ /#/) {
+          for (@notes) {
+            s/^([AD]#)$/$enharmonic{$1}/;
           }
         }
         $irc->write(@to_chan, ":Notes: @notes");
