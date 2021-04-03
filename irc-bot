@@ -6,7 +6,7 @@
 
 # Sample config (irc-bot.yml):
 #
-# nick: 'foobot'
+# nick: 'yourbot'
 # user: 'Your Name Bot'
 # channel: '##somechan'
 # server: 'chat.host.net:6667'
