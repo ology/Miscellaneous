@@ -1,5 +1,9 @@
 #!/usr/bin/env perl
 
+# IRC musical computation bot
+#
+# Writeup: https://ology.github.io/2021/03/30/irc-music-bot/
+
 # Sample config (irc-bot.yml):
 #
 # nick: 'foobot'
