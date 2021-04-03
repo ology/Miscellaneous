@@ -23,7 +23,7 @@ use Music::Chord::Note;
 use Music::Note::Frequency;
 #use App::MusicTools; # <- Needed for `vov`
 
-# Use my local libraries
+# Use local libraries
 use lib map { "$ENV{HOME}/sandbox/$_/lib" } qw(Music-Duration-Partition Music-Intervals);
 use Music::Duration::Partition;
 use Music::Intervals;
