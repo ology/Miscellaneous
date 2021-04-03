@@ -107,7 +107,7 @@ $irc->on(irc_privmsg => sub {
         my $arg = $1;
         my $cn = Music::Chord::Note->new;
         my @notes = $cn->chord($arg);
-        # A flat request has sharp notes replaced
+        # A flat request has any sharp notes replaced
         if ($arg =~ /b/) {
           for (@notes) {
             s/^([A-G]#)$/$enharmonic{$1}/;
