@@ -7,6 +7,9 @@ use warnings;
 use File::Find::Rule;
 use IO::Prompt;
 use List::Util 'any';
+use DateTime;
+use DateTime::Format::DateParse;
+use Time::Ago;
 
 my $summary = shift || 0;
 my $path = shift || $ENV{HOME} . '/sandbox';
@@ -18,6 +21,8 @@ my @repos = File::Find::Rule
     ->in($path);
 
 my $i = 0;
+
+my $now = DateTime->now(time_zone => 'local');
 
 REPO: for my $repo ( sort @repos ) {
   chdir($repo) or die "Can't chdir $repo: $!";
@@ -38,7 +43,12 @@ REPO: for my $repo ( sort @repos ) {
     my $git = qx{ git diff --stat };
     print $git ? " - DIRTY\n" : "\n";
     $git = qx{ git log -1 --format=%cd };
-    print "\tLast commit on $git";
+    chomp $git;
+    my $last = DateTime::Format::DateParse->parse_datetime($git, 'local');
+    my $duration = $now->subtract_datetime_absolute($last);
+    my $seconds = $duration->seconds;
+    $git = Time::Ago->in_words($seconds);
+    print "\tLast commit $git ago\n";
   }
   else {
     print "\n", '-' x 70;
