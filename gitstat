@@ -24,7 +24,7 @@ my $i = 0;
 
 my $now = DateTime->now(time_zone => 'local');
 
-REPO: for my $repo ( sort @repos ) {
+REPO: for my $repo (sort @repos) {
   chdir($repo) or die "Can't chdir $repo: $!";
 
   $repo =~ s/^$path\///;
