@@ -73,8 +73,10 @@ REPO: for my $repo (sort @repos) {
         $git =~ s/\s*\(.+?\)//gm;
         $git =~ s/\n+/\n/gm;
         print $git;
+
         $git = qx{ git branch -a };
         print "\n$git";
+
         $git = qx{ git log -1 --format=%cd };
         print "\nLast commit on $git";
       }
