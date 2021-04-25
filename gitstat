@@ -41,8 +41,10 @@ REPO: for my $repo (sort @repos) {
 
   if ($summary) {
     printf '%0*d. %s (%s)', $width, $i, $repo, $branch;
+
     my $git = qx{ git diff --stat };
     print $git ? " - DIRTY\n" : "\n";
+
     $git = qx{ git log -1 --format=%cd };
     chomp $git;
     my $last = DateTime::Format::DateParse->parse_datetime($git, 'local');
@@ -56,6 +58,7 @@ REPO: for my $repo (sort @repos) {
 
     while (1) {
       printf "\n%0*d. %s (%s)", $width, $i, $repo, $branch;
+
       my $git = qx{ git diff --stat };
       print $git ? " - DIRTY\n" : "\n";
 
