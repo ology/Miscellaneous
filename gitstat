@@ -49,8 +49,7 @@ REPO: for my $repo (sort @repos) {
     chomp $git;
     my $last = DateTime::Format::DateParse->parse_datetime($git, 'local');
     my $duration = $now->subtract_datetime_absolute($last);
-    my $seconds = $duration->seconds;
-    $git = Time::Ago->in_words($seconds);
+    $git = Time::Ago->in_words($duration->seconds);
     print "\tLast commit $git ago\n";
   }
   else {
