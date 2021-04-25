@@ -32,6 +32,8 @@ REPO: for my $repo ( sort @repos ) {
 
   $i++;
 
+  print "\n", '-' x 70;
+
   while (1) {
     print "\n\t$i. $repo $branch\n";
 
