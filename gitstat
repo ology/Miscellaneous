@@ -34,8 +34,10 @@ REPO: for my $repo ( sort @repos ) {
   $i++;
 
   if ($summary) {
-    print "$i. $repo $branch\n";
-    my $git = qx{ git log -1 --format=%cd };
+    print "$i. $repo $branch";
+    my $git = qx{ git diff --stat };
+    print $git ? " - DIRTY\n" : "\n";
+    $git = qx{ git log -1 --format=%cd };
     print "\tLast commit on $git";
   }
   else {
