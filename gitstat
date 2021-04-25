@@ -8,6 +8,7 @@ use File::Find::Rule;
 use IO::Prompt;
 use List::Util 'any';
 
+my $summary = shift || 0;
 my $path = shift || $ENV{HOME} . '/sandbox';
 
 my @repos = File::Find::Rule
@@ -32,6 +33,12 @@ REPO: for my $repo ( sort @repos ) {
 
   $i++;
 
+  if ($summary) {
+    print "$i. $repo $branch\n";
+    my $git = qx{ git log -1 --format=%cd };
+    print "\tLast commit on $git";
+  }
+  else {
   print "\n", '-' x 70;
 
   while (1) {
@@ -65,5 +72,6 @@ REPO: for my $repo ( sort @repos ) {
     else {
       next REPO;
     }
+  }
   }
 }
