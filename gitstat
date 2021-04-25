@@ -54,7 +54,9 @@ REPO: for my $repo (sort @repos) {
     print "\n", '-' x 70;
 
     while (1) {
-      print "\n$i. $repo $branch\n";
+      print "\n$i. $repo $branch";
+      my $git = qx{ git diff --stat };
+      print $git ? " - DIRTY\n" : "\n";
 
       my $response = prompt 'Enter=next q=quit s=status p=pull f=prune: ';
 
