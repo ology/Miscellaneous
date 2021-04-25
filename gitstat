@@ -37,7 +37,7 @@ REPO: for my $repo ( sort @repos ) {
   while (1) {
     print "\n\t$i. $repo $branch\n";
 
-    my $response = prompt 'Enter=next q=quit s=status b=branches p=pull f=prune: ';
+    my $response = prompt 'Enter=next q=quit s=status p=pull f=prune: ';
 
     if ($response eq 'q') {
       last REPO;
@@ -48,15 +48,13 @@ REPO: for my $repo ( sort @repos ) {
       $git =~ s/\s*\(.+?\)//gm;
       $git =~ s/\n+/\n/gm;
       print $git;
+      $git = qx{ git branch -a };
+      print "\n$git";
       $git = qx{ git log -1 --format=%cd };
       print "\nLast commit on $git";
     }
     elsif ($response eq 'p') {
       my $git = qx{ git pull };
-      print "\n$git";
-    }
-    elsif ($response eq 'b') {
-      my $git = qx{ git branch -a };
       print "\n$git";
     }
     elsif ($response eq 'f') {
