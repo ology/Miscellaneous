@@ -3,12 +3,14 @@ use strict;
 use warnings;
 
 use IO::Prompt::Tiny qw/prompt/;
+use YAML::XS qw(LoadFile);
 use Web::NewsAPI;
 
 my $items = shift || 40;
-my $key   = shift || die "Usage: perl $0 items apikey\n";
 
-my $newsapi = Web::NewsAPI->new( api_key => $key );
+my $conf = LoadFile("$0.yml");
+
+my $newsapi = Web::NewsAPI->new(api_key => $conf->{key});
 
 #my @sources = $newsapi->sources( language => 'en' );
 #print $_->name, "\n" for @sources;
