@@ -44,5 +44,5 @@ my $n = 0;
 binmode( STDOUT, ':utf8' );
 
 for my $article ( sort { $articles{$a}->{date} cmp $articles{$b}->{date} } keys %articles ) {
-    printf "%d. %s\n\t%s\n\t%s\n", ++$n, $articles{$article}->{date}, $articles{$article}->{title}, $article;
+    printf "%d. %s\n\t%s\n", ++$n, $articles{$article}->{title}, $article;
 }
