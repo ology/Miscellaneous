@@ -86,9 +86,11 @@ tags:
   - foo
 ---
 
-Markdown content goes here...
+Teaser markdown content goes here...
 
 ---
+
+And the body goes here!
 
 CONTENT
   my $path = "blog/$date/$slug";
