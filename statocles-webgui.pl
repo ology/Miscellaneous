@@ -125,15 +125,18 @@ sub slugize {
 app->start;
 __DATA__
 
-@@ index.html.ep
-% layout 'default';
-% title 'Statocles UI Posts';
+@@ _flash.html.ep
 % if (flash('message')) {
 %= tag h1 => (style => 'color:green') => flash('message')
 % }
 % elsif (flash('error')) {
 %= tag h1 => (style => 'color:red') => flash('error')
 % }
+
+@@ index.html.ep
+% layout 'default';
+% title 'Statocles UI Posts';
+%= include '_flash'
 <p>
 <b><a href="<%= $site %>">Visit Site</a></b>
 | <b><a href="<%= url_for('deploy') %>">Deploy</a></b>
@@ -151,12 +154,7 @@ __DATA__
 @@ edit.html.ep
 % layout 'default';
 % title 'Statocles UI Post';
-% if (flash('message')) {
-%= tag h1 => (style => 'color:green') => flash('message')
-% }
-% elsif (flash('error')) {
-%= tag h1 => (style => 'color:red') => flash('error')
-% }
+%= include '_flash'
 <h1><%= $title %></h1>
 <h4><%= $date %></h4>
 <p></p>
