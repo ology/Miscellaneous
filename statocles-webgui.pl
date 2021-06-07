@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 use Mojolicious::Lite -signatures;
-use File::Find::Rule;
+use Path::Iterator::Rule;
 use File::Path qw(make_path);
 use Mojo::File;
 use Time::Piece;
@@ -10,7 +10,8 @@ use YAML::XS qw(LoadFile);
 use constant FORMAT => 'blog/%s/%s/index.markdown';
 
 get '/' => sub ($c) {
-  my @files = File::Find::Rule->file()->name('*.markdown')->in('blog');
+  my $rule = Path::Iterator::Rule->new->name('*.markdown');
+  my @files = $rule->all('blog');
   my %posts;
   for my $file (@files) {
     if ($file =~ m|^blog/([\d/]+)/([\w-]+)/index.markdown$|) {
