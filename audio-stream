@@ -35,7 +35,7 @@ __DATA__
 @@ index.html.ep
 % layout 'default';
 % title 'Music!';
-Total: <%= $total %>
+Total: <%= $total %> tracks
 <p></p>
 Tune: <%= $tune %>
 <p></p>
