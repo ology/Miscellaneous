@@ -5,6 +5,7 @@ use Mojolicious::Lite -signatures;
 use Storable qw(retrieve store);
 
 use constant DAT => 'music-stream.dat';
+use constant PATH => 'public/Audio/';
 
 get '/' => sub ($c) {
   my $music = [];
@@ -18,10 +19,9 @@ get '/' => sub ($c) {
 } => 'index';
 
 get '/refresh' => sub ($c) {
-  my $path = 'public/Audio/';
   my @files = File::Find::Rule->file()
                               ->name('*.mp3', '*.m4a')
-                              ->in($path);
+                              ->in(PATH);
   for my $file (@files) {
     $file =~ s/^public//;
   }
