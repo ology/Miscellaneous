@@ -1,0 +1,66 @@
+#!/usr/bin/env perl
+
+use File::Find::Rule;
+use Mojolicious::Lite -signatures;
+use Storable qw(retrieve store);
+
+use constant DAT => 'music-stream.dat';
+
+get '/' => sub ($c) {
+  my $music = [];
+  $music = retrieve(DAT) if -e DAT;
+  my $tune = $music->[int rand @$music];
+  $c->render(
+    template => 'index',
+    music => $music,
+    tune => $tune,
+  );
+} => 'index';
+
+get '/refresh' => sub ($c) {
+  my $path = 'public/Audio/';
+  my @files = File::Find::Rule->file()
+                              ->name('*.mp3', '*.m4a')
+                              ->in($path);
+  for my $file (@files) {
+    $file =~ s/^public//;
+  }
+  store \@files, DAT;
+  $c->redirect_to($c->url_for('index'));
+} => 'refresh';
+
+app->start;
+__DATA__
+
+@@ index.html.ep
+% layout 'default';
+% title 'Music!';
+Total: <%= scalar(@$music) %>
+<p></p>
+Tune: <%= $tune %>
+<p></p>
+<audio controls id='myAudio' autoplay='autoplay' preload="auto" type="audio/mpeg" crossorigin="anonymous" src="<%= $tune %>">
+  Your browser does not support the <code>audio</code> element.
+</audio>
+<p></p>
+<a href="<%= url_for('index') %>">Next tune</a>
+|
+<a href="<%= url_for('refresh') %>">Reread Audio</a>
+<script>
+$(document).ready(function() {
+  $('#myAudio').on('ended', function() {
+    console.log('Ended.');
+    window.location = '/';
+  });
+});
+</script>
+
+@@ layouts/default.html.ep
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  </head>
+  <body><%= content %></body>
+</html>
