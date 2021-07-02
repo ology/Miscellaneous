@@ -51,11 +51,8 @@ $(document).ready(function() {
   $('#myAudio').attr('src', '<%= $tune %>');
 
   $('#myAudio').on('error', function() {
-    console.log('Error!');
+    console.log('Playback error! Skipping...');
     window.location = '/';
-  });
-  $('#myAudio').on('pause', function() {
-    console.log('Pause');
   });
   $('#myAudio').on('playing', function() {
     console.log('Playing');
