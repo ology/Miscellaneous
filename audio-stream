@@ -48,8 +48,14 @@ Tune: <%= $tune %>
 <a href="<%= url_for('refresh') %>">Reread Audio</a>
 <script>
 $(document).ready(function() {
+  $('#myAudio').on('pause', function() {
+    console.log('Pause');
+  });
+  $('#myAudio').on('playing', function() {
+    console.log('Playing');
+  });
   $('#myAudio').on('ended', function() {
-    console.log('Ended.');
+    console.log('Ended');
     window.location = '/';
   });
 });
