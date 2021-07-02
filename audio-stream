@@ -2,6 +2,7 @@
 
 use File::Find::Rule;
 use Mojolicious::Lite -signatures;
+use Number::Format;
 use Storable qw(retrieve store);
 
 use constant DAT => 'music-stream.dat';
@@ -11,9 +12,11 @@ get '/' => sub ($c) {
   my $music = [];
   $music = retrieve(DAT) if -e DAT;
   my $tune = $music->[int rand @$music];
+  my $nf = Number::Format->new;
+  my $total = $nf->format_number(scalar @$music);
   $c->render(
     template => 'index',
-    total => scalar(@$music),
+    total => $total,
     tune => $tune,
   );
 } => 'index';
