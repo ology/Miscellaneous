@@ -39,7 +39,7 @@ Total: <%= $total %>
 <p></p>
 Tune: <%= $tune %>
 <p></p>
-<audio controls id='myAudio' autoplay='autoplay' preload="auto" type="audio/mpeg" crossorigin="anonymous" src="<%= $tune %>">
+<audio controls id='myAudio' autoplay='autoplay' preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
   Your browser does not support the <code>audio</code> element.
 </audio>
 <p></p>
@@ -48,6 +48,8 @@ Tune: <%= $tune %>
 <a href="<%= url_for('refresh') %>">Reread Audio</a>
 <script>
 $(document).ready(function() {
+  $('#myAudio').attr('src', '<%= $tune %>');
+
   $('#myAudio').on('error', function() {
     console.log('Error!');
     window.location = '/';
