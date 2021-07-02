@@ -12,7 +12,7 @@ get '/' => sub ($c) {
   my $tune = $music->[int rand @$music];
   $c->render(
     template => 'index',
-    music => $music,
+    total => scalar(@$music),
     tune => $tune,
   );
 } => 'index';
@@ -35,7 +35,7 @@ __DATA__
 @@ index.html.ep
 % layout 'default';
 % title 'Music!';
-Total: <%= scalar(@$music) %>
+Total: <%= $total %>
 <p></p>
 Tune: <%= $tune %>
 <p></p>
