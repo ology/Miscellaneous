@@ -88,9 +88,9 @@ __DATA__
     <div id="warning" style="color: red; visibility: hidden;"><b>Could not load audio!</b></div>
   </p>
   <p>
-    <a href="" onclick="linkout(<%= $current %>); return false;">Next track</a>
+    <a href="" onclick="linkout(<%= $current %>); return false;"><b>Next track</b></a>
     |
-    <a href="<%= url_for('refresh') %>">Reread Audio</a>
+    <a href="<%= url_for('refresh') %>">Reread audio</a>
   </p>
   <label for="query"><b>Search:</b></label>
   <input type="text" id="query" name="query" value="<%= $query %>" />
