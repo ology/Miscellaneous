@@ -79,14 +79,14 @@ __DATA__
 % title 'Music!';
 <p>
   <label for="autoadvance"><b>Autoadvance:</b></label>
-  <input type="checkbox" id="autoadvance" name="autoadvance" <%= $autoadvance ? 'checked' : '' %> />
+  <input type="checkbox" id="autoadvance" name="autoadvance" title="Automatically advance to the next track" <%= $autoadvance ? 'checked' : '' %> />
   <label for="autoplay"><b>Autoplay:</b></label>
-  <input type="checkbox" id="autoplay" name="autoplay" <%= $autoplay ? 'checked' : '' %> />
+  <input type="checkbox" id="autoplay" name="autoplay" title="Automatically start playing the current track" <%= $autoplay ? 'checked' : '' %> />
   <label for="shuffle"><b>Shuffle:</b></label>
-  <input type="checkbox" id="shuffle" name="shuffle" <%= $shuffle ? 'checked' : '' %> />
+  <input type="checkbox" id="shuffle" name="shuffle" title="Select a random track" <%= $shuffle ? 'checked' : '' %> />
 </p>
 <p><b>Total:</b> <%= $total %> tracks</p>
-<p><b>Tune:</b> <%= $tune %></p>
+<p><b>Track:</b> <%= $tune %></p>
 <p>
   <audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
     Your browser does not support the <code>audio</code> element.
