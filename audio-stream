@@ -113,6 +113,7 @@ __DATA__
     <p>No matches</p>
 % }
 <script>
+// TODO Consolidate the redundant "checked" bits with the relocate() function?
 function linkout (n) {
   var x = 0;
   var shuf = document.querySelector('#shuffle');
