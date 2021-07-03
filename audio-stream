@@ -5,7 +5,7 @@ use Mojolicious::Lite -signatures;
 use Number::Format;
 use Storable qw(retrieve store);
 
-use constant DAT => 'music-stream.dat';
+use constant DAT => "$0.dat";
 use constant PATH => 'public/Audio/';
 
 get '/' => sub ($c) {
