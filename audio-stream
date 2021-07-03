@@ -22,9 +22,9 @@ get '/' => sub ($c) {
     template => 'index',
     total => $total,
     tune => $tune,
-    query => $query,
     current => $current,
     shuffle => $shuffle,
+    query => $query,
   );
 } => 'index';
 
