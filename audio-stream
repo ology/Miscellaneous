@@ -110,7 +110,9 @@ __DATA__
 %   }
     </ol>
 % } else {
+%   if ($query) {
     <p>No matches</p>
+%   }
 % }
 <script>
 // TODO Consolidate the redundant "checked" bits with the relocate() function?
