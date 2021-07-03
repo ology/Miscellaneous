@@ -166,8 +166,8 @@ $(document).ready(function() {
   $('#warning').hide();
   $('#myAudio').attr('src', '<%= $tune %>');
   $('#myAudio').on('error', function() {
-    console.log('Playback error!');
     if ('<%= $tune %>') {
+      console.log('Playback error!');
       $('#warning').show();
       relocate();
     }
