@@ -76,29 +76,32 @@ __DATA__
 @@ index.html.ep
 % layout 'default';
 % title 'Music!';
+<p>
+  <label for="autoadvance"><b>Autoadvance:</b></label>
+  <input type="checkbox" id="autoadvance" name="autoadvance" <%= $autoadvance ? 'checked' : '' %> />
+  <label for="autoplay"><b>Autoplay:</b></label>
+  <input type="checkbox" id="autoplay" name="autoplay" <%= $autoplay ? 'checked' : '' %> />
+  <label for="shuffle"><b>Shuffle:</b></label>
+  <input type="checkbox" id="shuffle" name="shuffle" <%= $shuffle ? 'checked' : '' %> />
+</p>
+<p><b>Total:</b> <%= $total %> tracks</p>
+<p><b>Tune:</b> <%= $tune %></p>
+<p>
+  <audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
+    Your browser does not support the <code>audio</code> element.
+  </audio>
+  <div id="warning" style="color: red;"><b>Could not load audio!</b></div>
+</p>
+<p>
+  <a href="" onclick="linkout(<%= $current %>); return false;"><b>Next track</b></a>
+  |
+  <a href="<%= url_for('refresh') %>">Reread audio</a>
+</p>
 <form method="get">
-  <input type="hidden" id="current" name="current" value="<%= $current %>" />
-  <p>
-    <label for="autoadvance"><b>Autoadvance:</b></label>
-    <input type="checkbox" id="autoadvance" name="autoadvance" <%= $autoadvance ? 'checked' : '' %> />
-    <label for="autoplay"><b>Autoplay:</b></label>
-    <input type="checkbox" id="autoplay" name="autoplay" <%= $autoplay ? 'checked' : '' %> />
-    <label for="shuffle"><b>Shuffle:</b></label>
-    <input type="checkbox" id="shuffle" name="shuffle" <%= $shuffle ? 'checked' : '' %> />
-  </p>
-  <p><b>Total:</b> <%= $total %> tracks</p>
-  <p><b>Tune:</b> <%= $tune %></p>
-  <p>
-    <audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
-      Your browser does not support the <code>audio</code> element.
-    </audio>
-    <div id="warning" style="color: red;"><b>Could not load audio!</b></div>
-  </p>
-  <p>
-    <a href="" onclick="linkout(<%= $current %>); return false;"><b>Next track</b></a>
-    |
-    <a href="<%= url_for('refresh') %>">Reread audio</a>
-  </p>
+  <input type="hidden" name="autoadvance" value="0" />
+  <input type="hidden" name="autoplay" value="0" />
+  <input type="hidden" name="shuffle" value="0" />
+  <input type="hidden" name="current" value="<%= $current %>" />
   <label for="query"><b>Search:</b></label>
   <input type="text" id="query" name="query" value="<%= $query %>" />
   <input type="submit" value="Submit" />
