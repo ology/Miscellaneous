@@ -87,7 +87,11 @@ __DATA__
     </audio>
     <div id="warning" style="color: red;"><b>Could not load audio!</b></div>
   </p>
-  <p><a href="<%= url_for('refresh') %>">Reread Audio</a></p>
+  <p>
+    <a href="" onclick="linkout(<%= $current %>); return false;">Next track</a>
+    |
+    <a href="<%= url_for('refresh') %>">Reread Audio</a>
+  </p>
   <label for="query"><b>Search:</b></label>
   <input type="text" id="query" name="query" value="<%= $query %>" />
   <input type="submit" value="Submit" />
