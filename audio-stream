@@ -88,9 +88,14 @@ __DATA__
   <input type="submit" value="Submit" />
 </form>
 % if (@$match) {
+    <p><b>Matches:</b> <%= scalar @$match %></p>
+    <ol>
 %   for my $n (@$match) {
-      <p><a href="/?current=<%= $n - 1 %>&shuffle=0&autoplay=0&query=<%= $query %>"><%= $music->[$n] %></a></p>
+    <li><a href="/?current=<%= $n - 1 %>&shuffle=0&autoplay=0&query=<%= $query %>"><%= $music->[$n] %></a></li>
 %   }
+    </ol>
+% } else {
+    <p>No matches</p>
 % }
 <script>
 $(document).ready(function() {
