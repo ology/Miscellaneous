@@ -10,14 +10,18 @@ use constant PATH => 'public/Audio/';
 
 get '/' => sub ($c) {
   my $autoplay = $c->param('autoplay') || 0;
-  my $current = $c->param('current') || 0;
-  my $shuffle = $c->param('shuffle') || 0;
-  my $query = $c->param('query') || '';
+  my $current  = $c->param('current') || 0;
+  my $shuffle  = $c->param('shuffle') || 0;
+  my $query    = $c->param('query') || '';
+
   my $music = [];
   my $match = [];
+
   $music = retrieve(DAT) if -e DAT;
+
   my $nf = Number::Format->new;
   my $total = $nf->format_number(scalar @$music);
+
   if ($query) {
     for my $n (0 .. $#$music) {
       push @$match, $n if $music->[$n] =~ /$query/;
@@ -27,17 +31,19 @@ get '/' => sub ($c) {
   else {
     $current = $shuffle ? int(rand @$music) : $current + 1;
   }
+
   my $tune = $music->[$current];
+
   $c->render(
     template => 'index',
-    total => $total,
-    music => $music,
-    tune => $tune,
+    total    => $total,
+    music    => $music,
+    tune     => $tune,
     autoplay => $autoplay,
-    current => $current,
-    shuffle => $shuffle,
-    query => $query,
-    match => $match,
+    current  => $current,
+    shuffle  => $shuffle,
+    query    => $query,
+    match    => $match,
   );
 } => 'index';
 
@@ -48,7 +54,9 @@ get '/refresh' => sub ($c) {
   for my $file (@files) {
     $file =~ s/^public//;
   }
+
   store \@files, DAT;
+
   $c->redirect_to($c->url_for('index'));
 } => 'refresh';
 
