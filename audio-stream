@@ -69,20 +69,20 @@ __DATA__
 % title 'Music!';
 <form method="get">
   <input type="hidden" id="current" name="current" value="<%= $current %>" />
-<p>
-  <label for="autoplay"><b>Autoplay:</b></label>
-  <input type="checkbox" id="autoplay" name="autoplay" <%= $autoplay ? 'checked' : '' %> />
-  <label for="shuffle"><b>Shuffle:</b></label>
-  <input type="checkbox" id="shuffle" name="shuffle" <%= $shuffle ? 'checked' : '' %> />
-</p>
-<p><b>Total:</b> <%= $total %> tracks</p>
-<p><b>Tune:</b> <%= $tune %></p>
-<p>
-  <audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
-    Your browser does not support the <code>audio</code> element.
-  </audio>
-</p>
-<p><a href="<%= url_for('refresh') %>">Reread Audio</a></p>
+  <p>
+    <label for="autoplay"><b>Autoplay:</b></label>
+    <input type="checkbox" id="autoplay" name="autoplay" <%= $autoplay ? 'checked' : '' %> />
+    <label for="shuffle"><b>Shuffle:</b></label>
+    <input type="checkbox" id="shuffle" name="shuffle" <%= $shuffle ? 'checked' : '' %> />
+  </p>
+  <p><b>Total:</b> <%= $total %> tracks</p>
+  <p><b>Tune:</b> <%= $tune %></p>
+  <p>
+    <audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
+      Your browser does not support the <code>audio</code> element.
+    </audio>
+  </p>
+  <p><a href="<%= url_for('refresh') %>">Reread Audio</a></p>
   <label for="query"><b>Search:</b></label>
   <input type="text" id="query" name="query" value="<%= $query %>" />
   <input type="submit" value="Submit" />
