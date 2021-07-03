@@ -96,13 +96,32 @@ __DATA__
     <p><b>Matches:</b> <%= scalar @$match %></p>
     <ol>
 %   for my $n (@$match) {
-    <li><a href="/?current=<%= $n - 1 %>&shuffle=0&autoplay=0&autoadvance=0&&query=<%= $query %>"><%= $music->[$n] %></a></li>
+    <li><a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $music->[$n] %></a></li>
 %   }
     </ol>
 % } else {
     <p>No matches</p>
 % }
 <script>
+function linkout (n) {
+  var x = 0;
+  var shuf = document.querySelector('#shuffle');
+  if (shuf.checked) {
+    x = 1;
+  }
+  var y = 0;
+  var autop = document.querySelector('#autoplay');
+  if (autop.checked) {
+    y = 1;
+  }
+  var z = 0;
+  var autoa = document.querySelector('#autoadvance');
+  if (autoa.checked) {
+    z = 1;
+  }
+  var link = '/?current=' + n + '&shuffle=' + x + '&autoplay=' + y + '&autoadvance=' + z + '&query=' + "<%= $query %>";
+  window.location = link
+}
 $(document).ready(function() {
   function relocate () {
     var x = 0;
