@@ -85,6 +85,7 @@ __DATA__
     <audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
       Your browser does not support the <code>audio</code> element.
     </audio>
+    <div id="warning" style="color: red;"><b>Could not load audio!</b></div>
   </p>
   <p><a href="<%= url_for('refresh') %>">Reread Audio</a></p>
   <label for="query"><b>Search:</b></label>
@@ -118,16 +119,18 @@ $(document).ready(function() {
       window.location = '/?current=' + <%= $current %> + '&shuffle=' + x + '&autoplay=' + y + '&autoadvance=' + z + '&query=' + "<%= $query %>";
     }
   }
+  $('#warning').hide();
   $('#myAudio').attr('src', '<%= $tune %>');
   $('#myAudio').on('error', function() {
-    console.log('Playback error! Skipping...');
+    console.log('Playback error!');
+    $('#warning').show();
     relocate();
   });
   $('#myAudio').on('playing', function() {
-    console.log('Playing');
+    console.log('Playing...');
   });
   $('#myAudio').on('ended', function() {
-    console.log('Ended');
+    console.log('...Ended');
     relocate();
   });
 });
