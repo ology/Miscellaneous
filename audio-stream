@@ -67,11 +67,11 @@ __DATA__
 <script>
 $(document).ready(function() {
   function relocate () {
-    var shuffle = 0;
+    var x = 0;
     if ($('#shuffle').is(':checked')) {
-      shuffle = 1;
+      x = 1;
     }
-    window.location = '/?shuffle=' + shuffle + '&current=' + <%= $current %>;
+    window.location = '/?current=' + <%= $current %> + '&shuffle=' + x;
   }
   $('#myAudio').attr('src', '<%= $tune %>');
   $('#myAudio').on('error', function() {
