@@ -62,9 +62,9 @@ __DATA__
 <p><b>Total:</b> <%= $total %> tracks</p>
 <p><b>Tune:</b> <%= $tune %></p>
 <p>
-<audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
-  Your browser does not support the <code>audio</code> element.
-</audio>
+  <audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
+    Your browser does not support the <code>audio</code> element.
+  </audio>
 </p>
 <p><a href="<%= url_for('refresh') %>">Reread Audio</a></p>
 <form method="get">
