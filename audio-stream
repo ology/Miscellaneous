@@ -1,5 +1,11 @@
 #!/usr/bin/env perl
 
+# Lightweight, ultra-simple music server
+# To run:
+# audio-stream/public $ ln -s /media/you/external_drive/Audio/
+# Then:
+# audio-stream $ morbo audio-stream
+
 use File::Find::Rule;
 use Mojolicious::Lite -signatures;
 use Number::Format;
