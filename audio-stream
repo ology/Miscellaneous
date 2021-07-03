@@ -126,6 +126,7 @@ __DATA__
 %   }
 % }
 <script>
+// XXX This function linkout() does not work when under document-ready.
 // TODO Consolidate the redundant "checked" bits with the relocate() function?
 function linkout (n) {
   var x = 0;
