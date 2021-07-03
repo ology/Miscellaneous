@@ -21,6 +21,7 @@ get '/' => sub ($c) {
   my $current     = $c->param('current') || 0;
   my $shuffle     = $c->param('shuffle') || 0;
   my $query       = $c->param('query') || '';
+  my $submit      = $c->param('submit') || '';
 
   my $music = [];
   my $match = [];
@@ -41,7 +42,7 @@ get '/' => sub ($c) {
     $current = $shuffle ? int(rand @$music) : $current + 1;
   }
 
-  my $tune = $music->[$current];
+  my $tune = $submit ? '' : $music->[$current];
 
   $c->render(
     template    => 'index',
@@ -104,7 +105,7 @@ __DATA__
   <input type="hidden" name="current" value="<%= $current %>" />
   <label for="query"><b>Search:</b></label>
   <input type="text" id="query" name="query" value="<%= $query %>" />
-  <input type="submit" value="Submit" />
+  <input type="submit" name="submit" value="Submit" />
 </form>
 % if (@$match) {
     <p><b>Matches:</b> <%= scalar @$match %></p>
