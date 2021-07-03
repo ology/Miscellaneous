@@ -52,7 +52,6 @@ __DATA__
 <script>
 $(document).ready(function() {
   $('#myAudio').attr('src', '<%= $tune %>');
-
   $('#myAudio').on('error', function() {
     console.log('Playback error! Skipping...');
     window.location = '/';
