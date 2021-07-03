@@ -100,7 +100,13 @@ __DATA__
     <p><b>Matches:</b> <%= scalar @$match %></p>
     <ol>
 %   for my $n (@$match) {
-    <li><a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $music->[$n] %></a></li>
+    <li>
+%     if ($tune eq $music->[$n]) {
+      <b><a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $music->[$n] %></a></b>
+%     } else {
+      <a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $music->[$n] %></a>
+%     }
+    </li>
 %   }
     </ol>
 % } else {
