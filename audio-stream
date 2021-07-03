@@ -38,9 +38,9 @@ __DATA__
 @@ index.html.ep
 % layout 'default';
 % title 'Music!';
-Total: <%= $total %> tracks
+<b>Total:</b> <%= $total %> tracks
 <p></p>
-Tune: <%= $tune %>
+<b>Tune:</b> <%= $tune %>
 <p></p>
 <audio controls id='myAudio' autoplay='autoplay' preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
   Your browser does not support the <code>audio</code> element.
