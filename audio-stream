@@ -9,6 +9,7 @@ use constant DAT => "$0.dat";
 use constant PATH => 'public/Audio/';
 
 get '/' => sub ($c) {
+  my $autoadvance = $c->param('autoadvance') || 0;
   my $autoplay = $c->param('autoplay') || 0;
   my $current  = $c->param('current') || 0;
   my $shuffle  = $c->param('shuffle') || 0;
@@ -41,6 +42,7 @@ get '/' => sub ($c) {
     music    => $music,
     tune     => $tune,
     autoplay => $autoplay,
+    autoadvance => $autoadvance,
     current  => $current,
     shuffle  => $shuffle,
     query    => $query,
@@ -70,6 +72,8 @@ __DATA__
 <form method="get">
   <input type="hidden" id="current" name="current" value="<%= $current %>" />
   <p>
+    <label for="autoadvance"><b>Autoadvance:</b></label>
+    <input type="checkbox" id="autoadvance" name="autoadvance" <%= $autoadvance ? 'checked' : '' %> />
     <label for="autoplay"><b>Autoplay:</b></label>
     <input type="checkbox" id="autoplay" name="autoplay" <%= $autoplay ? 'checked' : '' %> />
     <label for="shuffle"><b>Shuffle:</b></label>
@@ -91,7 +95,7 @@ __DATA__
     <p><b>Matches:</b> <%= scalar @$match %></p>
     <ol>
 %   for my $n (@$match) {
-    <li><a href="/?current=<%= $n - 1 %>&shuffle=0&autoplay=0&query=<%= $query %>"><%= $music->[$n] %></a></li>
+    <li><a href="/?current=<%= $n - 1 %>&shuffle=0&autoplay=0&autoadvance=0&&query=<%= $query %>"><%= $music->[$n] %></a></li>
 %   }
     </ol>
 % } else {
@@ -108,7 +112,11 @@ $(document).ready(function() {
     if ($('#autoplay').is(':checked')) {
       y = 1;
     }
-    window.location = '/?current=' + <%= $current %> + '&shuffle=' + x + '&autoplay=' + y + '&query=' + "<%= $query %>";
+    var z = 0;
+    if ($('#autoadvance').is(':checked')) {
+      z = 1;
+      window.location = '/?current=' + <%= $current %> + '&shuffle=' + x + '&autoplay=' + y + '&autoadvance=' + z + '&query=' + "<%= $query %>";
+    }
   }
   $('#myAudio').attr('src', '<%= $tune %>');
   $('#myAudio').on('error', function() {
