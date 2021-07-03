@@ -28,6 +28,15 @@ get '/' => sub ($c) {
   );
 } => 'index';
 
+post '/' => sub ($c) {
+  my $current = $c->param('current') || 0;
+  my $shuffle = $c->param('shuffle') || 0;
+  my $query = $c->param('query') || '';
+  my $music = [];
+  $music = retrieve(DAT) if -e DAT;
+  $c->redirect_to($c->url_for('index'));
+} => 'search';
+
 get '/refresh' => sub ($c) {
   my @files = File::Find::Rule->file()
                               ->name('*.mp3', '*.m4a')
@@ -59,7 +68,7 @@ __DATA__
 |
 <a href="<%= url_for('refresh') %>">Reread Audio</a>
 <p></p>
-<form>
+<form method="post">
   <label for="query"><b>Search:</b></label>
   <input type="text" id="query" name="query" value="<%= $query %>" />
   <input type="submit" value="Submit" />
