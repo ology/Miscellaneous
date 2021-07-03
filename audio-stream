@@ -9,6 +9,8 @@ use constant DAT => 'music-stream.dat';
 use constant PATH => 'public/Audio/';
 
 get '/' => sub ($c) {
+  my $current = $c->param('current') || 0;
+  my $shuffle = $c->param('shuffle');
   my $query = $c->param('query');
   my $music = [];
   $music = retrieve(DAT) if -e DAT;
@@ -20,6 +22,8 @@ get '/' => sub ($c) {
     total => $total,
     tune => $tune,
     query => $query,
+    current => $current,
+    shuffle => $shuffle,
   );
 } => 'index';
 
@@ -40,9 +44,11 @@ __DATA__
 @@ index.html.ep
 % layout 'default';
 % title 'Music!';
+<b>Shuffle:</b> <input type="checkbox" id="shuffle" name="shuffle" <%= $shuffle ? 'checked' : '' %> />
+<p></p>
 <b>Total:</b> <%= $total %> tracks
 <p></p>
-<b>Tune:</b> <%= $tune %>
+<b>Tune:</b> <%= $tune %> (<%= $current %>)
 <p></p>
 <audio controls id='myAudio' autoplay='autoplay' preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
   Your browser does not support the <code>audio</code> element.
@@ -62,14 +68,22 @@ $(document).ready(function() {
   $('#myAudio').attr('src', '<%= $tune %>');
   $('#myAudio').on('error', function() {
     console.log('Playback error! Skipping...');
-    window.location = '/';
+    var shuffle = 0;
+    if ($('#shuffle').is(':checked')) {
+      shuffle = 1;
+    }
+    window.location = '/?shuffle=' + shuffle;
   });
   $('#myAudio').on('playing', function() {
     console.log('Playing');
   });
   $('#myAudio').on('ended', function() {
     console.log('Ended');
-    window.location = '/';
+    var shuffle = 0;
+    if ($('#shuffle').is(':checked')) {
+      shuffle = 1;
+    }
+    window.location = '/?shuffle=' + shuffle;
   });
 });
 </script>
