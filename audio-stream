@@ -22,10 +22,10 @@ get '/' => sub ($c) {
     for my $n (0 .. $#$music) {
       push @$match, $n if $music->[$n] =~ /$query/;
     }
-    $current = $shuffle ? int rand @$match : $current + 1;
+    $current = $shuffle ? int(rand @$match) : $current + 1;
   }
   else {
-    $current = $shuffle ? int rand @$music : $current + 1;
+    $current = $shuffle ? int(rand @$music) : $current + 1;
   }
   my $tune = $music->[$current];
   $c->render(
