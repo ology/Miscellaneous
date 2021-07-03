@@ -84,7 +84,6 @@ __DATA__
   <label for="query"><b>Search:</b></label>
   <input type="hidden" id="autoplay" name="autoplay" value="0" />
   <input type="hidden" id="shuffle" name="shuffle" value="0" />
-  <input type="hidden" id="autoplay" name="autoplay" value="0" />
   <input type="hidden" id="current" name="current" value="<%= $current %>" />
   <input type="text" id="query" name="query" value="<%= $query %>" />
   <input type="submit" value="Submit" />
