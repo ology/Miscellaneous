@@ -9,6 +9,7 @@ use constant DAT => 'music-stream.dat';
 use constant PATH => 'public/Audio/';
 
 get '/' => sub ($c) {
+  my $query = $c->param('query');
   my $music = [];
   $music = retrieve(DAT) if -e DAT;
   my $tune = $music->[int rand @$music];
@@ -18,6 +19,7 @@ get '/' => sub ($c) {
     template => 'index',
     total => $total,
     tune => $tune,
+    query => $query,
   );
 } => 'index';
 
@@ -49,6 +51,12 @@ __DATA__
 <a href="<%= url_for('index') %>">Next tune</a>
 |
 <a href="<%= url_for('refresh') %>">Reread Audio</a>
+<p></p>
+<form>
+  <label for="query"><b>Search:</b></label>
+  <input type="text" id="query" name="query" value="<%= $query %>" />
+  <input type="submit" value="Submit" />
+</form>
 <script>
 $(document).ready(function() {
   $('#myAudio').attr('src', '<%= $tune %>');
