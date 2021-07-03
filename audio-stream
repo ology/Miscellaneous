@@ -66,6 +66,8 @@ __DATA__
 @@ index.html.ep
 % layout 'default';
 % title 'Music!';
+<form method="get">
+  <input type="hidden" id="current" name="current" value="<%= $current %>" />
 <p>
   <label for="autoplay"><b>Autoplay:</b></label>
   <input type="checkbox" id="autoplay" name="autoplay" <%= $autoplay ? 'checked' : '' %> />
@@ -80,11 +82,7 @@ __DATA__
   </audio>
 </p>
 <p><a href="<%= url_for('refresh') %>">Reread Audio</a></p>
-<form method="get">
   <label for="query"><b>Search:</b></label>
-  <input type="hidden" id="autoplay" name="autoplay" value="0" />
-  <input type="hidden" id="shuffle" name="shuffle" value="0" />
-  <input type="hidden" id="current" name="current" value="<%= $current %>" />
   <input type="text" id="query" name="query" value="<%= $query %>" />
   <input type="submit" value="Submit" />
 </form>
