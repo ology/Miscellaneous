@@ -10,10 +10,10 @@ use constant PATH => 'public/Audio/';
 
 get '/' => sub ($c) {
   my $autoadvance = $c->param('autoadvance') || 0;
-  my $autoplay = $c->param('autoplay') || 0;
-  my $current  = $c->param('current') || 0;
-  my $shuffle  = $c->param('shuffle') || 0;
-  my $query    = $c->param('query') || '';
+  my $autoplay    = $c->param('autoplay') || 0;
+  my $current     = $c->param('current') || 0;
+  my $shuffle     = $c->param('shuffle') || 0;
+  my $query       = $c->param('query') || '';
 
   my $music = [];
   my $match = [];
@@ -37,16 +37,16 @@ get '/' => sub ($c) {
   my $tune = $music->[$current];
 
   $c->render(
-    template => 'index',
-    total    => $total,
-    music    => $music,
-    tune     => $tune,
-    autoplay => $autoplay,
+    template    => 'index',
+    total       => $total,
+    music       => $music,
+    tune        => $tune,
+    autoplay    => $autoplay,
     autoadvance => $autoadvance,
-    current  => $current,
-    shuffle  => $shuffle,
-    query    => $query,
-    match    => $match,
+    current     => $current,
+    shuffle     => $shuffle,
+    query       => $query,
+    match       => $match,
   );
 } => 'index';
 
