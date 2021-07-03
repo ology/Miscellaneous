@@ -1,7 +1,8 @@
 #!/usr/bin/env perl
 
 # Lightweight, ultra-simple music server
-# To run:
+
+# To run, symlink your audio source in a public subdirectory:
 # audio-stream/public $ ln -s /media/you/external_drive/Audio/
 # Then:
 # audio-stream $ morbo audio-stream
