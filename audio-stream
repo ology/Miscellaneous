@@ -10,11 +10,12 @@ use constant PATH => 'public/Audio/';
 
 get '/' => sub ($c) {
   my $current = $c->param('current') || 0;
-  my $shuffle = $c->param('shuffle');
-  my $query = $c->param('query');
+  my $shuffle = $c->param('shuffle') || 0;
+  my $query = $c->param('query') || '';
   my $music = [];
   $music = retrieve(DAT) if -e DAT;
-  my $tune = $music->[int rand @$music];
+  $current = $shuffle ? int rand @$music : $current + 1;
+  my $tune = $music->[$current];
   my $nf = Number::Format->new;
   my $total = $nf->format_number(scalar @$music);
   $c->render(
@@ -48,7 +49,7 @@ __DATA__
 <p></p>
 <b>Total:</b> <%= $total %> tracks
 <p></p>
-<b>Tune:</b> <%= $tune %> (<%= $current %>)
+<b>Tune:</b> <%= $tune %>
 <p></p>
 <audio controls id='myAudio' autoplay='autoplay' preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
   Your browser does not support the <code>audio</code> element.
@@ -65,25 +66,24 @@ __DATA__
 </form>
 <script>
 $(document).ready(function() {
-  $('#myAudio').attr('src', '<%= $tune %>');
-  $('#myAudio').on('error', function() {
-    console.log('Playback error! Skipping...');
+  function relocate () {
     var shuffle = 0;
     if ($('#shuffle').is(':checked')) {
       shuffle = 1;
     }
-    window.location = '/?shuffle=' + shuffle;
+    window.location = '/?shuffle=' + shuffle + '&current=' + <%= $current %>;
+  }
+  $('#myAudio').attr('src', '<%= $tune %>');
+  $('#myAudio').on('error', function() {
+    console.log('Playback error! Skipping...');
+    relocate();
   });
   $('#myAudio').on('playing', function() {
     console.log('Playing');
   });
   $('#myAudio').on('ended', function() {
     console.log('Ended');
-    var shuffle = 0;
-    if ($('#shuffle').is(':checked')) {
-      shuffle = 1;
-    }
-    window.location = '/?shuffle=' + shuffle;
+    relocate();
   });
 });
 </script>
