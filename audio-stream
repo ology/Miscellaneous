@@ -16,15 +16,18 @@ get '/' => sub ($c) {
   my $music = [];
   my $match = [];
   $music = retrieve(DAT) if -e DAT;
-  $current = $shuffle ? int rand @$music : $current + 1;
-  my $tune = $music->[$current];
   my $nf = Number::Format->new;
   my $total = $nf->format_number(scalar @$music);
   if ($query) {
     for my $n (0 .. $#$music) {
       push @$match, $n if $music->[$n] =~ /$query/;
     }
+    $current = $shuffle ? int rand @$match : $current + 1;
   }
+  else {
+    $current = $shuffle ? int rand @$music : $current + 1;
+  }
+  my $tune = $music->[$current];
   $c->render(
     template => 'index',
     total => $total,
