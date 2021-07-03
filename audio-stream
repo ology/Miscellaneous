@@ -9,33 +9,34 @@ use constant DAT => "$0.dat";
 use constant PATH => 'public/Audio/';
 
 get '/' => sub ($c) {
+  my $autoplay = $c->param('autoplay') || 0;
   my $current = $c->param('current') || 0;
   my $shuffle = $c->param('shuffle') || 0;
   my $query = $c->param('query') || '';
   my $music = [];
+  my $match = [];
   $music = retrieve(DAT) if -e DAT;
   $current = $shuffle ? int rand @$music : $current + 1;
   my $tune = $music->[$current];
   my $nf = Number::Format->new;
   my $total = $nf->format_number(scalar @$music);
+  if ($query) {
+    for my $n (0 .. $#$music) {
+      push @$match, $n if $music->[$n] =~ /$query/;
+    }
+  }
   $c->render(
     template => 'index',
     total => $total,
+    music => $music,
     tune => $tune,
+    autoplay => $autoplay,
     current => $current,
     shuffle => $shuffle,
     query => $query,
+    match => $match,
   );
 } => 'index';
-
-post '/' => sub ($c) {
-  my $current = $c->param('current') || 0;
-  my $shuffle = $c->param('shuffle') || 0;
-  my $query = $c->param('query') || '';
-  my $music = [];
-  $music = retrieve(DAT) if -e DAT;
-  $c->redirect_to($c->url_for('index'));
-} => 'search';
 
 get '/refresh' => sub ($c) {
   my @files = File::Find::Rule->file()
@@ -54,13 +55,15 @@ __DATA__
 @@ index.html.ep
 % layout 'default';
 % title 'Music!';
+<b>Autoplay:</b> <input type="checkbox" id="autoplay" name="autoplay" <%= $autoplay ? 'checked' : '' %> />
+<p></p>
 <b>Shuffle:</b> <input type="checkbox" id="shuffle" name="shuffle" <%= $shuffle ? 'checked' : '' %> />
 <p></p>
 <b>Total:</b> <%= $total %> tracks
 <p></p>
 <b>Tune:</b> <%= $tune %>
 <p></p>
-<audio controls id='myAudio' autoplay='autoplay' preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
+<audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" src="">
   Your browser does not support the <code>audio</code> element.
 </audio>
 <p></p>
@@ -68,11 +71,16 @@ __DATA__
 |
 <a href="<%= url_for('refresh') %>">Reread Audio</a>
 <p></p>
-<form method="post">
+<form method="get">
   <label for="query"><b>Search:</b></label>
   <input type="text" id="query" name="query" value="<%= $query %>" />
   <input type="submit" value="Submit" />
 </form>
+% if (@$match) {
+%   for my $n (@$match) {
+      <p><a href="/?current=<%= $n %>&shuffle=0"><%= $music->[$n] %></a></p>
+%   }
+% }
 <script>
 $(document).ready(function() {
   function relocate () {
@@ -80,7 +88,11 @@ $(document).ready(function() {
     if ($('#shuffle').is(':checked')) {
       x = 1;
     }
-    window.location = '/?current=' + <%= $current %> + '&shuffle=' + x;
+    var y = 0;
+    if ($('#autoplay').is(':checked')) {
+      y = 1;
+    }
+    window.location = '/?current=' + <%= $current %> + '&shuffle=' + x + '&autoplay=' + y;
   }
   $('#myAudio').attr('src', '<%= $tune %>');
   $('#myAudio').on('error', function() {
