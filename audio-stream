@@ -56,7 +56,6 @@ __DATA__
 % layout 'default';
 % title 'Music!';
 <b>Autoplay:</b> <input type="checkbox" id="autoplay" name="autoplay" <%= $autoplay ? 'checked' : '' %> />
-<p></p>
 <b>Shuffle:</b> <input type="checkbox" id="shuffle" name="shuffle" <%= $shuffle ? 'checked' : '' %> />
 <p></p>
 <b>Total:</b> <%= $total %> tracks
