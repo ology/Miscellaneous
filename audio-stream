@@ -73,12 +73,16 @@ __DATA__
 <p></p>
 <form method="get">
   <label for="query"><b>Search:</b></label>
+  <input type="hidden" id="autoplay" name="autoplay" value="0" />
+  <input type="hidden" id="shuffle" name="shuffle" value="0" />
+  <input type="hidden" id="autoplay" name="autoplay" value="0" />
+  <input type="hidden" id="current" name="current" value="<%= $current %>" />
   <input type="text" id="query" name="query" value="<%= $query %>" />
   <input type="submit" value="Submit" />
 </form>
 % if (@$match) {
 %   for my $n (@$match) {
-      <p><a href="/?current=<%= $n %>&shuffle=0"><%= $music->[$n] %></a></p>
+      <p><a href="/?current=<%= $n - 1 %>&shuffle=0&autoplay=0&query=<%= $query %>"><%= $music->[$n] %></a></p>
 %   }
 % }
 <script>
@@ -92,7 +96,7 @@ $(document).ready(function() {
     if ($('#autoplay').is(':checked')) {
       y = 1;
     }
-    window.location = '/?current=' + <%= $current %> + '&shuffle=' + x + '&autoplay=' + y;
+    window.location = '/?current=' + <%= $current %> + '&shuffle=' + x + '&autoplay=' + y + '&query=' + "<%= $query %>";
   }
   $('#myAudio').attr('src', '<%= $tune %>');
   $('#myAudio').on('error', function() {
