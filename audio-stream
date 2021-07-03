@@ -167,8 +167,10 @@ $(document).ready(function() {
   $('#myAudio').attr('src', '<%= $tune %>');
   $('#myAudio').on('error', function() {
     console.log('Playback error!');
-    $('#warning').show();
-    relocate();
+    if ('<%= $tune %>') {
+      $('#warning').show();
+      relocate();
+    }
   });
   $('#myAudio').on('playing', function() {
     console.log('Playing...');
