@@ -106,6 +106,7 @@ __DATA__
   <label for="query"><b>Search:</b></label>
   <input type="text" id="query" name="query" value="<%= $query %>" />
   <input type="submit" name="submit" value="Submit" />
+  <input type="button" onclick="location.href='/?query=&autoadvance=1&autoplay=1&shuffle=1';" value="Clear & Go" />
 </form>
 % if (@$match) {
     <p><b>Matches:</b> <%= scalar @$match %></p>
