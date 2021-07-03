@@ -33,7 +33,7 @@ get '/' => sub ($c) {
 
   if ($query) {
     for my $n (0 .. $#$music) {
-      push @$match, $n if $music->[$n] =~ /$query/;
+      push @$match, $n if lc($music->[$n]) =~ /$query/i;
     }
 
     $current = $shuffle ? $match->[int rand @$match] : $current + 1;
