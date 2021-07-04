@@ -37,9 +37,11 @@ get '/' => sub ($c) {
       push @$match, $n if lc($music->[$n]) =~ /$query/i;
     }
 
+    # If shuffling, get a random member of the matches, otherwise increment
     $current = $shuffle ? $match->[int rand @$match] : $current + 1;
   }
   else {
+    # If shuffling, get a random music track index, otherwise increment
     $current = $shuffle ? int(rand @$music) : $current + 1;
   }
 
