@@ -42,13 +42,13 @@ get '/' => sub ($c) {
     $current = $shuffle ? int(rand @$music) : $current + 1;
   }
 
-  my $tune = $submit ? '' : $music->[$current];
+  my $track = $submit ? '' : $music->[$current];
 
   $c->render(
     template    => 'index',
     total       => $total,
     music       => $music,
-    tune        => $tune,
+    track       => $track,
     autoplay    => $autoplay,
     autoadvance => $autoadvance,
     current     => $current,
@@ -86,7 +86,7 @@ __DATA__
   <input type="checkbox" id="shuffle" name="shuffle" title="Select a random track" <%= $shuffle ? 'checked' : '' %> />
 </p>
 <p><b>Total:</b> <%= $total %> tracks</p>
-<p><b>Track:</b> <%= $tune %></p>
+<p><b>Track:</b> <%= $track %></p>
 <p>
 <div>
   <audio controls id='myAudio' <%= $autoplay ? "autoplay='autoplay'" : '' %> preload="auto" type="audio/mpeg" crossorigin="anonymous" style="vertical-align: middle;" src="">
@@ -115,7 +115,7 @@ __DATA__
     <ol>
 %   for my $n (@$match) {
     <li>
-%     if ($tune eq $music->[$n]) {
+%     if ($track eq $music->[$n]) {
       <b><a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $music->[$n] %></a></b>
 %     } else {
       <a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $music->[$n] %></a>
@@ -167,9 +167,9 @@ $(document).ready(function() {
     }
   }
   $('#warning').hide();
-  $('#myAudio').attr('src', '<%= $tune %>');
+  $('#myAudio').attr('src', '<%= $track %>');
   $('#myAudio').on('error', function() {
-    if ('<%= $tune %>') {
+    if ('<%= $track %>') {
       console.log('Playback error!');
       $('#warning').show();
       relocate();
