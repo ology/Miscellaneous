@@ -66,10 +66,11 @@ get '/refresh' => sub ($c) {
   my @files = File::Find::Rule->file()
                               ->name('*.mp3', '*.m4a')
                               ->in(PATH);
+  # Remove "public" from the filename
   for my $file (@files) {
     $file =~ s/^public//;
   }
-
+  # Save the files to disk
   store \@files, DAT;
 
   $c->redirect_to($c->url_for('index'));
