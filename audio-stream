@@ -120,7 +120,7 @@ __DATA__
 </p>
 <p>
   <a href="" class="btn btn-light" onclick="linkout(<%= $current %>); return false;"><b>Next track</b></a>
-<!--   <a href="<%= url_for('refresh') %>" class="btn btn-light">Reread audio</a> -->
+  <!-- <a href="<%= url_for('refresh') %>" class="btn btn-light">Reread audio</a> -->
 </p>
 <form method="get">
   <input type="hidden" name="autoadvance" value="0" />
