@@ -128,7 +128,7 @@ __DATA__
   <input type="hidden" name="shuffle" value="0" />
   <input type="hidden" name="current" value="<%= $current %>" />
   <label for="query"><b>Search:</b></label>
-  <input type="search" id="query" name="query" class="form-control" value="<%= $query %>" style="width: 40em;" />
+  <input type="search" id="query" name="query" class="form-control" value="<%= $query %>" style="width: 25em;" />
   <p></p>
   <input type="submit" name="submit" class="btn btn-primary" value="Submit" />
   <input type="button" class="btn btn-secondary" onclick="location.href='/?query=&autoadvance=1&autoplay=1&shuffle=1';" value="Clear & Go" />
