@@ -8,6 +8,7 @@
 # audio-stream $ morbo audio-stream
 
 use File::Find::Rule;
+use Encoding::FixLatin qw(fix_latin);
 use Mojolicious::Lite -signatures;
 use Number::Format;
 use Storable qw(retrieve store);
@@ -52,7 +53,7 @@ get '/' => sub ($c) {
   }
 
   # Do not have a track when a search has been freshly submitted
-  my $track = $submit ? '' : $audio->[$current];
+  my $track = $submit ? '' : fix_latin($audio->[$current]);
 
   $c->render(
     template    => 'index',
