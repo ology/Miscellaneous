@@ -222,7 +222,6 @@ $(document).ready(function() {
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <style>
       a:link {
@@ -235,6 +234,7 @@ $(document).ready(function() {
         background-color: #cfc;
       }
     </style>
+    <title><%= title %></title>
   </head>
   <body><%= content %></body>
 </html>
