@@ -12,8 +12,8 @@ use Mojolicious::Lite -signatures;
 use Number::Format;
 use Storable qw(retrieve store);
 
-use constant DAT => "$0.dat";
-use constant PATH => 'public/Audio/';
+use constant PATH => 'public/Audio/'; # Where the music files live
+use constant DAT  => "$0.dat";        # The tracks file
 
 get '/' => sub ($c) {
   my $autoadvance = $c->param('autoadvance') || 0;
