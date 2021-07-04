@@ -134,6 +134,7 @@ __DATA__
   <input type="button" class="btn btn-secondary" onclick="location.href='/?query=&autoadvance=1&autoplay=1&shuffle=1';" value="Clear & Go" />
 </form>
 % if (@$match) {
+    <p></p>
     <p><b>Matches:</b> <%= scalar @$match %></p>
     <ol>
 %   for my $n (@$match) {
