@@ -66,6 +66,7 @@ get '/' => sub ($c) {
     shuffle     => $shuffle,
     query       => $query,
     match       => $match,
+    submit      => $submit ? 1 : 0,
   );
 } => 'index';
 
