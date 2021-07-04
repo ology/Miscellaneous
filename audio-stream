@@ -66,6 +66,7 @@ get '/' => sub ($c) {
     shuffle     => $shuffle,
     query       => $query,
     match       => $match,
+    submit      => $submit ? 1 : 0,
   );
 } => 'index';
 
@@ -185,13 +186,26 @@ $(document).ready(function() {
       window.location = '/?current=' + <%= $current %> + '&shuffle=' + x + '&autoplay=' + y + '&autoadvance=' + z + '&query=' + "<%= $query %>";
     }
   }
+
+  var n = localStorage.getItem('on_load_counter');
+  if (n === null || <%= $submit %> === 1) {
+    n = 0;
+  }
+  n++;
+  localStorage.setItem('on_load_counter', n);
+
   $('#warning').hide();
   $('#myAudio').attr('src', '<%= $track %>');
   $('#myAudio').on('error', function() {
     if ('<%= $track %>') {
       console.log('Playback error!');
       $('#warning').show();
-      relocate();
+      if (n > <%= @$match %>) {
+        $('#autoadvance').prop('checked', false);
+      }
+      else {
+        relocate();
+      }
     }
   });
   $('#myAudio').on('playing', function() {
