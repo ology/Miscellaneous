@@ -201,6 +201,7 @@ $(document).ready(function() {
     if ('<%= $track %>') {
       console.log('Playback error!');
       $('#warning').show();
+      // If there are matches but we have played all of them, stop.
       if (<%= @$match %> > 0 && n > <%= @$match %>) {
         $('#autoadvance').prop('checked', false);
       }
