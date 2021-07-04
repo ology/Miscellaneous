@@ -211,7 +211,7 @@ $(document).ready(function() {
         text-decoration: none;
       }
       a:hover {
-        color: black ;
+        color: black;
         background-color: #cfc;
       }
     </style>
