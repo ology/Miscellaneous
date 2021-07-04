@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-# Lightweight, ultra-simple music server
+# Lightweight, ultra-simple audio server
 
 # To run, symlink your audio source in a public subdirectory:
 # audio-stream/public $ ln -s /media/you/external_drive/Audio/
@@ -12,7 +12,7 @@ use Mojolicious::Lite -signatures;
 use Number::Format;
 use Storable qw(retrieve store);
 
-use constant PATH => 'public/Audio/'; # Where the music files live
+use constant PATH => 'public/Audio/'; # Where the audio files live
 use constant DAT  => "$0.dat";        # The tracks file
 
 get '/' => sub ($c) {
@@ -23,35 +23,35 @@ get '/' => sub ($c) {
   my $query       = $c->param('query') || '';
   my $submit      = $c->param('submit') || '';
 
-  my $music = []; # Bucket for all tracks
+  my $audio = []; # Bucket for all tracks
   my $match = []; # Bucket for all matches if given a query
 
-  $music = retrieve(DAT) if -e DAT;
+  $audio = retrieve(DAT) if -e DAT;
 
   my $nf = Number::Format->new;
-  my $total = $nf->format_number(scalar @$music);
+  my $total = $nf->format_number(scalar @$audio);
 
   if ($query) {
     # Brute force through every track, looking for matches
-    for my $n (0 .. $#$music) {
-      push @$match, $n if lc($music->[$n]) =~ /$query/i;
+    for my $n (0 .. $#$audio) {
+      push @$match, $n if lc($audio->[$n]) =~ /$query/i;
     }
 
     # If shuffling, get a random member of the matches, otherwise increment
     $current = $shuffle ? $match->[int rand @$match] : $current + 1;
   }
   else {
-    # If shuffling, get a random music track index, otherwise increment
-    $current = $shuffle ? int(rand @$music) : $current + 1;
+    # If shuffling, get a random audio track index, otherwise increment
+    $current = $shuffle ? int(rand @$audio) : $current + 1;
   }
 
   # Do not have a track when a search has been freshly submitted
-  my $track = $submit ? '' : $music->[$current];
+  my $track = $submit ? '' : $audio->[$current];
 
   $c->render(
     template    => 'index',
     total       => $total,
-    music       => $music,
+    audio       => $audio,
     track       => $track,
     autoplay    => $autoplay,
     autoadvance => $autoadvance,
@@ -122,10 +122,10 @@ __DATA__
     <ol>
 %   for my $n (@$match) {
     <li>
-%     if ($track eq $music->[$n]) {
-      <b><a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $music->[$n] %></a></b>
+%     if ($track eq $audio->[$n]) {
+      <b><a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $audio->[$n] %></a></b>
 %     } else {
-      <a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $music->[$n] %></a>
+      <a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $audio->[$n] %></a>
 %     }
     </li>
 %   }
