@@ -45,6 +45,12 @@ get '/' => sub ($c) {
     $current = $shuffle ? int(rand @$audio) : $current + 1;
   }
 
+  # Do not allow auto* if at end of audio
+  if ($current > @$audio) {
+    $autoadvance = 0;
+    $autoplay    = 0;
+  }
+
   # Do not have a track when a search has been freshly submitted
   my $track = $submit ? '' : $audio->[$current];
 
