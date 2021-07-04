@@ -24,7 +24,7 @@ get '/' => sub ($c) {
   my $submit      = $c->param('submit') || '';
 
   my $audio = []; # Bucket for all tracks
-  my $match = []; # Bucket for all matches if given a query
+  my $match = []; # Bucket for all query matches
 
   $audio = retrieve(DAT) if -e DAT;
 
