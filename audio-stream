@@ -32,6 +32,7 @@ get '/' => sub ($c) {
   my $total = $nf->format_number(scalar @$music);
 
   if ($query) {
+    # Brute force through every track, looking for a match
     for my $n (0 .. $#$music) {
       push @$match, $n if lc($music->[$n]) =~ /$query/i;
     }
@@ -42,6 +43,7 @@ get '/' => sub ($c) {
     $current = $shuffle ? int(rand @$music) : $current + 1;
   }
 
+  # Do not have a track when a search has been freshly submitted
   my $track = $submit ? '' : $music->[$current];
 
   $c->render(
