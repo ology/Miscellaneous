@@ -187,6 +187,7 @@ $(document).ready(function() {
     }
   }
 
+  // Keep track of the number of page loads (for search play)
   var n = localStorage.getItem('on_load_counter');
   if (n === null || <%= $submit %> === 1) {
     n = 0;
