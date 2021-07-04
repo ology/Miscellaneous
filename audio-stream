@@ -32,7 +32,7 @@ get '/' => sub ($c) {
   my $total = $nf->format_number(scalar @$music);
 
   if ($query) {
-    # Brute force through every track, looking for a match
+    # Brute force through every track, looking for matches
     for my $n (0 .. $#$music) {
       push @$match, $n if lc($music->[$n]) =~ /$query/i;
     }
