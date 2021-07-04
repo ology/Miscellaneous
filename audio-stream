@@ -200,7 +200,7 @@ $(document).ready(function() {
     if ('<%= $track %>') {
       console.log('Playback error!');
       $('#warning').show();
-      if (n > <%= @$match %>) {
+      if (<%= @$match %> > 0 && n > <%= @$match %>) {
         $('#autoadvance').prop('checked', false);
       }
       else {
