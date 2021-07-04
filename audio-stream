@@ -85,6 +85,11 @@ get '/refresh' => sub ($c) {
   $c->redirect_to($c->url_for('index'));
 } => 'refresh';
 
+app->helper(fix_latin => sub {
+  my ($c, $string) = @_;
+  return fix_latin($string);
+});
+
 app->start;
 __DATA__
 
@@ -130,9 +135,9 @@ __DATA__
 %   for my $n (@$match) {
     <li>
 %     if ($track eq $audio->[$n]) {
-      <b><a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $audio->[$n] %></a></b>
+      <b><a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= fix_latin($audio->[$n]) %></a></b>
 %     } else {
-      <a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= $audio->[$n] %></a>
+      <a href="" onclick="linkout(<%= $n - 1 %>); return false;"><%= fix_latin($audio->[$n]) %></a>
 %     }
     </li>
 %   }
