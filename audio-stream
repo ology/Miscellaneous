@@ -122,6 +122,12 @@ __DATA__
   <a href="" class="btn btn-light" onclick="linkout(<%= $current %>); return false;"><b>Next track</b></a>
   <!-- <a href="<%= url_for('refresh') %>" class="btn btn-light">Reread audio</a> -->
 </p>
+<p>
+  <b>History:</b>
+  <select id="playlist" name="playlist">
+    <option value=""></option>
+  </select>
+</p>
 <form method="get">
   <input type="hidden" name="autoadvance" value="0" />
   <input type="hidden" name="autoplay" value="0" />
@@ -199,6 +205,29 @@ $(document).ready(function() {
   n++;
   localStorage.setItem('on_load_counter', n);
 
+  // Keep track of the played audio history
+//var pl = [];
+//localStorage.setItem('playlist_history', JSON.stringify(pl));
+  var pl = JSON.parse(localStorage.getItem('playlist_history'));
+  if (pl === null) {
+    pl = [];
+    localStorage.setItem('playlist_history', JSON.stringify(pl));
+  }
+  for (var i = 0; i < pl.length; i++) {
+    for (var key in pl[i]) {
+      if (pl[i].hasOwnProperty(key)) {
+        $('#playlist').append($('<option>', {
+          text: key,
+          value: pl[i][key]
+        }));
+      }
+    }
+  }
+  $('#playlist').on('change', function() {
+    var current = $(this).children('option:selected').val();
+    window.location = '/?current=' + (current - 1);
+  });
+
   $('#warning').hide();
   $('#myAudio').attr('src', '<%= $track %>');
   $('#myAudio').on('error', function() {
@@ -219,6 +248,8 @@ $(document).ready(function() {
   });
   $('#myAudio').on('ended', function() {
     console.log('...Ended');
+    pl.push({ '<%= $track %>': '<%= $current %>' });
+    localStorage.setItem('playlist_history', JSON.stringify(pl));
     relocate();
   });
 });
