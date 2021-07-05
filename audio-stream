@@ -123,7 +123,7 @@ __DATA__
   <!-- <a href="<%= url_for('refresh') %>" class="btn btn-light">Reread audio</a> -->
 </p>
 <p>
-  <b>History:</b>
+  <label for="playlist"><b>History:</b></label>
   <select id="playlist" name="playlist" class="form-control"></select>
 </p>
 <form method="get">
