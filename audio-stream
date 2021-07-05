@@ -124,7 +124,9 @@ __DATA__
 </p>
 <p>
   <label for="playlist"><b>History:</b></label>
-  <select id="playlist" name="playlist" class="form-control"></select>
+  <select id="playlist" name="playlist" class="form-control">
+    <option value=""></option>
+  </select>
 </p>
 <form method="get">
   <input type="hidden" name="autoadvance" value="0" />
