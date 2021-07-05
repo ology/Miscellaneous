@@ -204,8 +204,8 @@ $(document).ready(function() {
   localStorage.setItem('on_load_counter', n);
 
   // Keep track of the played audio history
-//var pl = [];
-//localStorage.setItem('playlist_history', JSON.stringify(pl));
+//var pl = [];                                                  // Reset history
+//localStorage.setItem('playlist_history', JSON.stringify(pl)); // Reset history
   var pl = JSON.parse(localStorage.getItem('playlist_history'));
   if (pl === null) {
     pl = [];
