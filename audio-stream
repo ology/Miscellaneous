@@ -124,9 +124,7 @@ __DATA__
 </p>
 <p>
   <b>History:</b>
-  <select id="playlist" name="playlist">
-    <option value=""></option>
-  </select>
+  <select id="playlist" name="playlist" class="form-control"></select>
 </p>
 <form method="get">
   <input type="hidden" name="autoadvance" value="0" />
@@ -213,6 +211,8 @@ $(document).ready(function() {
     pl = [];
     localStorage.setItem('playlist_history', JSON.stringify(pl));
   }
+  var max = 10;
+  var j = 0;
   for (var i = pl.length; i >= 0; i--) {
     for (var key in pl[i]) {
       if (pl[i].hasOwnProperty(key)) {
@@ -222,6 +222,10 @@ $(document).ready(function() {
         }));
       }
     }
+    if (j >= max) {
+      break;
+    }
+    j++;
   }
   $('#playlist').on('change', function() {
     var current = $(this).children('option:selected').val();
