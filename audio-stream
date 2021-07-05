@@ -213,7 +213,7 @@ $(document).ready(function() {
     pl = [];
     localStorage.setItem('playlist_history', JSON.stringify(pl));
   }
-  for (var i = 0; i < pl.length; i++) {
+  for (var i = pl.length; i >= 0; i--) {
     for (var key in pl[i]) {
       if (pl[i].hasOwnProperty(key)) {
         $('#playlist').append($('<option>', {
