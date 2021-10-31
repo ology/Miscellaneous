@@ -18,7 +18,7 @@ my %dispatch = (
   stat   => sub {
     return join(' ', 'CPU:', $sys->cpu_percent, "%\n")
          . join(' ', 'MEM:', $sys->mem_percent, "%\n")
-         . join(' ', 'Core temp:', $sys->core_temp, 'C°')
+         . join(' ', 'Temp:', $sys->core_temp, "C°\n")
   },
   gpio => sub { $sys->gpio_info([ $first .. $last ]) },
 );
