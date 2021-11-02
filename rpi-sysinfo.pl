@@ -4,7 +4,7 @@ use warnings;
 
 use RPi::SysInfo ();
 
-my $type  = shift || die "Usage: perl $0 type\n";
+my $type  = shift || die "Usage: perl $0 [conf|net|fs|pi|stat|gpio]\n";
 my $first = shift // 0;
 my $last  = shift // 53;
  
