@@ -11,8 +11,8 @@ my $last = shift // 53;
 my $sys = RPi::SysInfo->new;
 
 my %dispatch = (
-  conf => sub { $sys->raspi_confi },
-  net  => sub { $sys->network_inf },
+  conf => sub { $sys->raspi_config },
+  net  => sub { $sys->network_info },
   fs   => sub { $sys->file_system },
   pi   => sub { $sys->pi_details },
   stat => sub {
