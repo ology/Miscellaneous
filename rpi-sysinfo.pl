@@ -4,9 +4,9 @@ use warnings;
 
 use RPi::SysInfo ();
 
-my $type = shift || die "Usage: perl $0 type\n";
+my $type  = shift || die "Usage: perl $0 type\n";
 my $first = shift // 0;
-my $last = shift // 53;
+my $last  = shift // 53;
  
 my $sys = RPi::SysInfo->new;
 
