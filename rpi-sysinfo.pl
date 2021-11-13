@@ -4,7 +4,7 @@ use warnings;
 
 use RPi::SysInfo ();
 
-my $type  = shift || die "Usage: perl $0 [conf|net|fs|pi|stat|gpio]\n";
+my $type  = shift || die "Usage: perl $0 [conf|net|fs|pi|stat|pins]\n";
 my $first = shift // 0;
 my $last  = shift // 53;
  
@@ -20,7 +20,7 @@ my %dispatch = (
          . join(' ', 'MEM:', $sys->mem_percent, "%\n")
          . join(' ', 'Temp:', $sys->core_temp, "C°\n")
   },
-  gpio => sub { $sys->gpio_info([ $first .. $last ]) },
+  pins => sub { $sys->gpio_info([ $first .. $last ]) },
 );
 
 print $dispatch{$type}->();
