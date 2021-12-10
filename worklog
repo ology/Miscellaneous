@@ -252,7 +252,7 @@ worklog
   > perl worklog --begin --task='Test'
   > perl worklog --current
   > perl worklog --end
-  > perl worklog --summmary
+  > perl worklog --summary
   > perl worklog --daily
   > perl worklog --open
 
