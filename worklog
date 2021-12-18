@@ -325,7 +325,7 @@ the latest B<task> being worked.
 
 =head2 open
 
-Open the worklog in the defined "EDITOR".
+Open the worklog in the defined C<EDITOR>.
 
 Default: C<vim>
 
