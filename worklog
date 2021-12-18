@@ -321,7 +321,7 @@ Summary of daily minutes worked
 =head2 current
 
 Show the latest B<project>, and if it is in the middle of tasks, show
-the date-time string and the latest B<task> being worked.
+the latest B<task> being worked.
 
 =head2 open
 
