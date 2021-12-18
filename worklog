@@ -105,7 +105,7 @@ elsif ($opts{daily}) {
     my $minutes = mean(values %byday);
     my $hours = $minutes / 60;
 
-    print ddc(\%byday);
+    print ddc(\%byday, { max_width => 48 });
     printf "Daily average = %.2f minutes = %.2f hours over %d days\n",
         $minutes, $hours, scalar(keys %byday);
 }
