@@ -106,7 +106,7 @@ elsif ($opts{daily}) {
     my $hours = $minutes / 60;
 
     print ddc(\%byday);
-    printf "Daily average = %.2f minutes = %.2f hours\n", $minutes, $hours;
+    printf "Daily average = %.2f minutes = %.2f hours over %d days\n", $minutes, $hours, scalar(keys %byday);
 }
 # Display the current project, time and task
 elsif ($opts{current}) {
