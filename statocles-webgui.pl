@@ -138,7 +138,7 @@ __DATA__
 % title 'Statocles UI Posts';
 %= include '_flash'
 <p>
-  <b><a href="<%= $site %>">Visit Site</a></b>
+  <b><a href="<%= $site %>" target="_blank">Visit Site</a></b>
   |
   <b><a href="<%= url_for('deploy') %>">Deploy</a></b>
 </p>
