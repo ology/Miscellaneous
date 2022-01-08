@@ -42,11 +42,9 @@ REPO: for my $repo (sort @repos) {
   if ($summary) {
     printf '%0*d. %s (%s)', $width, $i, $repo, $branch;
 
-    my $git = qx{ git diff --stat };
-    print ' - DIRTY' if $git;
-    print "\n";
+    dirty_check();
 
-    $git = qx{ git log -1 --format=%cd };
+    my $git = qx{ git log -1 --format=%cd };
     chomp $git;
     my $last = DateTime::Format::DateParse->parse_datetime($git, 'local');
     my $duration = $now->subtract_datetime_absolute($last);
@@ -59,9 +57,7 @@ REPO: for my $repo (sort @repos) {
     while (1) {
       printf "\n%0*d. %s (%s)", $width, $i, $repo, $branch;
 
-      my $git = qx{ git diff --stat };
-      print ' - DIRTY' if $git;
-      print "\n";
+      dirty_check();
 
       my $response = prompt 'Enter=next q=quit s=status p=pull f=prune: ';
 
@@ -95,4 +91,10 @@ REPO: for my $repo (sort @repos) {
       }
     }
   }
+}
+
+sub dirty_check {
+    my $git = qx{ git diff --stat };
+    print ' - DIRTY' if $git;
+    print "\n";
 }
