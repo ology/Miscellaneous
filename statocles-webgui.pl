@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
 
-use Mojolicious::Lite -signatures;
-use Path::Iterator::Rule;
 use File::Path qw(make_path);
+use Mojolicious::Lite -signatures;
 use Mojo::File;
+use Path::Iterator::Rule;
 use Time::Piece;
 use YAML::XS qw(LoadFile);
 
