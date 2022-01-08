@@ -138,13 +138,14 @@ __DATA__
 % title 'Statocles UI Posts';
 %= include '_flash'
 <p>
-<b><a href="<%= $site %>">Visit Site</a></b>
-| <b><a href="<%= url_for('deploy') %>">Deploy</a></b>
+  <b><a href="<%= $site %>">Visit Site</a></b>
+  |
+  <b><a href="<%= url_for('deploy') %>">Deploy</a></b>
 </p>
 <form action="<%= url_for('new') %>" method="post">
-<label for="title">New post:</label>
-<input type="text" name="title" id="title" placeholder="Blog Post Title"/>
-<input type="submit" value="Submit"/>
+  <label for="title">New post:</label>
+  <input type="text" name="title" id="title" placeholder="Blog Post Title"/>
+  <input type="submit" value="Submit"/>
 </form>
 <h2>Posts</h1>
 % for my $slug (sort { $posts->{$b}{date} cmp $posts->{$a}{date} || $posts->{$a}{title} cmp $posts->{$b}{title} } keys %$posts) {
