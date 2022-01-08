@@ -43,7 +43,8 @@ REPO: for my $repo (sort @repos) {
     printf '%0*d. %s (%s)', $width, $i, $repo, $branch;
 
     my $git = qx{ git diff --stat };
-    print $git ? " - DIRTY\n" : "\n";
+    print ' - DIRTY' if $git;
+    print "\n";
 
     $git = qx{ git log -1 --format=%cd };
     chomp $git;
