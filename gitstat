@@ -11,7 +11,7 @@ use DateTime ();
 use DateTime::Format::DateParse ();
 use Time::Ago ();
 
-my $summary = shift // 0;
+my $summary = shift || 0;
 my $path = shift || $ENV{HOME} . '/sandbox';
 
 my @repos = File::Find::Rule
