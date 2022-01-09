@@ -165,7 +165,7 @@ __DATA__
 <form method="post">
 <input type="hidden" name="date" value="<%= $date %>"/>
 <input type="hidden" name="slug" value="<%= $slug %>"/>
-<textarea name="content" rows="20" cols="100"><%= $content %></textarea>
+<textarea name="content" rows="40" cols="100"><%= $content %></textarea>
 <p></p>
 <input type="submit" value="Submit"/>
 </form>
