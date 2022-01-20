@@ -13,6 +13,7 @@ use Time::Ago ();
 
 my $summary = shift // 0;
 my $path = shift || $ENV{HOME} . '/sandbox';
+my $filter = shift // ''; # Inclusive regular expression pattern
 
 my @repos = File::Find::Rule
     ->maxdepth(1)
@@ -29,6 +30,8 @@ REPO: for my $repo (sort @repos) {
   chdir($repo) or die "Can't chdir $repo: $!";
 
   $repo =~ s/^$path\///;
+
+  next REPO if $filter && $repo !~ /$filter/;
 
   my @subdirs = File::Find::Rule->maxdepth(1)->directory->in('.');
   my $bool = any { $_ eq '.git' } @subdirs;
