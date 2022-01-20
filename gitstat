@@ -12,8 +12,8 @@ use DateTime::Format::DateParse ();
 use Time::Ago ();
 
 my $summary = shift // 0;
-my $path = shift || $ENV{HOME} . '/sandbox';
-my $filter = shift // ''; # Inclusive regular expression pattern
+my $path    = shift || $ENV{HOME} . '/sandbox';
+my $filter  = shift // ''; # Inclusive regular expression pattern
 
 my @repos = File::Find::Rule
     ->maxdepth(1)
