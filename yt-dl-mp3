@@ -51,6 +51,7 @@ for my $track (@$data) {
       warn "Retrying...\n";
       $retries++;
       $retrying = $video;
+      sleep 1;
       redo LOOP;
     }
   };
