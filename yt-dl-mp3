@@ -12,7 +12,7 @@ my ($stdout) = capture { system @cmd };
 
 my @lines = split /\n/, $stdout;
 my $json = '[' . join(',', @lines) . ']';
-$json =~ s/null/"null"/g;
+$json =~ s/\bnull\b/"null"/g;
 my $data = decode_json($json);
 
 my $total = @$data;
