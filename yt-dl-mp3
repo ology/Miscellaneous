@@ -2,13 +2,30 @@
 use strict;
 use warnings;
 
-my @video_ids = @ARGV;
+use Capture::Tiny qw(capture);
+use JSON::MaybeXS qw(decode_json);
 
-my $total = @video_ids;
+my $video_id = shift || die "Usage: perl $0 abcdefg01234567";
+
+my ($stdout, $stderr, $exit) = capture {
+my @cmd = (qw(youtube-dl -i -v -j --flat-playlist --skip-download), $video_id);
+  system @cmd
+};
+
+my @lines = split /\n/, $stdout;
+my $json = '[' . join(',', @lines) . ']';
+
+$json =~ s/null/"null"/g;
+#warn __PACKAGE__,' L',__LINE__,' ',,"$json\n";
+
+my $data = decode_json($json);
+
+my $total = @$data;
 my $i = 0;
 
-for my $v (@video_ids) {
+for my $d (@$data) {
   $i++;
+  my $v = $d->{id};
   print "$i of $total downloading $v\n";
   my @cmd = (qw(youtube-dl -x --audio-format mp3), $v);
   system(@cmd) == 0 or die "system @cmd failed: $?";
