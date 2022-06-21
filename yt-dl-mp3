@@ -7,8 +7,8 @@ use JSON::MaybeXS qw(decode_json);
 
 my $list_id = shift || die "Usage: perl $0 abcdefg01234567";
 
-my ($stdout, $stderr, $exit) = capture {
 my @cmd = (qw(youtube-dl -i -v -j --flat-playlist --skip-download), $list_id);
+my ($stdout, $stderr, $exit) = capture {
   system @cmd
 };
 
