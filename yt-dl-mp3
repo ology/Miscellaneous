@@ -1,0 +1,14 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+my @video_ids = @ARGV;
+
+my $total = @video_ids;
+my $i = 0;
+
+for my $v (@video_ids) {
+  print "$i of $total downloading $v\n";
+  my @cmd = (qw(youtube-dl -x --audio-format mp3), $v);
+  system(@cmd) == 0 or die "system @cmd failed: $?";
+}
