@@ -16,7 +16,6 @@ my @lines = split /\n/, $stdout;
 my $json = '[' . join(',', @lines) . ']';
 
 $json =~ s/null/"null"/g;
-#warn __PACKAGE__,' L',__LINE__,' ',,"$json\n";
 
 my $data = decode_json($json);
 
