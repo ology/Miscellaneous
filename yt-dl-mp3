@@ -4,6 +4,7 @@ use warnings;
 
 use Capture::Tiny qw(capture);
 use JSON::MaybeXS qw(decode_json);
+use Try::Tiny qw(try catch);
 
 my $list_id = shift || die "Usage: perl $0 abcdefg01234567";
 
@@ -16,12 +17,28 @@ $json =~ s/\bnull\b/"null"/g;
 my $data = decode_json($json);
 
 my $total = @$data;
+my $retries = 0;
 my $i = 0;
 
-for my $d (@$data) {
+for my $track (@$data) {
   $i++;
-  my $v = $d->{id};
-  print "$i of $total downloading $v\n";
-  my @cmd = (qw(youtube-dl -x --audio-format mp3), $v);
-  system(@cmd) == 0 or die "system @cmd failed: $?";
+
+  my $file = sprintf '%s-%s.mp3', $track->{title}, $track->{url};
+  if (-e $file) {
+    warn "$i. Track already exists. Skipping: $file\n";
+    next;
+  }
+
+  my $video = $track->{url};
+  print "$i of $total downloading $video\n";
+
+  my @cmd = (qw(youtube-dl -x --audio-format mp3), $video);
+  try {
+    system(@cmd) == 0 or die "system @cmd failed: $?";
+  }
+  catch {
+    warn "Error: $_\n";
+#    warn "Retrying...\n";
+#    redo;
+  };
 }
