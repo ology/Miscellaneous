@@ -22,6 +22,7 @@ my $retrying;
 my $total = @$data;
 my $i = 0;
 
+LOOP:
 for my $track (@$data) {
   my $video = $track->{url};
 
@@ -34,7 +35,7 @@ for my $track (@$data) {
     my $file = sprintf '%s-%s.mp3', $track->{title}, $track->{url};
     if (-e $file) {
       warn "$i. Track already exists. Skipping: $file\n";
-      next;
+      next LOOP;
     }
   }
 
@@ -50,7 +51,7 @@ for my $track (@$data) {
       warn "Retrying...\n";
       $retries++;
       $retrying = $video;
-      redo;
+      redo LOOP;
     }
   };
 }
