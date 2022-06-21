@@ -16,20 +16,28 @@ my $json = '[' . join(',', @lines) . ']';
 $json =~ s/\bnull\b/"null"/g;
 my $data = decode_json($json);
 
-my $total = @$data;
 my $retries = 0;
+my $retrying;
+
+my $total = @$data;
 my $i = 0;
 
 for my $track (@$data) {
-  $i++;
+  my $video = $track->{url};
 
-  my $file = sprintf '%s-%s.mp3', $track->{title}, $track->{url};
-  if (-e $file) {
-    warn "$i. Track already exists. Skipping: $file\n";
-    next;
+  unless ($retries <= 1 && $retrying && $retrying eq $video) {
+    $retries  = 0;
+    $retrying = undef;
+
+    $i++;
+
+    my $file = sprintf '%s-%s.mp3', $track->{title}, $track->{url};
+    if (-e $file) {
+      warn "$i. Track already exists. Skipping: $file\n";
+      next;
+    }
   }
 
-  my $video = $track->{url};
   print "$i of $total downloading $video\n";
 
   my @cmd = (qw(youtube-dl -x --audio-format mp3), $video);
@@ -38,7 +46,11 @@ for my $track (@$data) {
   }
   catch {
     warn "Error: $_\n";
-#    warn "Retrying...\n";
-#    redo;
+    if ($retries <= 0) {
+      warn "Retrying...\n";
+      $retries++;
+      $retrying = $video;
+      redo;
+    }
   };
 }
