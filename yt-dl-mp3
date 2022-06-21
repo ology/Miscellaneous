@@ -14,9 +14,7 @@ my @cmd = (qw(youtube-dl -i -v -j --flat-playlist --skip-download), $video_id);
 
 my @lines = split /\n/, $stdout;
 my $json = '[' . join(',', @lines) . ']';
-
 $json =~ s/null/"null"/g;
-
 my $data = decode_json($json);
 
 my $total = @$data;
