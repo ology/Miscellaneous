@@ -8,6 +8,7 @@ my $total = @video_ids;
 my $i = 0;
 
 for my $v (@video_ids) {
+  $i++;
   print "$i of $total downloading $v\n";
   my @cmd = (qw(youtube-dl -x --audio-format mp3), $v);
   system(@cmd) == 0 or die "system @cmd failed: $?";
