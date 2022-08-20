@@ -49,7 +49,7 @@ getopt-long - Illustrate Getopt::Long and Pod::Usage
 
 =head1 SYNOPSIS
 
-  getopt-long [--options]
+  getopt-long [--options|-o]
 
 =head1 OPTIONS
 
@@ -59,17 +59,9 @@ getopt-long - Illustrate Getopt::Long and Pod::Usage
 
 Print a brief help message and exit.
 
-=item B<man>
+=item B<and more!>
 
-Print the manual page and exit.
-
-=item B<debug>
-
-Default: 42
-
-=item B<foo>
-
-Default: none
+Use The Source, Luke.
 
 =back
 
