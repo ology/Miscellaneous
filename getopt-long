@@ -20,13 +20,13 @@ my %opts = (
     test  => 0,
 );
 GetOptions( \%opts, 
-    'debug=i', 
+    'debug=i',  # Call as --debug 3
     'foo:s',    # Call as --foo to set ''
-    'bar=s',
-    'baz',
+    'bar=s',    # Call as --bar 'Bar?'
+    'baz',      # Call as --baz
     'digit=i@', # Call as --digit 1 --digit 2 ...
     'help|?',   # Call as --help or -?
-    'man',
+    'man',      # Call as --man
     'verbose!', # Call as --verbose or --noverbose
     'test|t',   # Call as --test or -t
 ) or pod2usage(2);
