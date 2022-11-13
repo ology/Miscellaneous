@@ -3,12 +3,12 @@ use strict;
 use warnings;
 
 use Data::Dumper::Compact qw(ddc);
-use DateTime::Format::Natural;
+use DateTime::Format::Natural ();
 use File::Basename qw(dirname);
 use Getopt::Long qw(GetOptions);
 use Path::Tiny qw(path);
 use Pod::Usage qw(pod2usage);
-use Time::Piece;
+use Time::Piece ();
 use Statistics::Basic qw(mean);
 
 pod2usage(1) unless @ARGV;
