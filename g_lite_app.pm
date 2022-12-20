@@ -92,6 +92,10 @@ post '/' => sub ($c) {
   $c->redirect_to($c->url_for('index')->query(thing => $thing));
 } => 'update';
 
+get '/help' => sub ($c) {
+  $c->render(template => 'help');
+} => 'help';
+
 app->start;
 
 <% %>__DATA__
@@ -107,6 +111,16 @@ app->start;
   </div>
   <input type="submit" class="btn btn-sm btn-primary" name="submit" value="Submit" title="Submit form">
 </form>
+
+<% %>@@ help.html.ep
+%% layout 'default';
+%% title 'Help!';
+<ul>
+  <li>What?</li>
+  <li>Why?</li>
+  <li>How?</li>
+  <li>When?</li>
+</ul>
 
 <% %>@@ layouts/default.html.ep
 <!DOCTYPE html>
