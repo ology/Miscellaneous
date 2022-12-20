@@ -89,7 +89,9 @@ get '/' => sub ($c) {
 
 post '/' => sub ($c) {
   my $thing = $c->param('thing');
-  $c->redirect_to($c->url_for('index')->query(thing => $thing));
+  $c->redirect_to(
+    $c->url_for('index')->query(thing => $thing)
+  );
 } => 'update';
 
 get '/help' => sub ($c) {
