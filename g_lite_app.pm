@@ -80,7 +80,7 @@ __DATA__
 use Mojolicious::Lite -signatures;
 
 get '/' => sub ($c) {
-  my $thing = $c->param('thing');
+  my $thing = $c->param('thing') || '';
   $c->render(
     template => 'index',
     thing    => $thing,
@@ -103,7 +103,7 @@ app->start;
 <% %>@@ index.html.ep
 %% layout 'default';
 %% title 'Thing!';
-<form method="post">
+<form action="<%%= url_for('update') %>" method="post">
   <div class="form-group form-row">
     <label for="thing">Thing:</label>
     <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
