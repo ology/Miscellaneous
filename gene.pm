@@ -158,7 +158,6 @@ sub index ($self) {
 sub update ($self) {
   my $v = $self->validation;
   $v->required('thing')->size(0, 10);
-  $v->required('thing', 'trim');
   my $thing = $v->param('thing');
   if ($v->error('thing')) {
     $self->flash(error => 'Invalid thing!');
