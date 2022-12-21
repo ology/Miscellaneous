@@ -199,6 +199,9 @@ body {
   font-size: small;
   color: darkgrey;
 }
+.danger {
+  color: red;
+}
 
 @@ script
 
@@ -248,7 +251,7 @@ done_testing();
   <body>
     <div class="container padpage">
 %% if (my $message = flash 'message') {
-      <b><%%= $message %></b><br>
+      <h1 class="danger"><%%= $message %></h1>
 %% }
       <h3><a href="<%%= url_for('index') %>"><%%= title %></a></h3>
 <%%= content %>
