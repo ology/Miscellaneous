@@ -176,6 +176,13 @@ sub help ($self) { $self->render }
 </html>
 
 @@ style
+.padpage {
+  padding-top: 10px;
+}
+.small {
+  font-size: small;
+  color: darkgrey;
+}
 
 @@ script
 
@@ -215,18 +222,11 @@ done_testing();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+    <script src="/assets/js/script.js">
     <title><%%= title %></title>
-    <style>
-      .padpage {
-        padding-top: 10px;
-      }
-      .small {
-        font-size: small;
-        color: darkgrey;
-      }
-    </style>
   </head>
   <body>
     <div class="container padpage">
