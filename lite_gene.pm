@@ -155,6 +155,7 @@ app->start;
     <style>
       .padpage {
         padding-top: 10px;
+        padding-bottom: 10px;
       }
       .small {
         font-size: small;
