@@ -146,8 +146,11 @@ use Mojo::Base 'Mojolicious::Controller', -signatures;
 
 sub index ($self) {
   my $thing = $self->param('thing') || '';
+  my $stuff = $self->every_param('stuff');
+  $stuff = [qw(abc 123 xyz 667)] unless @$stuff;
   $self->render(
     thing => $thing,
+    stuff => $stuff,
   );
 }
 
@@ -258,6 +261,12 @@ done_testing();
         </div>
         <input type="submit" class="btn btn-sm btn-primary" name="submit" value="Submit" title="Submit form">
       </form>
+      <p></p>
+      <ol>
+%% for my $x (@$stuff) {
+        <li><%%= $x %></li>
+%% }
+      </ol>
 
 @@ help
 %% layout 'default';
