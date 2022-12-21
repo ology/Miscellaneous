@@ -128,7 +128,9 @@ sub startup ($self) {
   $self->secrets($config->{secrets});
 
   my $r = $self->routes;
-  $r->get('/')->to('Main#index')->name('index');
+  $r->get('/')    ->to('Main#index') ->name('index');
+  $r->post('/')   ->to('Main#update')->name('update');
+  $r->get('/help')->to('Main#help')  ->name('help');
 }
 
 1;
@@ -138,8 +140,20 @@ package <%= $class %>;
 use Mojo::Base 'Mojolicious::Controller', -signatures;
 
 sub index ($self) {
-  $self->render(msg => 'Welcome!');
+  my $thing = $self->param('thing') || '';
+  $self->render(
+    thing => $thing,
+  );
 }
+
+sub update ($self) {
+  my $thing = $self->param('thing');
+  $self->redirect_to(
+    $self->url_for('index')->query(thing => $thing)
+  );
+}
+
+sub help ($self) { $self->render }
 
 1;
 
@@ -172,21 +186,61 @@ done_testing();
 
 @@ layout
 <!DOCTYPE html>
-<html>
-  <head><title><%%= title %></title></head>
-  <body><%%= content %></body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+    <title><%%= title %></title>
+    <style>
+      .padpage {
+        padding-top: 10px;
+      }
+      .small {
+        font-size: small;
+        color: darkgrey;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container padpage">
+      <h3><a href="/"><%%= title %></a></h3>
+      <%%= content %>
+      <p></p>
+      <div class="small">
+        <hr>
+        Built by <a href="http://gene.ology.net/">Gene</a>
+        with <a href="https://www.perl.org/">Perl</a> and
+        <a href="https://mojolicious.org/">Mojolicious</a>
+        | <a href="/help">Help!</a>
+      </div>
+    </div>
+  </body>
 </html>
 
 @@ index
 %% layout 'default';
-%% title 'Welcome';
-<h2><%%= $msg %></h2>
-<p>
-  This page was generated from the template "templates/main/index.html.ep"
-  and the layout "templates/layouts/default.html.ep",
-  <%%= link_to 'click here' => url_for %> to reload the page or
-  <%%= link_to 'here' => '/index.html' %> to move forward to a static page.
-</p>
+%% title 'Thing!';
+<form action="<%%= url_for('update') %>" method="post">
+  <div class="form-group form-row">
+    <label for="thing">Thing:</label>
+    <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
+    <small id="thingHelp" class="form-text text-muted">What, why, how?</small>
+  </div>
+  <input type="submit" class="btn btn-sm btn-primary" name="submit" value="Submit" title="Submit form">
+</form>
+
+@@ help
+%% layout 'default';
+%% title 'Help!';
+<ul>
+  <li>What?</li>
+  <li>Why?</li>
+  <li>How?</li>
+  <li>When?</li>
+</ul>
 
 @@ config
 % use Mojo::Util qw(sha1_sum steady_time);
