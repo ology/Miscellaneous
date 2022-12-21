@@ -219,6 +219,7 @@ $t->get_ok($t->app->url_for('help'))
 done_testing();
 
 @@ layout
+%% title 'Things!';
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -249,7 +250,6 @@ done_testing();
 
 @@ index
 %% layout 'default';
-%% title 'Thing!';
       <form action="<%%= url_for('update') %>" method="post">
         <div class="form-group form-row">
           <label for="thing">Thing:</label>
@@ -261,7 +261,6 @@ done_testing();
 
 @@ help
 %% layout 'default';
-%% title 'Help!';
 <ul>
   <li>What?</li>
   <li>Why?</li>
