@@ -161,7 +161,7 @@ sub update ($self) {
   $v->required('thing', 'trim');
   my $thing = $v->param('thing');
   if ($v->error('thing')) {
-    $self->flash(message => 'Invalid thing!');
+    $self->flash(error => 'Invalid thing!');
     $thing = '';
   }
   $v->optional('stuff', 'trim');
@@ -255,8 +255,8 @@ done_testing();
   </head>
   <body>
     <div class="container padpage">
-%% if (my $message = flash 'message') {
-      <h1 class="danger"><%%= $message %></h1>
+%% if (my $error = flash 'error') {
+      <h1 class="danger"><%%= $error %></h1>
 %% }
       <h3><a href="<%%= url_for('index') %>"><%%= title %></a></h3>
 <%%= content %>
