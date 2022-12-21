@@ -16,21 +16,21 @@ sub run {
 
 =head1 NAME
 
-Mojolicious::Command::Author::generate::lite_app - Lite app generator command
+Mojolicious::Command::Author::generate::lite_gene - Gene's custom lite app generator command
 
 =head1 SYNOPSIS
 
-  Usage: APPLICATION generate lite-app [OPTIONS] [NAME]
+  Usage: APPLICATION generate lite-gene [OPTIONS] [NAME]
 
-    mojo generate lite-app
-    mojo generate lite-app foo.pl
+    mojo generate lite-gene
+    mojo generate lite-gene foo.pl
 
   Options:
     -h, --help   Show this summary of available options
 
 =head1 DESCRIPTION
 
-L<Mojolicious::Command::Author::generate::lite_app> generate fully functional L<Mojolicious::Lite> applications.
+L<Mojolicious::Command::Author::generate::lite_gene> generate fully functional L<Mojolicious::Lite> applications.
 
 This is a core command, that means it is always enabled and its code a good example for learning to build new commands,
 you're welcome to fork it.
@@ -39,7 +39,7 @@ See L<Mojolicious::Commands/"COMMANDS"> for a list of commands that are availabl
 
 =head1 ATTRIBUTES
 
-L<Mojolicious::Command::Author::generate::lite_app> inherits all attributes from L<Mojolicious::Command> and implements
+L<Mojolicious::Command::Author::generate::lite_gene> inherits all attributes from L<Mojolicious::Command> and implements
 the following new ones.
 
 =head2 description
@@ -58,7 +58,7 @@ Usage information for this command, used for the help screen.
 
 =head1 METHODS
 
-L<Mojolicious::Command::Author::generate::lite_app> inherits all methods from L<Mojolicious::Command> and implements
+L<Mojolicious::Command::Author::generate::lite_gene> inherits all methods from L<Mojolicious::Command> and implements
 the following new ones.
 
 =head2 run
