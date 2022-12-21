@@ -49,22 +49,22 @@ sub run {
 
 =head1 NAME
 
-Mojolicious::Command::Author::generate::app - App generator command
+Mojolicious::Command::Author::generate::gene - Gene's custom app generator command
 
 =head1 SYNOPSIS
 
-  Usage: APPLICATION generate app [OPTIONS] [NAME]
+  Usage: APPLICATION generate gene [OPTIONS] [NAME]
 
-    mojo generate app
-    mojo generate app TestApp
-    mojo generate app My::TestApp
+    mojo generate gene
+    mojo generate gene TestApp
+    mojo generate gene My::TestApp
 
   Options:
     -h, --help   Show this summary of available options
 
 =head1 DESCRIPTION
 
-L<Mojolicious::Command::Author::generate::app> generates application directory structures for fully functional
+L<Mojolicious::Command::Author::generate::gene> generates application directory structures for fully functional
 L<Mojolicious> applications.
 
 This is a core command, that means it is always enabled and its code a good example for learning to build new commands,
@@ -74,7 +74,7 @@ See L<Mojolicious::Commands/"COMMANDS"> for a list of commands that are availabl
 
 =head1 ATTRIBUTES
 
-L<Mojolicious::Command::Author::generate::app> inherits all attributes from L<Mojolicious::Command> and implements the
+L<Mojolicious::Command::Author::generate::gene> inherits all attributes from L<Mojolicious::Command> and implements the
 following new ones.
 
 =head2 description
@@ -93,7 +93,7 @@ Usage information for this command, used for the help screen.
 
 =head1 METHODS
 
-L<Mojolicious::Command::Author::generate::app> inherits all methods from L<Mojolicious::Command> and implements the
+L<Mojolicious::Command::Author::generate::gene> inherits all methods from L<Mojolicious::Command> and implements the
 following new ones.
 
 =head2 run
