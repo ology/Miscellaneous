@@ -163,7 +163,7 @@ use Test::More;
 use Test::Mojo;
 
 my $t = Test::Mojo->new('<%= $class %>');
-$t->get_ok('/')
+$t->get_ok($t->app->url_for('welcome'))
   ->status_is(200)
   ->content_like(qr/Mojolicious/i)
 ;
