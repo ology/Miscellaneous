@@ -138,7 +138,7 @@ package <%= $class %>;
 use Mojo::Base 'Mojolicious::Controller', -signatures;
 
 sub welcome ($self) {
-  $self->render(msg => 'Welcome to the Mojolicious real-time web framework!');
+  $self->render(msg => 'Welcome!');
 }
 
 1;
@@ -152,7 +152,7 @@ sub welcome ($self) {
   <body>
     <h2>Welcome to the Mojolicious real-time web framework!</h2>
     This is the static document "public/index.html",
-    <a href="/">click here</a> to get back to the start.
+    <a href="<%%= url_for('welcome') %>">click here</a> to get back to the start.
   </body>
 </html>
 
