@@ -261,12 +261,12 @@ done_testing();
 
 @@ help
 %% layout 'default';
-<ul>
-  <li>What?</li>
-  <li>Why?</li>
-  <li>How?</li>
-  <li>When?</li>
-</ul>
+      <ul>
+        <li>What?</li>
+        <li>Why?</li>
+        <li>How?</li>
+        <li>When?</li>
+      </ul>
 
 @@ config
 % use Mojo::Util qw(sha1_sum steady_time);
