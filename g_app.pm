@@ -35,7 +35,7 @@ sub run {
   $self->create_dir("$name/public/assets/css");
   $self->render_to_rel_file('style', "$name/public/assets/css/style.css");
   $self->create_dir("$name/public/assets/js");
-  $self->render_to_rel_file('javascript', "$name/public/assets/js/script.js");
+  $self->render_to_rel_file('script', "$name/public/assets/js/script.js");
 
   # Templates
   $self->render_to_rel_file('layout',  "$name/templates/layouts/default.html.ep");
@@ -177,7 +177,7 @@ sub help ($self) { $self->render }
 
 @@ style
 
-@@ javascript
+@@ script
 
 @@ test
 use Mojo::Base -strict;
