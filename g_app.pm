@@ -186,9 +186,24 @@ use Test::More;
 use Test::Mojo;
 
 my $t = Test::Mojo->new('<%= $class %>');
+
+$t->ua->max_redirects(1);
+
 $t->get_ok($t->app->url_for('index'))
   ->status_is(200)
-  ->content_like(qr/Mojolicious/i)
+  ->content_like(qr/Thing:/i)
+  ->element_exists('label[for=thing]')
+  ->element_exists('input[name=thing][type=text]')
+  ->element_exists('input[type=submit]');
+;
+
+$t->post_ok($t->app->url_for('index'), form => { thing => 'xyz' })
+  ->status_is(200)
+  ->element_exists('input[name=thing][type=text][value=xyz]')
+;
+
+$t->get_ok($t->app->url_for('help'))
+  ->status_is(200)
 ;
 
 done_testing();
