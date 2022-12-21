@@ -259,15 +259,16 @@ done_testing();
           <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
           <small id="thingHelp" class="form-text text-muted">What, why, how?</small>
         </div>
+        <div class="form-group form-row">
+          <b>Stuff:</b>
+          <ol>
+%% for my $x (@$stuff) {
+            <li><input type="text" name="stuff" value="<%%= $x %>"></li>
+%% }
+          </ol>
+        </div>
         <input type="submit" class="btn btn-sm btn-primary" name="submit" value="Submit" title="Submit form">
       </form>
-      <p></p>
-      <b>Stuff:</b>
-      <ol>
-%% for my $x (@$stuff) {
-        <li><input type="text" name="stuff" value="<%%= $x %>"></li>
-%% }
-      </ol>
 
 @@ help
 %% layout 'default';
