@@ -36,6 +36,7 @@ sub run {
   # Templates
   $self->render_to_rel_file('layout',  "$name/templates/layouts/default.html.ep");
   $self->render_to_rel_file('index', "$name/templates/main/index.html.ep");
+  $self->render_to_rel_file('help', "$name/templates/main/help.html.ep");
 }
 
 1;
