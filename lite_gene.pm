@@ -81,16 +81,27 @@ use Mojolicious::Lite -signatures;
 
 get '/' => sub ($c) {
   my $thing = $c->param('thing') || '';
+  my $stuff = $self->every_param('stuff');
+  $stuff = [qw(abc 123 xyz 667)] unless @$stuff;
   $c->render(
     template => 'index',
     thing    => $thing,
+    stuff    => $stuff,
   );
 } => 'index';
 
 post '/' => sub ($c) {
-  my $thing = $c->param('thing');
+  my $v = $c->validation;
+  $v->required('thing')->size(0, 10);
+  my $thing = $v->param('thing');
+  if ($v->error('thing')) {
+    $c->flash(error => 'Invalid thing!');
+    $thing = '';
+  }
+  $v->optional('stuff', 'trim');
+  my $stuff = $v->every_param('stuff');
   $c->redirect_to(
-    $c->url_for('index')->query(thing => $thing)
+    $c->url_for('index')->query(thing => $thing, stuff => $stuff)
   );
 } => 'update';
 
@@ -104,27 +115,34 @@ app->start;
 
 <% %>@@ index.html.ep
 %% layout 'default';
-%% title 'Thing!';
-<form action="<%%= url_for('update') %>" method="post">
-  <div class="form-group form-row">
-    <label for="thing">Thing:</label>
-    <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
-    <small id="thingHelp" class="form-text text-muted">What, why, how?</small>
-  </div>
-  <input type="submit" class="btn btn-sm btn-primary" name="submit" value="Submit" title="Submit form">
-</form>
+      <form action="<%%= url_for('update') %>" method="post">
+        <div class="form-group form-row">
+          <label for="thing">Thing:</label>
+          <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
+          <small id="thingHelp" class="form-text text-muted">What, why, how?</small>
+        </div>
+        <div class="form-group form-row">
+          <b>Stuff:</b>
+          <ol>
+%% for my $x (@$stuff) {
+            <li><input type="text" class="form-control form-control-sm" name="stuff" value="<%%= $x %>" placeholder="An item" title="An item"></li>
+%% }
+          </ol>
+        </div>
+        <input type="submit" class="btn btn-sm btn-primary" name="submit" value="Submit" title="Submit form">
+      </form>
 
 <% %>@@ help.html.ep
 %% layout 'default';
-%% title 'Help!';
-<ul>
-  <li>What?</li>
-  <li>Why?</li>
-  <li>How?</li>
-  <li>When?</li>
-</ul>
+      <ul>
+        <li>What?</li>
+        <li>Why?</li>
+        <li>How?</li>
+        <li>When?</li>
+      </ul>
 
 <% %>@@ layouts/default.html.ep
+%% title 'Things & Stuff!';
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -142,12 +160,15 @@ app->start;
         font-size: small;
         color: darkgrey;
       }
+      .danger {
+        color: red;
+      }
     </style>
   </head>
   <body>
     <div class="container padpage">
       <h3><a href="<%%= url_for('index') %>"><%%= title %></a></h3>
-      <%%= content %>
+<%%= content %>
       <p></p>
       <div class="small">
         <hr>
