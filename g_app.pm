@@ -156,8 +156,9 @@ sub index ($self) {
 
 sub update ($self) {
   my $thing = $self->param('thing');
+  my $stuff = $self->every_param('stuff');
   $self->redirect_to(
-    $self->url_for('index')->query(thing => $thing)
+    $self->url_for('index')->query(thing => $thing, stuff => $stuff)
   );
 }
 
