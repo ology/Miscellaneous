@@ -33,9 +33,9 @@ sub run {
   $self->render_to_rel_file('static', "$name/public/index.html");
   $self->create_dir("$name/public/assets");
   $self->create_dir("$name/public/assets/css");
-  $self->render_to_rel_file('static', "$name/public/assets/css/style.css");
+  $self->render_to_rel_file('style', "$name/public/assets/css/style.css");
   $self->create_dir("$name/public/assets/js");
-  $self->render_to_rel_file('static', "$name/public/assets/js/script.js");
+  $self->render_to_rel_file('javascript', "$name/public/assets/js/script.js");
 
   # Templates
   $self->render_to_rel_file('layout',  "$name/templates/layouts/default.html.ep");
@@ -174,6 +174,10 @@ sub help ($self) { $self->render }
     <a href="/">click here</a> to get back to the start.
   </body>
 </html>
+
+@@ style
+
+@@ javascript
 
 @@ test
 use Mojo::Base -strict;
