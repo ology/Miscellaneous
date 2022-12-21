@@ -234,7 +234,7 @@ done_testing();
   <body>
     <div class="container padpage">
       <h3><a href="<%%= url_for('index') %>"><%%= title %></a></h3>
-      <%%= content %>
+<%%= content %>
       <p></p>
       <div class="small">
         <hr>
@@ -250,7 +250,7 @@ done_testing();
 @@ index
 %% layout 'default';
 %% title 'Thing!';
-<form action="<%%= url_for('update') %>" method="post">
+      <form action="<%%= url_for('update') %>" method="post">
         <div class="form-group form-row">
           <label for="thing">Thing:</label>
           <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
