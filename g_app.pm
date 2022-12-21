@@ -278,7 +278,7 @@ done_testing();
         <div class="form-group form-row">
           <label for="thing"><b>Thing:</b></label>
           <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
-          <small id="thingHelp" class="form-text text-muted">1 to 10 characters</small>
+          <small id="thingHelp" class="form-text text-muted">0 to 10 characters</small>
         </div>
         <div class="form-group form-row">
           <b>Stuff:</b>
