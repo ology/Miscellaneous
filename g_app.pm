@@ -22,7 +22,7 @@ sub run {
   $self->render_to_rel_file('config', "$name/@{[decamelize $class]}.yml");
 
   # Controller
-  my $controller = "${class}::Controller::Example";
+  my $controller = "${class}::Controller::Main";
   my $path       = class_to_path $controller;
   $self->render_to_rel_file('controller', "$name/lib/$path", {class => $controller});
 
@@ -35,7 +35,7 @@ sub run {
 
   # Templates
   $self->render_to_rel_file('layout',  "$name/templates/layouts/default.html.ep");
-  $self->render_to_rel_file('welcome', "$name/templates/example/welcome.html.ep");
+  $self->render_to_rel_file('index', "$name/templates/main/index.html.ep");
 }
 
 1;
@@ -128,7 +128,7 @@ sub startup ($self) {
   $self->secrets($config->{secrets});
 
   my $r = $self->routes;
-  $r->get('/')->to('Example#welcome')->name('welcome');
+  $r->get('/')->to('Main#index')->name('index');
 }
 
 1;
@@ -137,7 +137,7 @@ sub startup ($self) {
 package <%= $class %>;
 use Mojo::Base 'Mojolicious::Controller', -signatures;
 
-sub welcome ($self) {
+sub index ($self) {
   $self->render(msg => 'Welcome!');
 }
 
@@ -152,7 +152,7 @@ sub welcome ($self) {
   <body>
     <h2>Welcome to the Mojolicious real-time web framework!</h2>
     This is the static document "public/index.html",
-    <a href="<%%= url_for('welcome') %>">click here</a> to get back to the start.
+    <a href="/">click here</a> to get back to the start.
   </body>
 </html>
 
@@ -163,7 +163,7 @@ use Test::More;
 use Test::Mojo;
 
 my $t = Test::Mojo->new('<%= $class %>');
-$t->get_ok($t->app->url_for('welcome'))
+$t->get_ok($t->app->url_for('index'))
   ->status_is(200)
   ->content_like(qr/Mojolicious/i)
 ;
@@ -177,12 +177,12 @@ done_testing();
   <body><%%= content %></body>
 </html>
 
-@@ welcome
+@@ index
 %% layout 'default';
 %% title 'Welcome';
 <h2><%%= $msg %></h2>
 <p>
-  This page was generated from the template "templates/example/welcome.html.ep"
+  This page was generated from the template "templates/main/index.html.ep"
   and the layout "templates/layouts/default.html.ep",
   <%%= link_to 'click here' => url_for %> to reload the page or
   <%%= link_to 'here' => '/index.html' %> to move forward to a static page.
