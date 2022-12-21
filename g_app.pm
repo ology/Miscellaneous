@@ -115,27 +115,20 @@ use Mojo::File qw(curfile);
 use lib curfile->dirname->sibling('lib')->to_string;
 use Mojolicious::Commands;
 
-# Start command line interface for application
 Mojolicious::Commands->start_app('<%= $class %>');
 
 @@ appclass
 package <%= $class %>;
 use Mojo::Base 'Mojolicious', -signatures;
 
-# This method will run once at server start
 sub startup ($self) {
 
-  # Load configuration from config file
   my $config = $self->plugin('NotYAMLConfig');
 
-  # Configure the application
   $self->secrets($config->{secrets});
 
-  # Router
   my $r = $self->routes;
-
-  # Normal route to controller
-  $r->get('/')->to('Example#welcome');
+  $r->get('/')->to('Example#welcome')->name('welcome');
 }
 
 1;
@@ -144,10 +137,7 @@ sub startup ($self) {
 package <%= $class %>;
 use Mojo::Base 'Mojolicious::Controller', -signatures;
 
-# This action will render a template
 sub welcome ($self) {
-
-  # Render template "example/welcome.html.ep" with message
   $self->render(msg => 'Welcome to the Mojolicious real-time web framework!');
 }
 
@@ -157,7 +147,7 @@ sub welcome ($self) {
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome to the Mojolicious real-time web framework!</title>
+    <title>Welcome!</title>
   </head>
   <body>
     <h2>Welcome to the Mojolicious real-time web framework!</h2>
