@@ -284,7 +284,7 @@ done_testing();
           <b>Stuff:</b>
           <ol>
 %% for my $x (@$stuff) {
-            <li><input type="text" name="stuff" value="<%%= $x %>" placeholder="An item" title="An item"></li>
+            <li><input type="text" class="form-control form-control-sm" name="stuff" value="<%%= $x %>" placeholder="An item" title="An item"></li>
 %% }
           </ol>
         </div>
