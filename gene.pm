@@ -1,4 +1,4 @@
-package Mojolicious::Command::Author::generate::app;
+package Mojolicious::Command::Author::generate::gene;
 use Mojo::Base 'Mojolicious::Command';
 
 use Mojo::Util qw(class_to_file class_to_path decamelize);
