@@ -130,6 +130,8 @@ sub startup ($self) {
 
   my $config = $self->plugin('NotYAMLConfig');
 
+  $self->plugin('DefaultHelpers');
+
   $self->secrets($config->{secrets});
 
   my $r = $self->routes;
@@ -155,8 +157,15 @@ sub index ($self) {
 }
 
 sub update ($self) {
-  my $thing = $self->param('thing');
-  my $stuff = $self->every_param('stuff');
+  my $v = $self->validation;
+  $v->required('thing')->size(0, 10);
+  $v->required('thing', 'trim');
+  $v->optional('stuff', 'trim');
+  if ($v->error('thing')) {
+    $self->flash(message => 'Invalid thing!');
+  }
+  my $thing = $v->param('thing');
+  my $stuff = $v->every_param('stuff');
   $self->redirect_to(
     $self->url_for('index')->query(thing => $thing, stuff => $stuff)
   );
@@ -238,6 +247,9 @@ done_testing();
   </head>
   <body>
     <div class="container padpage">
+%% if (my $message = flash 'message') {
+      <b><%%= $message %></b><br>
+%% }
       <h3><a href="<%%= url_for('index') %>"><%%= title %></a></h3>
 <%%= content %>
       <p></p>
