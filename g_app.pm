@@ -169,7 +169,7 @@ sub help ($self) { $self->render }
     <title>Welcome!</title>
   </head>
   <body>
-    <h2>Welcome to the Mojolicious real-time web framework!</h2>
+    <h2>Welcome!</h2>
     This is the static document "public/index.html",
     <a href="/">click here</a> to get back to the start.
   </body>
