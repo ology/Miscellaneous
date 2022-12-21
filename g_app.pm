@@ -160,11 +160,12 @@ sub update ($self) {
   my $v = $self->validation;
   $v->required('thing')->size(0, 10);
   $v->required('thing', 'trim');
-  $v->optional('stuff', 'trim');
+  my $thing = $v->param('thing');
   if ($v->error('thing')) {
     $self->flash(message => 'Invalid thing!');
+    $thing = '';
   }
-  my $thing = $v->param('thing');
+  $v->optional('stuff', 'trim');
   my $stuff = $v->every_param('stuff');
   $self->redirect_to(
     $self->url_for('index')->query(thing => $thing, stuff => $stuff)
