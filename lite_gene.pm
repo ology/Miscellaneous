@@ -1,4 +1,4 @@
-package Mojolicious::Command::Author::generate::lite_app;
+package Mojolicious::Command::Author::generate::lite_gene;
 use Mojo::Base 'Mojolicious::Command';
 
 has description => 'Generate Mojolicious::Lite application';
