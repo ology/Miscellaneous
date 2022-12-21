@@ -240,7 +240,7 @@ $t->get_ok($t->app->url_for('help'))
 done_testing();
 
 @@ layout
-%% title 'Things!';
+%% title 'Things & Stuff!';
 <!DOCTYPE html>
 <html lang="en">
   <head>
