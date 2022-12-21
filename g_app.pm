@@ -255,16 +255,17 @@ done_testing();
 %% layout 'default';
       <form action="<%%= url_for('update') %>" method="post">
         <div class="form-group form-row">
-          <label for="thing">Thing:</label>
+          <label for="thing"><b>Thing:</b></label>
           <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
           <small id="thingHelp" class="form-text text-muted">What, why, how?</small>
         </div>
         <input type="submit" class="btn btn-sm btn-primary" name="submit" value="Submit" title="Submit form">
       </form>
       <p></p>
+      <b>Stuff:</b>
       <ol>
 %% for my $x (@$stuff) {
-        <li><%%= $x %></li>
+        <li><input type="text" name="stuff" value="<%%= $x %>"></li>
 %% }
       </ol>
 
