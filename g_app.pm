@@ -251,13 +251,13 @@ done_testing();
 %% layout 'default';
 %% title 'Thing!';
 <form action="<%%= url_for('update') %>" method="post">
-  <div class="form-group form-row">
-    <label for="thing">Thing:</label>
-    <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
-    <small id="thingHelp" class="form-text text-muted">What, why, how?</small>
-  </div>
-  <input type="submit" class="btn btn-sm btn-primary" name="submit" value="Submit" title="Submit form">
-</form>
+        <div class="form-group form-row">
+          <label for="thing">Thing:</label>
+          <input type="text" class="form-control form-control-sm" id="thing" name="thing" value="<%%= $thing %>" placeholder="A thing" title="Thing!" aria-describedby="thingHelp">
+          <small id="thingHelp" class="form-text text-muted">What, why, how?</small>
+        </div>
+        <input type="submit" class="btn btn-sm btn-primary" name="submit" value="Submit" title="Submit form">
+      </form>
 
 @@ help
 %% layout 'default';
