@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 
+# Web UI for making statocles posts
+
 use File::Path qw(make_path);
 use Mojolicious::Lite -signatures;
 use Mojo::File;
