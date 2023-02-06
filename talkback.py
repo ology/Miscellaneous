@@ -15,7 +15,7 @@ with mic as source:
     print("Speak:")
     audio = r.listen(source)
 
-# Convert the recorded audio input to text
+# Convert the recorded audio to text
 text = r.recognize_google(audio)
 print("You said: " + text)
 
