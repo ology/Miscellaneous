@@ -31,12 +31,10 @@ sound = AudioSegment.from_mp3(source)
 sound.export(dest, format="wav")
 
 # Initialize the speaker
-FORMAT = pyaudio.paInt16
-RATE = 22050
 p = pyaudio.PyAudio()
-stream = p.open(format=FORMAT,
+stream = p.open(format=pyaudio.paInt16,
                 channels=1,
-                rate=RATE,
+                rate=22050,
                 output=True)
 
 # Play the generated speech output
