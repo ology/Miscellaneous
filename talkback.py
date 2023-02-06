@@ -10,23 +10,23 @@ from pydub import AudioSegment
 r = sr.Recognizer()
 mic = sr.Microphone()
 
-# Capturing the audio input
+# Capture the audio input
 with mic as source:
     print("Speak:")
     audio = r.listen(source)
 
-# Converting the recorded audio input to text
+# Convert the recorded audio input to text
 text = r.recognize_google(audio)
 print("You said: " + text)
 
 source = "output.mp3"
 dest = "output.wav"
 
-# Using the gTTS library to convert the text to speech
+# Convert the text to speech
 tts = gTTS(text, lang='en')
 tts.save(source)
 
-# convert wav to mp3                                                            
+# Convert the mp3 to wav
 sound = AudioSegment.from_mp3(source)
 sound.export(dest, format="wav")
 
