@@ -38,12 +38,12 @@ stream = p.open(format=pyaudio.paInt16,
                 output=True)
 
 # Play the generated speech output
-CHUNK_SIZE = 1024
-FILE_SIZE = os.path.getsize(dest)
+chunk_size = 1024
+file_size = os.path.getsize(dest)
 with open(dest, "rb") as fh:
-    while fh.tell() != FILE_SIZE:
-        AUDIO_FRAME = fh.read(CHUNK_SIZE)
-        stream.write(AUDIO_FRAME)
+    while fh.tell() != file_size:
+        audio_frame = fh.read(chunk_size)
+        stream.write(audio_frame)
 
 # Cleanup
 stream.stop_stream()
