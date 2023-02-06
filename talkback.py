@@ -31,7 +31,6 @@ sound = AudioSegment.from_mp3(source)
 sound.export(dest, format="wav")
 
 # Initialize the speaker
-CHUNK_SIZE = 1024
 FORMAT = pyaudio.paInt16
 RATE = 22050
 p = pyaudio.PyAudio()
@@ -41,6 +40,7 @@ stream = p.open(format=FORMAT,
                 output=True)
 
 # Play the generated speech output
+CHUNK_SIZE = 1024
 FILE_SIZE = os.path.getsize(dest)
 with open(dest, "rb") as fh:
     while fh.tell() != FILE_SIZE:
