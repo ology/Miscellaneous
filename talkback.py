@@ -41,7 +41,7 @@ stream = p.open(format=FORMAT,
                 rate=RATE,
                 output=True)
 
-# Playing the generated speech output
+# Play the generated speech output
 with open(dest, "rb") as fh:
     while fh.tell() != FILE_SIZE:
         AUDIO_FRAME = fh.read(CHUNK_SIZE)
