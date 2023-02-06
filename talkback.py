@@ -34,7 +34,6 @@ sound.export(dest, format="wav")
 CHUNK_SIZE = 1024
 FORMAT = pyaudio.paInt16
 RATE = 22050
-FILE_SIZE = os.path.getsize(dest)
 p = pyaudio.PyAudio()
 stream = p.open(format=FORMAT,
                 channels=1,
@@ -42,6 +41,7 @@ stream = p.open(format=FORMAT,
                 output=True)
 
 # Play the generated speech output
+FILE_SIZE = os.path.getsize(dest)
 with open(dest, "rb") as fh:
     while fh.tell() != FILE_SIZE:
         AUDIO_FRAME = fh.read(CHUNK_SIZE)
