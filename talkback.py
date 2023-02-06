@@ -23,7 +23,7 @@ source = "output.mp3"
 dest = "output.wav"
 
 # Convert the text to speech
-tts = gTTS(text, lang='en')
+tts = gTTS(text, lang="en")
 tts.save(source)
 
 # Convert the mp3 to wav
