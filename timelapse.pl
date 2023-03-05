@@ -11,12 +11,15 @@ my $img_glob = 'image*.jpg';
 my $animation = 'animated-*.gif';
 my $animation_re = 'animated-(\d+).gif';
 
+# go to the image capture directory
 chdir $path or die "Can't chdir $path: $!";
 
+# capture the images
 my $where = "pi:Pictures/$img_glob";
 my @cmd = ('scp', $where, $dest);
 system(@cmd) == 0 or die "system(@cmd) failed: $?";
 
+# increment the animation filename
 my @files = reverse sort File::Find::Rule->file()
     ->name($animation)->in($dest);
 my $last = $files[0];
@@ -24,7 +27,9 @@ my $last = $files[0];
 $number++;
 (my $fresh_animation = $last) =~ s/\d+/$number/;
 
+# create a fresh animation
 @cmd = (qw(convert -delay 70), $img_glob, $fresh_animation);
 system(@cmd) == 0 or die "system @cmd failed: $?";
 
+# remove the image files
 remove(\1, $img_glob);
