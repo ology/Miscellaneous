@@ -8,8 +8,8 @@ use File::Remove qw(remove);
 my $path = "$ENV{HOME}/tmp/pi";
 my $dest = '.';
 my $img_glob = 'image*.jpg';
-my $animation = 'animated-*.gif';
-my $animation_re = 'animated-(\d+).gif';
+my $anim_glob = 'animated-*.gif';
+my $anim_re = 'animated-(\d+).gif';
 
 # go to the image capture directory
 chdir $path or die "Can't chdir $path: $!";
@@ -26,14 +26,14 @@ remove(@files);
 
 # increment the animation filename
 @files = reverse sort File::Find::Rule->file()
-    ->name($animation)->in($dest);
+    ->name($anim_glob)->in($dest);
 my $last = $files[0];
-(my $number = $last) =~ s/^$animation_re$/$1/;
+(my $number = $last) =~ s/^$anim_re$/$1/;
 $number++;
-(my $fresh_animation = $last) =~ s/\d+/$number/;
+(my $fresh_anim = $last) =~ s/\d+/$number/;
 
 # create a fresh animation
-@cmd = (qw(convert -delay 70), $img_glob, $fresh_animation);
+@cmd = (qw(convert -delay 70), $img_glob, $fresh_anim);
 system(@cmd) == 0 or die "system @cmd failed: $?";
 
 # remove the image files
