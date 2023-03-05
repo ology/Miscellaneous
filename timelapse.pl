@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 
-use Data::Dumper::Compact qw(ddc);
 use File::Find::Rule ();
 use File::Remove qw(remove);
 
