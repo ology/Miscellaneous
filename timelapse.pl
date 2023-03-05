@@ -19,8 +19,13 @@ my $where = "pi:Pictures/$img_glob";
 my @cmd = ('scp', $where, $dest);
 system(@cmd) == 0 or die "system(@cmd) failed: $?";
 
+# remove night-time images
+my @files = File::Find::Rule->file()
+    ->name($img_glob)->size('<80K')->in($dest);
+remove(@files);
+
 # increment the animation filename
-my @files = reverse sort File::Find::Rule->file()
+@files = reverse sort File::Find::Rule->file()
     ->name($animation)->in($dest);
 my $last = $files[0];
 (my $number = $last) =~ s/^$animation_re$/$1/;
