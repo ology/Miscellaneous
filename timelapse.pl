@@ -21,7 +21,7 @@ system(@cmd) == 0 or die "system(@cmd) failed: $?";
 
 # remove night-time images
 my @files = File::Find::Rule->file()
-    ->name($img_glob)->size('<80K')->in($dest);
+    ->name($img_glob)->size('<100K')->in($dest);
 remove(@files);
 
 # increment the animation filename
