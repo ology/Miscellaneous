@@ -24,6 +24,10 @@ my @files = File::Find::Rule->file()
     ->name($img_glob)->size('<100K')->in($dest);
 remove(@files);
 
+# rotate the images
+@cmd = (qw(mogrify -rotate -90), $img_glob);
+system(@cmd) == 0 or die "system @cmd failed: $?";
+
 # increment the animation filename
 @files = reverse sort File::Find::Rule->file()
     ->name($anim_glob)->in($dest);
