@@ -10,7 +10,7 @@ my $dest = '.';
 my $img_glob = 'image*.jpg';
 my $anim_glob = 'animated-*.gif';
 my $anim_re = 'animated-(\d+).gif';
-my $size_limit = '<170K';
+my $size_limit = '<200K';
 
 # go to the image capture directory
 chdir $path or die "Can't chdir $path: $!";
