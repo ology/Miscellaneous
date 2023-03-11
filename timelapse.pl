@@ -10,6 +10,7 @@ my $dest = '.';
 my $img_glob = 'image*.jpg';
 my $anim_glob = 'animated-*.gif';
 my $anim_re = 'animated-(\d+).gif';
+my $size_limit = '<170K';
 
 # go to the image capture directory
 chdir $path or die "Can't chdir $path: $!";
@@ -21,7 +22,7 @@ system(@cmd) == 0 or die "system(@cmd) failed: $?";
 
 # remove night-time images
 my @files = File::Find::Rule->file()
-    ->name($img_glob)->size('<100K')->in($dest);
+    ->name($img_glob)->size($size_limit)->in($dest);
 remove(@files);
 
 # rotate the images
