@@ -63,6 +63,11 @@ while (my $line = readline(DATA)) {
 }
 
 __END__
-foo/bar.txt
+config.yaml
+custom.scss
+Makefile
+menu.yaml
+package.json
+README.md
 _pages/index.md docs
 _pages/installation.md docs
