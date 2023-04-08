@@ -62,7 +62,7 @@ while (my $line = readline(DATA)) {
 
     if (-d $source) {
         dircopy($source, $path);
-        print "Copied $path to $dest\n";
+        print "Copied $source to $path\n";
     }
     elsif (-f $source) {
         my $dest = "$path/$name";
