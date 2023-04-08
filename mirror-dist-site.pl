@@ -4,7 +4,7 @@ use warnings;
 
 use Getopt::Long qw(GetOptions);
 use File::Basename qw(basename dirname);
-use File::Copy::Recursive qw(fcopy);
+use File::Copy::Recursive qw(fcopy dircopy);
 use File::Path qw(make_path);
 use File::Slurper qw(read_text write_text);
 
@@ -60,12 +60,11 @@ while (my $line = readline(DATA)) {
     my $path = $opt{dest};
     $path .= "/$to" if $to;
 
-    unless (-e $path) {
-        make_path($path);
-        print "Wrote $path\n";
+    if (-d $source) {
+        dircopy($source, $path);
+        print "Copied $path to $dest\n";
     }
-
-    if (-f $source) {
+    elsif (-f $source) {
         my $dest = "$path/$name";
         write_text($dest, $content);
         print "Wrote $source to $dest\n";
