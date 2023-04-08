@@ -40,29 +40,37 @@ while (my $line = readline(DATA)) {
         next;
     }
 
-    my $content = read_text($source);
+    my $content = '';
 
-    for my $replace (keys %replacement) {
-        if ($content =~ /<%\s*$replace\s*%>/) {
-            $content =~ s/<%\s*$replace\s*%>/$replacement{$replace}/g;
-            print "Replaced $replace in $source\n";
+    if (-f $source) {
+        $content = read_text($source);
+        for my $replace (keys %replacement) {
+            if ($content =~ /<%\s*$replace\s*%>/) {
+                $content =~ s/<%\s*$replace\s*%>/$replacement{$replace}/g;
+                print "Replaced $replace in $source\n";
+            }
         }
     }
 
     $to ||= '';
     $to =~ s/\/$//;
 
+    $to = "$to/$name" if -d $source;
+
     my $path = $opt{dest};
     $path .= "/$to" if $to;
 
     make_path($path) unless -e $path;
 
-    my $dest = "$path/$name";
-    write_text($dest, $content);
-    print "Wrote $source to $dest\n";
+    if (-f $source) {
+        my $dest = "$path/$name";
+        write_text($dest, $content);
+        print "Wrote $source to $dest\n";
+    }
 }
 
 __END__
+images docs
 config.yaml docs
 custom.scss docs
 Makefile docs
