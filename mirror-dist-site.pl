@@ -55,7 +55,9 @@ while (my $line = readline(DATA)) {
     $to ||= '';
     $to =~ s/\/$//;
 
-    $to = "$to/$name" if -d $source;
+    if (-d $source) {
+        $to = $to ? "$to/$name" : $name;
+    }
 
     my $path = $opt{dest};
     $path .= "/$to" if $to;
@@ -72,12 +74,12 @@ while (my $line = readline(DATA)) {
 }
 
 __END__
-images docs
-config.yaml docs
-custom.scss docs
-Makefile docs
-menu.yaml docs
-package.json docs
-README.md docs
-_pages/index.md docs
-_pages/installation.md docs
+images
+config.yaml
+custom.scss
+Makefile
+menu.yaml
+package.json
+README.md
+_pages/index.md
+_pages/installation.md
