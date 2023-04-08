@@ -63,11 +63,11 @@ while (my $line = readline(DATA)) {
 }
 
 __END__
-config.yaml
-custom.scss
-Makefile
-menu.yaml
-package.json
-README.md
+config.yaml docs
+custom.scss docs
+Makefile docs
+menu.yaml docs
+package.json docs
+README.md docs
 _pages/index.md docs
 _pages/installation.md docs
