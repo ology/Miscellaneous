@@ -33,12 +33,6 @@ while (my $line = readline(DATA)) {
 
     my $name = basename($file);
 
-    $to ||= '';
-    $to =~ s/\/$//;
-
-    my $path = $opt{dest};
-    $path .= "/$to" if $to;
-
     my $source = "$opt{source}/$file";
 
     unless (-e $source) {
@@ -54,6 +48,12 @@ while (my $line = readline(DATA)) {
             print "Replaced $replace in $source\n";
         }
     }
+
+    $to ||= '';
+    $to =~ s/\/$//;
+
+    my $path = $opt{dest};
+    $path .= "/$to" if $to;
 
     make_path($path) unless -e $path;
 
