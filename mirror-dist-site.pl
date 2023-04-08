@@ -74,12 +74,12 @@ while (my $line = readline(DATA)) {
 }
 
 __END__
-images
 config.yaml
 custom.scss
+images
 Makefile
 menu.yaml
 package.json
-README.md
 _pages/index.md
 _pages/installation.md
+README.md
