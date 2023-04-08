@@ -60,7 +60,10 @@ while (my $line = readline(DATA)) {
     my $path = $opt{dest};
     $path .= "/$to" if $to;
 
-    make_path($path) unless -e $path;
+    unless (-e $path) {
+        make_path($path);
+        print "Wrote $path\n";
+    }
 
     if (-f $source) {
         my $dest = "$path/$name";
