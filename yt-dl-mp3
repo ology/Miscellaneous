@@ -41,7 +41,7 @@ for my $track (@$data) {
 
   print "$i of $total downloading $video\n";
 
-  my @cmd = (qw(youtube-dl -x --audio-format mp3 --), $video);
+  my @cmd = (qw(/usr/bin/youtube-dl -x --audio-format mp3 --), $video);
   try {
     system(@cmd) == 0 or die "system @cmd failed: $?";
   }
