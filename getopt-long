@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Data::Dumper::Compact qw(ddc);
-use Getopt::Long;
+use Getopt::Long qw(GetOptions);
 use Pod::Usage;
 
 pod2usage(1) unless @ARGV;
@@ -17,9 +17,10 @@ my %opts = (
     foo   => 'Foo!',
     bar   => undef,
     baz   => sub { $x++ },
+    digit => [],
     test  => 0,
 );
-GetOptions( \%opts, 
+GetOptions( \%opts,
     'debug=i',  # Call as --debug 3
     'foo:s',    # Call as --foo to set ''
     'bar=s',    # Call as --bar 'Bar?'
