@@ -2,14 +2,17 @@
 use strict;
 use warnings;
 
-use Capture::Tiny qw(capture);
-use JSON::MaybeXS qw(decode_json);
-use Try::Tiny qw(try catch);
+#use Capture::Tiny qw(capture);
+#use JSON::MaybeXS qw(decode_json);
+#use Try::Tiny qw(try catch);
 
 my $list_id = shift || die "Usage: perl $0 abcdefg01234567";
 
-my @cmd = (qw(youtube-dl -i -v -j --flat-playlist --skip-download), $list_id);
-my ($stdout) = capture { system @cmd };
+my @cmd = (qw(yt-dlp --extract-audio --add-metadata --embed-thumbnail --audio-format mp3 -o), "%(title)s.%(ext)s", '--postprocessor-args', "-id3v2_version 3", $list_id);
+system @cmd == 0
+    or die "system(@cmd) failed: $?";
+
+=pod
 
 my @lines = split /\n/, $stdout;
 my $json = '[' . join(',', @lines) . ']';
@@ -56,3 +59,5 @@ for my $track (@$data) {
     }
   };
 }
+
+=cut
