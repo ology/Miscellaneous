@@ -1,0 +1,58 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Capture::Tiny qw(capture);
+use Getopt::Long qw(GetOptions);
+use JSON::MaybeXS qw(decode_json);
+use URI ();
+
+my %opt = (
+    org      => '',
+    user     => 'ology',
+    per_page => 100, # max
+    page     => 1,
+    exclude  => '',
+    include  => '',
+);
+GetOptions(\%opt,
+    'org=s',
+    'user=s',
+    'per_page=i',
+    'page=i',
+    'exclude=s',
+    'include=s',
+);
+
+my $uri = URI->new('https://api.github.com/');
+if ($opt{org}) {
+    $uri->path_segments('orgs', $opt{org}, 'repos');
+}
+else {
+    $uri->path_segments('users', $opt{user}, 'repos');
+}
+$uri->query_form(
+    per_page => $opt{per_page},
+    page     => $opt{page},
+);
+#warn 'U: ',$uri->as_string,"\n";
+
+my @cmd = ('curl', '-H', 'Accept: application/json', $uri->as_string);
+my ($stdout, $stderr, $exit) = capture { system(@cmd) };
+#print "Output:\n$stdout\n";
+#warn "Error ($exit): \n$stderr\n" if $stderr;
+
+my $repos = decode_json($stdout);
+
+for my $repo (@$repos) {
+    next if $opt{exclude} && $repo->{name} =~ /$opt{exclude}/;
+    next if $opt{include} && $repo->{name} !~ /$opt{include}/;
+
+    #print "git clone $repo->{clone_url}\n";
+    @cmd = ('git', 'clone', $repo->{clone_url});
+    ($stdout, $stderr, $exit) = capture { system(@cmd) };
+    print "Cloned $repo->{name}\n";
+    #print "Output:\n$stdout\n";
+    #warn "Error ($exit): \n$stderr\n" if $stderr;
+    #last;
+}
