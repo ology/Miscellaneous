@@ -16,6 +16,8 @@ my $dom = Mojo::DOM->new($content);
 
 my $links = $dom->find('a.release-name');
 
+my $i = 0;
+
 for my $link (@$links) {
     $url = $site . $link->attr('href');
 
@@ -27,7 +29,7 @@ for my $link (@$links) {
     (my $text = $testers->all_text) =~ s/\n//g;
     $text =~ s/\s+/ /g;
 
-    print $link->all_text, ' :', $text, "\n";
+    print ++$i, '. ', $link->all_text, ' :', $text, "\n";
 
     sleep 1;
 }
