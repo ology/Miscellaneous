@@ -5,8 +5,8 @@ use warnings;
 use Mojo::UserAgent;
 use Mojo::DOM;
 
+my $author = shift || 'GENE';
 my $site = 'https://metacpan.org';
-my $author = 'GENE';
 my $url = "$site/author/$author";
 
 my $ua = Mojo::UserAgent->new;
@@ -26,4 +26,5 @@ for my $link (@$links) {
     (my $text = $testers->all_text) =~ s/\n//g;
     $text =~ s/\s+/ /g;
     print $link->all_text, ' :', $text, "\n";
+    sleep 1;
 }
