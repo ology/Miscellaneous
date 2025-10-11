@@ -4,9 +4,9 @@ import tkinter as tk
 
 def search_yt():
     query = my_string_var.get()
-    # connect to the device on the default IP
+    # connect on the default IP
     roku = Roku('192.168.100.107')
-    # make sure we are starting from the home screen
+    # start from the home screen
     roku.home()
     time.sleep(10) # make sure it loaded
     # fire-up youtube
