@@ -18,7 +18,7 @@ def search_yt():
         options_list.append(query)
         dropdown.destroy()
         dropdown = tk.OptionMenu(root, option, *options_list)
-        dropdown.pack(pady=20)
+        dropdown.pack(pady=5)
         # conn.close()
     # connect on the default IP
     roku = Roku('192.168.100.107')
@@ -67,7 +67,7 @@ with sqlite3.connect('yt-search.db') as conn:
     option = tk.StringVar(root)
     option.set(options_list[0])
     dropdown = tk.OptionMenu(root, option, *options_list)
-    dropdown.pack(pady=20)
+    dropdown.pack(pady=5)
     history_button = tk.Button(root, text="Select", command=show_selected)
     history_button.pack()
 
