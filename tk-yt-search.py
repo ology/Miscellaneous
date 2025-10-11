@@ -11,16 +11,18 @@ def show_selected():
     entry_field.insert(0, selected)
 
 def search_yt():
-    global v, cursor, conn, options_list, option, dropdown
+    global v, options_list, option, dropdown
     query = v.get()
     with sqlite3.connect('yt-search.db') as conn:
+        conn = sqlite3.connect('yt-search.db')
+        cursor = conn.cursor()
         cursor.execute("INSERT INTO search (query) VALUES (?)", (query,))
         conn.commit()
+        conn.close()
         options_list.append(query)
         dropdown.destroy()
         dropdown = tk.OptionMenu(root, option, *options_list)
         dropdown.pack(pady=5)
-        # conn.close()
     # connect on the default IP
     roku = Roku('192.168.100.107')
     # start from the home screen
@@ -46,9 +48,6 @@ def search_yt():
         roku.right()
     roku.enter()
 
-conn = sqlite3.connect('yt-search.db')
-cursor = conn.cursor()
-
 root = tk.Tk()
 root.title("YouTube Search")
 entry_label = tk.Label(root, text="Search Query:")
@@ -61,8 +60,11 @@ submit_button.pack()
 
 options_list = []
 with sqlite3.connect('yt-search.db') as conn:
+    conn = sqlite3.connect('yt-search.db')
+    cursor = conn.cursor()
     cursor.execute("SELECT query FROM search")
     rows = cursor.fetchall()
+    conn.close()
     for i in rows:
         options_list.append(i)
     option = tk.StringVar(root)
