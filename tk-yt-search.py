@@ -70,12 +70,12 @@ entry_field.pack()
 submit_button = tk.Button(root, text="Submit", command=search_yt)
 submit_button.pack()
 
-options_list = ['History...']
 conn = sqlite3.connect('yt-search.db')
 cursor = conn.cursor()
 cursor.execute("SELECT query FROM search")
 rows = cursor.fetchall()
 conn.close()
+options_list = ['History...']
 for i in rows:
     options_list.append(i)
 option = tk.StringVar(root)
