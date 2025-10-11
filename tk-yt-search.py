@@ -35,16 +35,11 @@ def show_input():
 
 root = tk.Tk()
 root.title("YouTube Search")
-
 my_string_var = tk.StringVar()
-
 entry_label = tk.Label(root, text="Search Query:")
 entry_label.pack()
-
 entry_field = tk.Entry(root, textvariable=my_string_var, width=40)
 entry_field.pack()
-
 submit_button = tk.Button(root, text="Submit", command=show_input)
 submit_button.pack()
-
 root.mainloop()
