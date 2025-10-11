@@ -5,25 +5,25 @@ import tkinter as tk
 
 def show_input():
     query = my_string_var.get()
-
+    # connect to the device on the default IP
     roku = Roku('192.168.100.107')
-
+    # make sure we are starting from the home screen
     roku.home()
-    time.sleep(10)
-
+    time.sleep(10) # make sure it's loaded
+    # fire-up youtube
     app = roku['YouTube']
     app.launch()
-
-    time.sleep(10)
+    time.sleep(10) # make sure it's loaded
+    # go to the youtube search
     roku.left()
     roku.up()
     roku.enter()
-    time.sleep(2)
-
+    time.sleep(2) # make sure it's loaded
+    # enter the query
     for char in query:
         roku.literal(char)
-        time.sleep(0.5)
-
+        time.sleep(0.5) # small pause after each
+    # click the search button
     roku.down()
     roku.down()
     roku.down()
