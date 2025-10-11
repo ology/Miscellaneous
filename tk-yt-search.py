@@ -3,6 +3,10 @@ import sqlite3
 import time
 import tkinter as tk
 
+def go_home():
+    global roku
+    roku.home()
+
 def create_select():
     global root, option, options_list, dropdown, history_button
     dropdown = tk.OptionMenu(root, option, *options_list)
@@ -68,6 +72,8 @@ entry_field = tk.Entry(root, textvariable=v, width=40)
 entry_field.pack()
 submit_button = tk.Button(root, text="Submit", command=search_yt)
 submit_button.pack()
+home_button = tk.Button(root, text="Home", command=go_home)
+home_button.pack()
 
 conn = sqlite3.connect('yt-search.db')
 cursor = conn.cursor()
