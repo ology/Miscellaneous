@@ -1,6 +1,5 @@
 from roku import Roku
 import time
-import sys
 import tkinter as tk
 
 def search_yt():
