@@ -18,14 +18,12 @@ def show_selected():
     entry_field.insert(0, selected)
 
 def search_yt():
-    global v, conn, options_list, option, dropdown, history_button
+    global v, conn, cursor, options_list, option, dropdown, history_button
 
     query = v.get()
     if not query:
         return
 
-    conn = sqlite3.connect('yt-search.db')
-    cursor = conn.cursor()
     cursor.execute("INSERT INTO search (query) VALUES (?)", (query,))
     conn.commit()
     conn.close()
