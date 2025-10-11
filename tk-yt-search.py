@@ -11,7 +11,7 @@ def show_selected():
     entry_field.insert(0, selected)
 
 def search_yt():
-    global v, options_list, option, dropdown
+    global v, options_list, option, dropdown, history_button
 
     query = v.get()
     if not query:
@@ -27,6 +27,9 @@ def search_yt():
         dropdown.destroy()
         dropdown = tk.OptionMenu(root, option, *options_list)
         dropdown.pack(pady=5)
+        history_button.destroy()
+        history_button = tk.Button(root, text="Select", command=show_selected)
+        history_button.pack()
 
     # connect on the default IP
     roku = Roku('192.168.100.107')
