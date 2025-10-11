@@ -77,6 +77,7 @@ home_button.pack()
 
 conn = sqlite3.connect('yt-search.db')
 cursor = conn.cursor()
+cursor.execute("CREATE TABLE IF NOT EXISTS search (id INTEGER PRIMARY KEY, query TEXT)")
 cursor.execute("SELECT query FROM search")
 rows = cursor.fetchall()
 conn.close()
