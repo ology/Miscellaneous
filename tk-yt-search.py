@@ -3,7 +3,7 @@ import time
 import sys
 import tkinter as tk
 
-def show_input():
+def search_yt():
     query = my_string_var.get()
     # connect to the device on the default IP
     roku = Roku('192.168.100.107')
@@ -40,6 +40,6 @@ entry_label = tk.Label(root, text="Search Query:")
 entry_label.pack()
 entry_field = tk.Entry(root, textvariable=my_string_var, width=40)
 entry_field.pack()
-submit_button = tk.Button(root, text="Submit", command=show_input)
+submit_button = tk.Button(root, text="Submit", command=search_yt)
 submit_button.pack()
 root.mainloop()
