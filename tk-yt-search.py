@@ -3,6 +3,13 @@ import sqlite3
 import time
 import tkinter as tk
 
+def create_select():
+    global root, option, options_list, dropdown, history_button
+    dropdown = tk.OptionMenu(root, option, *options_list)
+    dropdown.pack(pady=5)
+    history_button = tk.Button(root, text="Select", command=show_selected)
+    history_button.pack()
+
 def show_selected():
     global option, entry_field
     selected = option.get()
@@ -25,11 +32,8 @@ def search_yt():
         conn.close()
         options_list.append(query)
         dropdown.destroy()
-        dropdown = tk.OptionMenu(root, option, *options_list)
-        dropdown.pack(pady=5)
         history_button.destroy()
-        history_button = tk.Button(root, text="Select", command=show_selected)
-        history_button.pack()
+        create_select()
 
     # connect on the default IP
     roku = Roku('192.168.100.107')
@@ -77,9 +81,6 @@ with sqlite3.connect('yt-search.db') as conn:
         options_list.append(i)
     option = tk.StringVar(root)
     option.set(options_list[0])
-    dropdown = tk.OptionMenu(root, option, *options_list)
-    dropdown.pack(pady=5)
-    history_button = tk.Button(root, text="Select", command=show_selected)
-    history_button.pack()
+    create_select()
 
 root.mainloop()
