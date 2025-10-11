@@ -70,7 +70,7 @@ entry_field.pack()
 submit_button = tk.Button(root, text="Submit", command=search_yt)
 submit_button.pack()
 
-options_list = []
+options_list = ['History...']
 with sqlite3.connect('yt-search.db') as conn:
     conn = sqlite3.connect('yt-search.db')
     cursor = conn.cursor()
