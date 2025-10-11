@@ -23,13 +23,10 @@ def search_yt():
         roku.literal(char)
         time.sleep(0.5) # small pause after each
     # click the search button
-    roku.down()
-    roku.down()
-    roku.down()
-    roku.down()
-    roku.right()
-    roku.right()
-    roku.right()
+    for _ in range(4):
+        roku.down()
+    for _ in range(3):
+        roku.right()
     roku.enter()
 
 root = tk.Tk()
