@@ -71,16 +71,15 @@ submit_button = tk.Button(root, text="Submit", command=search_yt)
 submit_button.pack()
 
 options_list = ['History...']
-with sqlite3.connect('yt-search.db') as conn:
-    conn = sqlite3.connect('yt-search.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT query FROM search")
-    rows = cursor.fetchall()
-    conn.close()
-    for i in rows:
-        options_list.append(i)
-    option = tk.StringVar(root)
-    option.set(options_list[0])
-    create_select()
+conn = sqlite3.connect('yt-search.db')
+cursor = conn.cursor()
+cursor.execute("SELECT query FROM search")
+rows = cursor.fetchall()
+conn.close()
+for i in rows:
+    options_list.append(i)
+option = tk.StringVar(root)
+option.set(options_list[0])
+create_select()
 
 root.mainloop()
