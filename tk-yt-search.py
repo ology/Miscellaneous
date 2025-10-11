@@ -5,7 +5,6 @@ import tkinter as tk
 
 def show_input():
     query = my_string_var.get()
-    # print(f"Search: {entered_text}")
 
     roku = Roku('192.168.100.107')
 
