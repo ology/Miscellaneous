@@ -21,8 +21,6 @@ def show_input():
     roku.enter()
     time.sleep(2)
 
-    # query = sys.argv[1] if len(sys.argv) > 1 else "python programming"
-
     for char in query:
         roku.literal(char)
         time.sleep(0.5)
