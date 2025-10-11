@@ -9,6 +9,9 @@ def show_input():
 
     roku = Roku('192.168.100.107')
 
+    roku.home()
+    time.sleep(10)
+
     app = roku['YouTube']
     app.launch()
 
