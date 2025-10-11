@@ -5,7 +5,6 @@ import sys
 roku = Roku('192.168.100.107')
 
 app = roku['YouTube']
-# app = roku['Playlet']
 app.launch()
 
 time.sleep(10)
