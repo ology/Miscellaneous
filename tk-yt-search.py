@@ -8,16 +8,16 @@ def search_yt():
     roku = Roku('192.168.100.107')
     # make sure we are starting from the home screen
     roku.home()
-    time.sleep(10) # make sure it's loaded
+    time.sleep(10) # make sure it loaded
     # fire-up youtube
     app = roku['YouTube']
     app.launch()
-    time.sleep(10) # make sure it's loaded
+    time.sleep(10) # make sure it loaded
     # go to the youtube search
     roku.left()
     roku.up()
     roku.enter()
-    time.sleep(2) # make sure it's loaded
+    time.sleep(2) # make sure it loaded
     # enter the query
     for char in query:
         roku.literal(char)
