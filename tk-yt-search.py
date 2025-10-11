@@ -3,7 +3,7 @@ import time
 import tkinter as tk
 
 def search_yt():
-    query = my_string_var.get()
+    query = v.get()
     # connect on the default IP
     roku = Roku('192.168.100.107')
     # start from the home screen
@@ -31,10 +31,10 @@ def search_yt():
 
 root = tk.Tk()
 root.title("YouTube Search")
-my_string_var = tk.StringVar()
 entry_label = tk.Label(root, text="Search Query:")
 entry_label.pack()
-entry_field = tk.Entry(root, textvariable=my_string_var, width=40)
+v = tk.StringVar()
+entry_field = tk.Entry(root, textvariable=v, width=40)
 entry_field.pack()
 submit_button = tk.Button(root, text="Submit", command=search_yt)
 submit_button.pack()
