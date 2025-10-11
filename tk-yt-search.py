@@ -14,17 +14,19 @@ def search_yt():
     global v, options_list, option, dropdown
 
     query = v.get()
-    if len(query) > 0:
-        with sqlite3.connect('yt-search.db') as conn:
-            conn = sqlite3.connect('yt-search.db')
-            cursor = conn.cursor()
-            cursor.execute("INSERT INTO search (query) VALUES (?)", (query,))
-            conn.commit()
-            conn.close()
-            options_list.append(query)
-            dropdown.destroy()
-            dropdown = tk.OptionMenu(root, option, *options_list)
-            dropdown.pack(pady=5)
+    if not query:
+        return
+
+    with sqlite3.connect('yt-search.db') as conn:
+        conn = sqlite3.connect('yt-search.db')
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO search (query) VALUES (?)", (query,))
+        conn.commit()
+        conn.close()
+        options_list.append(query)
+        dropdown.destroy()
+        dropdown = tk.OptionMenu(root, option, *options_list)
+        dropdown.pack(pady=5)
 
     # connect on the default IP
     roku = Roku('192.168.100.107')
