@@ -5,15 +5,21 @@ import tkinter as tk
 
 def show_selected():
     selected = option.get()
+    selected = selected[2:len(selected) - 3]
     entry_field.delete(0, tk.END)
-    entry_field.insert(0, selected[2:len(selected) - 3])
+    entry_field.insert(0, selected)
 
 def search_yt():
+    global dropdown
     query = v.get()
     with sqlite3.connect('yt-search.db') as conn:
-        cursor.execute("INSERT INTO search (query) VALUES (?)", (query))
+        cursor.execute("INSERT INTO search (query) VALUES (?)", (query,))
         conn.commit()
-        conn.close()
+        options_list.append(query)
+        dropdown.destroy()
+        dropdown = tk.OptionMenu(root, option, *options_list)
+        dropdown.pack(pady=20)
+        # conn.close()
     # connect on the default IP
     roku = Roku('192.168.100.107')
     # start from the home screen
@@ -52,12 +58,15 @@ entry_field.pack()
 submit_button = tk.Button(root, text="Submit", command=search_yt)
 submit_button.pack()
 
+options_list = []
 with sqlite3.connect('yt-search.db') as conn:
     cursor.execute("SELECT query FROM search")
     rows = cursor.fetchall()
+    for i in rows:
+        options_list.append(i)
     option = tk.StringVar(root)
-    option.set(rows[0])
-    dropdown = tk.OptionMenu(root, option, *rows)
+    option.set(options_list[0])
+    dropdown = tk.OptionMenu(root, option, *options_list)
     dropdown.pack(pady=20)
     history_button = tk.Button(root, text="Select", command=show_selected)
     history_button.pack()
