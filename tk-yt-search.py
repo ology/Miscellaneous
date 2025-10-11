@@ -4,13 +4,14 @@ import time
 import tkinter as tk
 
 def show_selected():
+    global option, entry_field
     selected = option.get()
     selected = selected[2:len(selected) - 3]
     entry_field.delete(0, tk.END)
     entry_field.insert(0, selected)
 
 def search_yt():
-    global dropdown
+    global v, cursor, conn, options_list, option, dropdown
     query = v.get()
     with sqlite3.connect('yt-search.db') as conn:
         cursor.execute("INSERT INTO search (query) VALUES (?)", (query,))
