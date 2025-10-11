@@ -38,8 +38,6 @@ def search_yt():
     history_button.destroy()
     create_select()
 
-    # connect on the default IP
-    roku = Roku('192.168.100.107')
     # start from the home screen
     roku.home()
     time.sleep(10) # make sure it loaded
@@ -63,6 +61,9 @@ def search_yt():
         roku.right()
     roku.enter()
 
+# connect on the default IP
+roku = Roku('192.168.100.107')
+
 root = tk.Tk()
 root.title("YouTube Search")
 entry_label = tk.Label(root, text="Search Query:")
@@ -81,6 +82,7 @@ cursor.execute("CREATE TABLE IF NOT EXISTS search (id INTEGER PRIMARY KEY, query
 cursor.execute("SELECT query FROM search")
 rows = cursor.fetchall()
 conn.close()
+
 options_list = ['...']
 for i in rows:
     options_list.append(i)
