@@ -75,7 +75,7 @@ cursor = conn.cursor()
 cursor.execute("SELECT query FROM search")
 rows = cursor.fetchall()
 conn.close()
-options_list = ['History...']
+options_list = ['...']
 for i in rows:
     options_list.append(i)
 option = tk.StringVar(root)
