@@ -17,11 +17,11 @@ def go_home():
     roku.home()
 
 def create_select():
-    global root, option, options_list, dropdown, history_button
-    dropdown = tk.OptionMenu(root, option, *options_list)
-    dropdown.pack(pady=5)
-    history_button = tk.Button(root, text="Select", command=show_selected)
-    history_button.pack()
+    global bottom_left_frame, option, options_list, dropdown, history_button
+    dropdown = tk.OptionMenu(bottom_left_frame, option, *options_list)
+    dropdown.pack(side=tk.LEFT, padx=5)
+    history_button = tk.Button(bottom_left_frame, text="Select", command=show_selected)
+    history_button.pack(side=tk.LEFT, padx=5)
 
 def show_selected():
     global option, entry_field
@@ -76,21 +76,30 @@ roku = Roku('192.168.100.107')
 root = tk.Tk()
 root.title("YouTube Search")
 
-home_button = tk.Button(root, text="Home", command=go_home)
-home_button.pack()
+top_left_frame = tk.Frame(root)
+top_left_frame.pack(side=tk.TOP, anchor=tk.NW, padx=0, pady=0)
 
-yt_button = tk.Button(root, text="YouTube", command=yt_login)
-yt_button.pack()
+home_button = tk.Button(top_left_frame, text="Home", command=go_home)
+home_button.pack(side=tk.LEFT, padx=5)
 
-entry_label = tk.Label(root, text="Search Query:")
-entry_label.pack()
+yt_button = tk.Button(top_left_frame, text="Login", command=yt_login)
+yt_button.pack(side=tk.LEFT, padx=5)
+
+mid_left_frame = tk.Frame(root)
+mid_left_frame.pack(side=tk.TOP, anchor=tk.NW, padx=10, pady=10)
+
+entry_label = tk.Label(mid_left_frame, text="Search Query:")
+entry_label.pack(side=tk.LEFT)
 
 v = tk.StringVar()
-entry_field = tk.Entry(root, textvariable=v, width=40)
+entry_field = tk.Entry(mid_left_frame, textvariable=v, width=40)
 entry_field.pack()
 
+bottom_left_frame = tk.Frame(root)
+bottom_left_frame.pack(side=tk.TOP, anchor=tk.NW, padx=10, pady=10)
+
 submit_button = tk.Button(root, text="Submit", command=search_yt)
-submit_button.pack()
+submit_button.pack(pady=10)
 
 conn = sqlite3.connect('yt-search.db')
 cursor = conn.cursor()
