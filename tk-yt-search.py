@@ -109,7 +109,7 @@ left_button = tk.Button(top_left_frame, text="Left", command=go_left)
 left_button.pack(side=tk.LEFT, padx=0)
 right_button = tk.Button(top_left_frame, text="Right", command=go_right)
 right_button.pack(side=tk.LEFT, padx=0)
-enter_button = tk.Button(top_left_frame, text="Enter", command=go_right)
+enter_button = tk.Button(top_left_frame, text="Enter", command=go_enter)
 enter_button.pack(side=tk.LEFT, padx=0)
 
 mid_left_frame = tk.Frame(root)
