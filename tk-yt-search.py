@@ -99,7 +99,7 @@ home_button = tk.Button(top_left_frame, text="Home", command=go_home)
 home_button.pack(side=tk.LEFT, padx=5)
 
 yt_button = tk.Button(top_left_frame, text="YouTube", command=yt_login)
-yt_button.pack(side=tk.LEFT, padx=5)
+yt_button.pack(side=tk.LEFT, padx=10)
 
 up_button = tk.Button(top_left_frame, text="Up", command=go_up)
 up_button.pack(side=tk.LEFT, padx=0)
