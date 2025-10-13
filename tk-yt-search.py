@@ -3,6 +3,22 @@ import sqlite3
 import time
 import tkinter as tk
 
+def go_up():
+    global roku
+    roku.up()
+def go_down():
+    global roku
+    roku.down()
+def go_left():
+    global roku
+    roku.left()
+def go_right():
+    global roku
+    roku.right()
+def go_enter():
+    global roku
+    roku.enter()
+
 def yt_login():
     global roku
     roku.home()
@@ -84,6 +100,17 @@ home_button.pack(side=tk.LEFT, padx=5)
 
 yt_button = tk.Button(top_left_frame, text="Login", command=yt_login)
 yt_button.pack(side=tk.LEFT, padx=5)
+
+up_button = tk.Button(top_left_frame, text="Up", command=go_up)
+up_button.pack(side=tk.LEFT, padx=5)
+down_button = tk.Button(top_left_frame, text="Down", command=go_down)
+down_button.pack(side=tk.LEFT, padx=5)
+left_button = tk.Button(top_left_frame, text="Left", command=go_left)
+left_button.pack(side=tk.LEFT, padx=5)
+right_button = tk.Button(top_left_frame, text="Right", command=go_right)
+right_button.pack(side=tk.LEFT, padx=5)
+enter_button = tk.Button(top_left_frame, text="Enter", command=go_right)
+enter_button.pack(side=tk.LEFT, padx=5)
 
 mid_left_frame = tk.Frame(root)
 mid_left_frame.pack(side=tk.TOP, anchor=tk.NW, padx=10, pady=10)
