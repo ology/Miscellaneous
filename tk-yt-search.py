@@ -3,6 +3,15 @@ import sqlite3
 import time
 import tkinter as tk
 
+def yt_login():
+    global roku
+    roku.home()
+    time.sleep(10)
+    app = roku['YouTube']
+    app.launch()
+    time.sleep(10)
+    roku.enter()
+
 def go_home():
     global roku
     roku.home()
@@ -66,15 +75,22 @@ roku = Roku('192.168.100.107')
 
 root = tk.Tk()
 root.title("YouTube Search")
+
+home_button = tk.Button(root, text="Home", command=go_home)
+home_button.pack()
+
+yt_button = tk.Button(root, text="YouTube", command=yt_login)
+yt_button.pack()
+
 entry_label = tk.Label(root, text="Search Query:")
 entry_label.pack()
+
 v = tk.StringVar()
 entry_field = tk.Entry(root, textvariable=v, width=40)
 entry_field.pack()
+
 submit_button = tk.Button(root, text="Submit", command=search_yt)
 submit_button.pack()
-home_button = tk.Button(root, text="Home", command=go_home)
-home_button.pack()
 
 conn = sqlite3.connect('yt-search.db')
 cursor = conn.cursor()
