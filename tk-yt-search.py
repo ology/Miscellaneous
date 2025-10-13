@@ -32,12 +32,12 @@ def go_home():
     global roku
     roku.home()
 
-def create_select(bottom_left_frame, option, options_list, dropdown, history_button):
+def create_select():
+    global bottom_left_frame, option, options_list, dropdown, history_button
     dropdown = tk.OptionMenu(bottom_left_frame, option, *options_list)
     dropdown.pack(side=tk.LEFT, padx=5)
     history_button = tk.Button(bottom_left_frame, text="Select", command=show_selected)
     history_button.pack(side=tk.LEFT, padx=5)
-    return dropdown, history_button
 
 def show_selected():
     global option, entry_field
@@ -53,13 +53,12 @@ def clear_db():
     cursor.execute('DELETE FROM search')
     conn.commit()
     conn.close()
-    # options_list.clear()
-    # options_list.append('...')
-    # option = tk.StringVar(bottom_left_frame)
-    # option.set(options_list[0])
-    # dropdown.destroy()
-    # history_button.destroy()
-    # create_select(bottom_left_frame, option, options_list, dropdown, history_button)
+    options_list.clear()
+    options_list.append('...')
+    option.set(options_list[0])
+    dropdown.destroy()
+    history_button.destroy()
+    create_select()
 
 def search_yt():
     global root, bottom_left_frame, v, options_list, option, dropdown, history_button
@@ -78,7 +77,7 @@ def search_yt():
     options_list.append(query)
     dropdown.destroy()
     history_button.destroy()
-    create_select(bottom_left_frame, option, options_list, dropdown, history_button)
+    create_select()
 
     # start from the home screen
     roku.home()
@@ -164,6 +163,6 @@ option = tk.StringVar(bottom_left_frame)
 option.set(options_list[0])
 dropdown = None
 history_button = None
-dropdown, history_button = create_select(bottom_left_frame, option, options_list, dropdown, history_button)
+create_select()
 
 root.mainloop()
