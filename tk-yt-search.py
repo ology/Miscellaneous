@@ -32,12 +32,12 @@ def go_home():
     global roku
     roku.home()
 
-def create_select():
-    global bottom_left_frame, option, options_list, dropdown, history_button
+def create_select(bottom_left_frame, option, options_list, dropdown, history_button):
     dropdown = tk.OptionMenu(bottom_left_frame, option, *options_list)
     dropdown.pack(side=tk.LEFT, padx=5)
     history_button = tk.Button(bottom_left_frame, text="Select", command=show_selected)
     history_button.pack(side=tk.LEFT, padx=5)
+    return dropdown, history_button
 
 def show_selected():
     global option, entry_field
@@ -46,8 +46,25 @@ def show_selected():
     entry_field.delete(0, tk.END)
     entry_field.insert(0, selected)
 
+def clear_db():
+    global bottom_left_frame, option, options_list, dropdown, history_button
+    conn = sqlite3.connect('yt-search.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM search')
+    conn.commit()
+    conn.close()
+    options_list.clear()
+    options_list.append('...')
+    option = tk.StringVar(bottom_left_frame)
+    option.set(options_list[0])
+    # dropdown.destroy()
+    # history_button.destroy()
+    # create_select(bottom_left_frame, option, options_list, dropdown, history_button)
+
 def search_yt():
-    global v, options_list, option, dropdown, history_button
+    global root, bottom_left_frame, v, options_list, option, dropdown, history_button
+
+    root.config(cursor="wait")
 
     query = v.get()
     if not query:
@@ -61,7 +78,7 @@ def search_yt():
     options_list.append(query)
     dropdown.destroy()
     history_button.destroy()
-    create_select()
+    create_select(bottom_left_frame, option, options_list, dropdown, history_button)
 
     # start from the home screen
     roku.home()
@@ -85,6 +102,8 @@ def search_yt():
     for _ in range(3):
         roku.right()
     roku.enter()
+
+    root.config(cursor="")
 
 # connect on the default IP
 roku = Roku('192.168.100.107')
@@ -125,6 +144,9 @@ entry_field.pack()
 bottom_left_frame = tk.Frame(root)
 bottom_left_frame.pack(side=tk.TOP, anchor=tk.NW, padx=10, pady=10)
 
+clear_button = tk.Button(bottom_left_frame, text="Clear", command=clear_db)
+clear_button.pack(side=tk.RIGHT, anchor=tk.NW)
+
 submit_button = tk.Button(bottom_left_frame, text="Submit", command=search_yt)
 submit_button.pack(side=tk.RIGHT, anchor=tk.NW)
 
@@ -137,9 +159,11 @@ conn.close()
 
 options_list = ['...']
 for i in rows:
-    options_list.append(i)
-option = tk.StringVar(root)
+    options_list.append(str(i))
+option = tk.StringVar(bottom_left_frame)
 option.set(options_list[0])
-create_select()
+dropdown = None
+history_button = None
+dropdown, history_button = create_select(bottom_left_frame, option, options_list, dropdown, history_button)
 
 root.mainloop()
