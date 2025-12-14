@@ -5,90 +5,88 @@ from openai import OpenAI
 from youtube_transcript_api import YouTubeTranscriptApi
 
 MAX = 128000 # openai tokens
-client = OpenAI()
 
-def extract_video_id(url):
-    # handle standard youtube.com and shortened youtu.be URLs
-    regex = r"(?:v=|\/)([0-9A-Za-z_-]{11}).*"
-    match = re.search(regex, url)
-    if match:
-        return match.group(1)
-    return None
+class YTSummarizer:
+    def __init__(self):
+        self.client = OpenAI()
+        self.api_key = os.getenv('YOUTUBE_API_KEY')
 
-def get_transcript_text(video_id):
-    try:
-        ytt_api = YouTubeTranscriptApi()
-        transcript_list = ytt_api.fetch(video_id)
-        text = [ t.text for t in transcript_list.snippets ]
-        return " ".join(text)
-    except Exception as e:
-        print(f"Error fetching transcript: {e}")
+    def extract_video_id(self, url):
+        # handle standard youtube.com and shortened youtu.be URLs
+        regex = r"(?:v=|\/)([0-9A-Za-z_-]{11}).*"
+        match = re.search(regex, url)
+        if match:
+            return match.group(1)
         return None
 
-def get_video_comments(video_id, api_key):
-    youtube = build('youtube', 'v3', developerKey=api_key)
-    comments = []
-    next_page_token = None
+    def get_transcript_text(self, video_id):
+        try:
+            ytt_api = YouTubeTranscriptApi()
+            transcript_list = ytt_api.fetch(video_id)
+            text = [ t.text for t in transcript_list.snippets ]
+            return " ".join(text)
+        except Exception as e:
+            print(f"Error fetching transcript: {e}")
+            return None
 
-    while len(" ".join(comments)) < MAX:
-        video_response = youtube.commentThreads().list(
-            part='snippet',
-            videoId=video_id,
-            pageToken=next_page_token,
-            maxResults=100
-        ).execute()
+    def get_video_comments(self, video_id):
+        youtube = build('youtube', 'v3', developerKey=self.api_key)
+        comments = []
+        next_page_token = None
 
-        for item in video_response['items']:
-            comment = item['snippet']['topLevelComment']['snippet']
-            text = comment['textOriginal']
-            comments.append(text)
-            # {
-            #     'author': author,
-            #     'text': text,
-            #     'published_at': publish_date,
-            #     'likes': like_count
-            # })
+        while len(" ".join(comments)) < MAX:
+            video_response = youtube.commentThreads().list(
+                part='snippet',
+                videoId=video_id,
+                pageToken=next_page_token,
+                maxResults=100
+            ).execute()
 
-        # Check if there are more pages of comments
-        next_page_token = video_response.get('nextPageToken')
-        # If no next page token exists, the loop ends
-        if not next_page_token:
-            break
+            for item in video_response['items']:
+                comment = item['snippet']['topLevelComment']['snippet']
+                text = comment['textOriginal']
+                comments.append(text)
 
-    return comments
+            # Check if there are more pages of comments
+            next_page_token = video_response.get('nextPageToken')
+            # If no next page token exists, the loop ends
+            if not next_page_token:
+                break
 
-def summarize_text(text):
-    if not text:
-        return
-    print("Processing summary with AI... (this may take a moment)")
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant that summarizes YouTube videos."},
-                {"role": "user", "content": f"Please provide a concise bullet-point summary of the following text:\n\n{text}"}
-            ],
-            max_tokens=500,
-            temperature=0.5
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        print(f"Error communicating with OpenAI: {e}")
-        return None
+        return comments
 
-def main():
-    api_key = os.getenv('YOUTUBE_API_KEY')
+    def summarize_text(self, text):
+        if not text:
+            return
+        print("Processing summary with AI... (this may take a moment)")
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant that summarizes YouTube videos."},
+                    {"role": "user", "content": f"Please provide a concise bullet-point summary of the following text:\n\n{text}"}
+                ],
+                max_tokens=500,
+                temperature=0.5
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"Error communicating with OpenAI: {e}")
+            return None
+
+if __name__ == "__main__":
+    sum = YTSummarizer()
     video_url = input("Enter YouTube Video URL: ").strip()
-    video_id = extract_video_id(video_url)
+    video_id = sum.extract_video_id(video_url)
     if not video_id:
         print("Invalid YouTube URL. Could not find video ID.")
-        return
+        exit()
     print(f"Fetching transcript for Video ID: {video_id}...")
-    transcript_text = get_transcript_text(video_id)
+    transcript_text = sum.get_transcript_text(video_id)
     if transcript_text:
         word_count = len(transcript_text.split())
         print(f"Transcript fetched successfully ({word_count} words).")
-        summary = summarize_text(transcript_text[:MAX])
+        summary = sum.summarize_text(transcript_text[:MAX])
         if summary:
             print("\n" + '=' * 40)
             print('TRANSCRIPT SUMMARY')
@@ -96,17 +94,14 @@ def main():
             print(summary)
             print("\n" + '=' * 40)
 
-    comments = get_video_comments(video_id, api_key)
+    comments = sum.get_video_comments(video_id)
     comment_text = " ".join(comments)
     if comment_text:
         print(f"Collected {len(comments)} comments.")
-        summary = summarize_text(comment_text[:MAX])
+        summary = sum.summarize_text(comment_text[:MAX])
         if summary:
             print("\n" + '=' * 40)
             print('COMMENT SUMMARY')
             print('=' * 40 + "\n")
             print(summary)
             print("\n" + '=' * 40)
-
-if __name__ == "__main__":
-    main()
