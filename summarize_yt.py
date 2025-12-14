@@ -97,7 +97,7 @@ if __name__ == "__main__":
     comment_text = " ".join(comments)
     if comment_text:
         print(f"Collected {len(comments)} comments.")
-        summary = summ.summarize_text(comment_text[:MAX])
+        summary = summ.summarize_text(comment_text[:summ.MAX])
         if summary:
             print("\n" + '=' * 40)
             print('COMMENT SUMMARY')
