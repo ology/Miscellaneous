@@ -75,18 +75,18 @@ class YTSummarizer:
             return None
 
 if __name__ == "__main__":
-    sum = YTSummarizer()
+    summ = YTSummarizer()
     video_url = input("Enter YouTube Video URL: ").strip()
-    video_id = sum.extract_video_id(video_url)
+    video_id = summ.extract_video_id(video_url)
     if not video_id:
         print("Invalid YouTube URL. Could not find video ID.")
         exit()
     print(f"Fetching transcript for Video ID: {video_id}...")
-    transcript_text = sum.get_transcript_text(video_id)
+    transcript_text = summ.get_transcript_text(video_id)
     if transcript_text:
         word_count = len(transcript_text.split())
         print(f"Transcript fetched successfully ({word_count} words).")
-        summary = sum.summarize_text(transcript_text[:MAX])
+        summary = summ.summarize_text(transcript_text[:MAX])
         if summary:
             print("\n" + '=' * 40)
             print('TRANSCRIPT SUMMARY')
@@ -94,11 +94,11 @@ if __name__ == "__main__":
             print(summary)
             print("\n" + '=' * 40)
 
-    comments = sum.get_video_comments(video_id)
+    comments = summ.get_video_comments(video_id)
     comment_text = " ".join(comments)
     if comment_text:
         print(f"Collected {len(comments)} comments.")
-        summary = sum.summarize_text(comment_text[:MAX])
+        summary = summ.summarize_text(comment_text[:MAX])
         if summary:
             print("\n" + '=' * 40)
             print('COMMENT SUMMARY')
