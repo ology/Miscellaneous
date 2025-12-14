@@ -4,10 +4,9 @@ from googleapiclient.discovery import build
 from openai import OpenAI
 from youtube_transcript_api import YouTubeTranscriptApi
 
-MAX = 128000 # openai tokens
-
 class YTSummarizer:
     def __init__(self):
+        self.MAX = 128000 # openai tokens
         self.client = OpenAI()
         self.api_key = os.getenv('YOUTUBE_API_KEY')
 
@@ -34,7 +33,7 @@ class YTSummarizer:
         comments = []
         next_page_token = None
 
-        while len(" ".join(comments)) < MAX:
+        while len(" ".join(comments)) < self.MAX:
             video_response = youtube.commentThreads().list(
                 part='snippet',
                 videoId=video_id,
@@ -86,7 +85,7 @@ if __name__ == "__main__":
     if transcript_text:
         word_count = len(transcript_text.split())
         print(f"Transcript fetched successfully ({word_count} words).")
-        summary = summ.summarize_text(transcript_text[:MAX])
+        summary = summ.summarize_text(transcript_text[:summ.MAX])
         if summary:
             print("\n" + '=' * 40)
             print('TRANSCRIPT SUMMARY')
