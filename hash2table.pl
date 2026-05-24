@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Text::Table::Tiny 0.04 qw/ generate_table /;
+use Text::Table::Tiny qw/ generate_table /;
 
 my $data = {
     Name   => [qw(Alice Bob Carol)],
@@ -22,4 +22,4 @@ for my $i (0 .. @{ $data->{$headers[0]} } - 1) {
     push @$rows, \@row;
 }
 
-print generate_table(rows => $rows, header_row => 1);
+print generate_table(rows => $rows, header_row => 1), "\n";
