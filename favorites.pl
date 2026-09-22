@@ -4,8 +4,10 @@ use v5.36;
 use Data::Dumper::Compact qw(ddc);
 use MetaCPAN::Client ();
 
+my $name = shift || 'GENE';
+
 my $mcpan    = MetaCPAN::Client->new;
-my $author   = $mcpan->author('GENE');
+my $author   = $mcpan->author($name);
 my $releases = $author->releases;
 
 my $sum = 0;
