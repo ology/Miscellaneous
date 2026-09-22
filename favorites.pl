@@ -10,12 +10,13 @@ my $mcpan    = MetaCPAN::Client->new;
 my $author   = $mcpan->author($name);
 my $releases = $author->releases;
 
-my ($total, $sum) = (0, 0);
+my ($i, $total, $sum) = (0, 0, 0);
 
 while (my $rel = $releases->next) {
+    $i++;
     $total++;
     my $fav = $mcpan->favorite({ distribution => $rel->distribution });
-    say $rel->distribution, ' (v', $rel->version, ') ', 'Favorites=', $fav->total;
+    say $i, '. ', $rel->distribution, ' (v', $rel->version, ') ', 'Favorites=', $fav->total;
     $sum += $fav->total;
 }
 
