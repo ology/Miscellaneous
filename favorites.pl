@@ -20,4 +20,4 @@ while (my $rel = $releases->next) {
     $sum += $fav->total;
 }
 
-say "Total dists: $total, Sum: $sum";
+say "Total dists: $total, Favs: $sum";
